@@ -142,16 +142,10 @@ namespace CertificateChecker
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)//linklabel kaynak web sitesine yönlendirme yapıyor.
         {
-            try
-            {
-                System.Diagnostics.Process.Start("https://www.yazilimturkiye.com/");
-            }
-            catch (Exception)
-            {
-
-                MessageBox.Show("Sertifika Kontrolcüsü, belirtilen adresi açamıyor.\nVarsayılan tarayıcınızı değiştirin ya da bu adresi tarayıcınıza manuel olarak giriş yapınız:\nwww.yazilimturkiye.com","Sistem Hatası",MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            
+            Process sayfa_ac = new Process();
+            sayfa_ac.StartInfo.UseShellExecute = true;
+            sayfa_ac.StartInfo.FileName = "https://www.yazilimturkiye.com/";
+            sayfa_ac.Start(); 
         }
 
         private void Buton_Kapat_Click(object sender, EventArgs e)//uygulamayı kapatan buton.
