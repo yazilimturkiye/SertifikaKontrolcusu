@@ -58,12 +58,9 @@ namespace CertificateChecker
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.Label_DosyaYolu = new System.Windows.Forms.Label();
             this.Label_DosyaAdi = new System.Windows.Forms.Label();
-            this.Buton_Kapat = new System.Windows.Forms.Button();
-            this.Buton_Kucult = new System.Windows.Forms.Button();
             this.Picturebox_Logo = new System.Windows.Forms.PictureBox();
             this.Label_Baslik = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.Label_Arkaplan = new System.Windows.Forms.Label();
             this.Buton_Yardim = new System.Windows.Forms.Button();
             this.Label_AltBaslik = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
@@ -375,37 +372,9 @@ namespace CertificateChecker
             this.Label_DosyaAdi.TabIndex = 26;
             this.Label_DosyaAdi.Text = "Dosya Adı";
             // 
-            // Buton_Kapat
-            // 
-            this.Buton_Kapat.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.Buton_Kapat.BackgroundImage = global::CertificateChecker.Properties.Resources.kapat;
-            this.Buton_Kapat.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Buton_Kapat.FlatAppearance.BorderSize = 0;
-            this.Buton_Kapat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Buton_Kapat.Location = new System.Drawing.Point(550, 12);
-            this.Buton_Kapat.Name = "Buton_Kapat";
-            this.Buton_Kapat.Size = new System.Drawing.Size(25, 25);
-            this.Buton_Kapat.TabIndex = 30;
-            this.Buton_Kapat.UseVisualStyleBackColor = false;
-            this.Buton_Kapat.Click += new System.EventHandler(this.Buton_Kapat_Click);
-            // 
-            // Buton_Kucult
-            // 
-            this.Buton_Kucult.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.Buton_Kucult.BackgroundImage = global::CertificateChecker.Properties.Resources.kucult;
-            this.Buton_Kucult.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Buton_Kucult.FlatAppearance.BorderSize = 0;
-            this.Buton_Kucult.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Buton_Kucult.Location = new System.Drawing.Point(519, 12);
-            this.Buton_Kucult.Name = "Buton_Kucult";
-            this.Buton_Kucult.Size = new System.Drawing.Size(25, 25);
-            this.Buton_Kucult.TabIndex = 31;
-            this.Buton_Kucult.UseVisualStyleBackColor = false;
-            this.Buton_Kucult.Click += new System.EventHandler(this.Buton_Kucult_Click);
-            // 
             // Picturebox_Logo
             // 
-            this.Picturebox_Logo.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.Picturebox_Logo.BackColor = System.Drawing.SystemColors.Control;
             this.Picturebox_Logo.Image = global::CertificateChecker.Properties.Resources.certificate;
             this.Picturebox_Logo.Location = new System.Drawing.Point(12, 12);
             this.Picturebox_Logo.Name = "Picturebox_Logo";
@@ -417,7 +386,7 @@ namespace CertificateChecker
             // Label_Baslik
             // 
             this.Label_Baslik.AutoSize = true;
-            this.Label_Baslik.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.Label_Baslik.BackColor = System.Drawing.SystemColors.Control;
             this.Label_Baslik.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Label_Baslik.ForeColor = System.Drawing.Color.Black;
             this.Label_Baslik.Location = new System.Drawing.Point(97, 26);
@@ -444,17 +413,6 @@ namespace CertificateChecker
             this.linkLabel1.VisitedLinkColor = System.Drawing.Color.Gray;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // Label_Arkaplan
-            // 
-            this.Label_Arkaplan.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.Label_Arkaplan.Location = new System.Drawing.Point(0, 0);
-            this.Label_Arkaplan.Name = "Label_Arkaplan";
-            this.Label_Arkaplan.Size = new System.Drawing.Size(598, 93);
-            this.Label_Arkaplan.TabIndex = 35;
-            this.Label_Arkaplan.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Label_Arkaplan_MouseDown);
-            this.Label_Arkaplan.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Label_Arkaplan_MouseMove);
-            this.Label_Arkaplan.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Label_Arkaplan_MouseUp);
-            // 
             // Buton_Yardim
             // 
             this.Buton_Yardim.BackColor = System.Drawing.SystemColors.Control;
@@ -472,7 +430,7 @@ namespace CertificateChecker
             // Label_AltBaslik
             // 
             this.Label_AltBaslik.AutoSize = true;
-            this.Label_AltBaslik.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.Label_AltBaslik.BackColor = System.Drawing.SystemColors.Control;
             this.Label_AltBaslik.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Label_AltBaslik.Location = new System.Drawing.Point(99, 51);
             this.Label_AltBaslik.Name = "Label_AltBaslik";
@@ -485,7 +443,6 @@ namespace CertificateChecker
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(598, 575);
-            this.ControlBox = false;
             this.Controls.Add(this.Label_AltBaslik);
             this.Controls.Add(this.Buton_Yardim);
             this.Controls.Add(this.linkLabel1);
@@ -493,14 +450,11 @@ namespace CertificateChecker
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.Picturebox_Logo);
             this.Controls.Add(this.Label_SurumBilgisi);
-            this.Controls.Add(this.Buton_Kucult);
-            this.Controls.Add(this.Buton_Kapat);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.Label_Arkaplan);
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
@@ -546,12 +500,9 @@ namespace CertificateChecker
         private System.Windows.Forms.Label Label_DosyaAdi;
         private System.Windows.Forms.PictureBox PictureBox_Durum;
         private System.Windows.Forms.ImageList ımageList1;
-        private System.Windows.Forms.Button Buton_Kapat;
-        private System.Windows.Forms.Button Buton_Kucult;
         private System.Windows.Forms.PictureBox Picturebox_Logo;
         private System.Windows.Forms.Label Label_Baslik;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.Label Label_Arkaplan;
         private System.Windows.Forms.Button Buton_Yardim;
         private System.Windows.Forms.Label Label_AltBaslik;
     }

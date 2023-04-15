@@ -148,36 +148,6 @@ namespace CertificateChecker
             sayfa_ac.Start(); 
         }
 
-        private void Buton_Kapat_Click(object sender, EventArgs e)//uygulamayı kapatan buton.
-        {
-            Application.Exit();
-        }
-
-        private void Buton_Kucult_Click(object sender, EventArgs e)//Uygulamayı simge durumuna küçülten buton.
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void Label_Arkaplan_MouseDown(object sender, MouseEventArgs e)//label sayasinde formumuzu sürükleyebiliyoruz.
-        {
-            formTasiniyor = true;
-            baslangicNoktasi = new Point(e.X, e.Y);
-        }
-
-        private void Label_Arkaplan_MouseUp(object sender, MouseEventArgs e)
-        {
-            formTasiniyor = false;
-        }
-
-        private void Label_Arkaplan_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (formTasiniyor)
-            {
-                Point p = PointToScreen(e.Location);
-                Location = new Point(p.X - this.baslangicNoktasi.X, p.Y - this.baslangicNoktasi.Y);
-            }
-        }
-
         private void Buton_Yardim_Click(object sender, EventArgs e)//yardım butonu
         {
             MessageBox.Show("Sertifika Kontrolcüsü, sistemden seçilen bir dijital sertifikayı kontrol ederek kullanıcıya sertifikanın geçerli ya da geçersiz olduğu bilgisini vermekte olan ücretsiz bir yazılımdır. Sertifika kontrolcüsü, .Net platformunda açık kaynak olarak geliştirilen bir yazılımdır. Destek olmak ve daha fazla bilgi sahibi olmak için web sitemizi ziyaret ediniz. www.yazilimturkiye.com", "Sertifika Kontrolcüsü Ücretsiz Versiyon Hakkında", MessageBoxButtons.OK, MessageBoxIcon.None);
@@ -185,5 +155,3 @@ namespace CertificateChecker
     }
 
     }
-
-
