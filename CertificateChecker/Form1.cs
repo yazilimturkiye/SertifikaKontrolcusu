@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
 using System.IO;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CertificateChecker
 {
@@ -39,6 +40,7 @@ namespace CertificateChecker
                 Textbox_Serino.Text = sertifika.SerialNumber.ToString();                                    // Sertifika Seri no.
                 Textbox_Algoritma.Text = sertifika.SignatureAlgorithm.FriendlyName.ToString();              // sertifikanın algoritması.
                 Textbox_Durum.Text = sertifika.Verify().ToString();                                         // Sertifika doğrulama, true ise başarılı, false ise başarısız.
+                if (Textbox_DosyaAdi.TextLength > 0) Textbox_DosyaAdi.DeselectAll();
                 if (Textbox_Durum.Text == "True")
                 {
                     Textbox_Durum.Text = "Geçerli";
@@ -83,7 +85,7 @@ namespace CertificateChecker
         {
             OpenFileDialog DosyaAc = new OpenFileDialog();
             DosyaAc.Title = "Sertifika Dosyasını Seçiniz...";
-            DosyaAc.Filter = ".cer Dosyası |*.cer|.cert Dosyası|*.cert|.crt Dosyası|*.crt| Tüm Dosyalar|*.*";
+            DosyaAc.Filter = "Tüm Dosyalar|*.*| .cer Dosyası |*.cer| .cert Dosyası|*.cert| .crt Dosyası|*.crt";
             DosyaAc.Multiselect = false;
             if (DosyaAc.ShowDialog() == DialogResult.OK)
             {
