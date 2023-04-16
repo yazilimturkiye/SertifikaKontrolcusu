@@ -58,15 +58,15 @@ namespace CertificateChecker
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.Label_DosyaYolu = new System.Windows.Forms.Label();
             this.Label_DosyaAdi = new System.Windows.Forms.Label();
-            this.Picturebox_Logo = new System.Windows.Forms.PictureBox();
             this.Label_Baslik = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.Buton_Yardim = new System.Windows.Forms.Button();
             this.Label_AltBaslik = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.Buton_Goruntule = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Durum)).BeginInit();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Picturebox_Logo)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -78,12 +78,12 @@ namespace CertificateChecker
             this.Buton_Dosya_Sec.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Buton_Dosya_Sec.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.Buton_Dosya_Sec.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Buton_Dosya_Sec.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Buton_Dosya_Sec.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Buton_Dosya_Sec.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Buton_Dosya_Sec.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Buton_Dosya_Sec.ImageIndex = 0;
+            this.Buton_Dosya_Sec.ImageIndex = 1;
             this.Buton_Dosya_Sec.ImageList = this.ımageList1;
-            this.Buton_Dosya_Sec.Location = new System.Drawing.Point(86, 90);
+            this.Buton_Dosya_Sec.Location = new System.Drawing.Point(93, 90);
             this.Buton_Dosya_Sec.Name = "Buton_Dosya_Sec";
             this.Buton_Dosya_Sec.Size = new System.Drawing.Size(477, 40);
             this.Buton_Dosya_Sec.TabIndex = 1;
@@ -97,19 +97,21 @@ namespace CertificateChecker
             this.ımageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ımageList1.ImageStream")));
             this.ımageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.ımageList1.Images.SetKeyName(0, "certificate.png");
-            this.ımageList1.Images.SetKeyName(1, "terminal.png");
+            this.ımageList1.Images.SetKeyName(1, "new.png");
+            this.ımageList1.Images.SetKeyName(2, "view.png");
+            this.ımageList1.Images.SetKeyName(3, "settings.png");
             // 
             // Label_SurumBilgisi
             // 
             this.Label_SurumBilgisi.AutoSize = true;
-            this.Label_SurumBilgisi.BackColor = System.Drawing.SystemColors.Control;
-            this.Label_SurumBilgisi.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label_SurumBilgisi.ForeColor = System.Drawing.Color.Gray;
-            this.Label_SurumBilgisi.Location = new System.Drawing.Point(145, 546);
+            this.Label_SurumBilgisi.BackColor = System.Drawing.SystemColors.Window;
+            this.Label_SurumBilgisi.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Label_SurumBilgisi.ForeColor = System.Drawing.Color.Black;
+            this.Label_SurumBilgisi.Location = new System.Drawing.Point(252, 18);
             this.Label_SurumBilgisi.Name = "Label_SurumBilgisi";
-            this.Label_SurumBilgisi.Size = new System.Drawing.Size(30, 16);
+            this.Label_SurumBilgisi.Size = new System.Drawing.Size(34, 17);
             this.Label_SurumBilgisi.TabIndex = 5;
-            this.Label_SurumBilgisi.Text = "v1.0";
+            this.Label_SurumBilgisi.Text = "v2.0";
             // 
             // groupBox1
             // 
@@ -129,16 +131,16 @@ namespace CertificateChecker
             this.groupBox1.Controls.Add(this.Label_Veren);
             this.groupBox1.Controls.Add(this.Label_Verilen);
             this.groupBox1.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox1.Location = new System.Drawing.Point(11, 252);
+            this.groupBox1.Location = new System.Drawing.Point(12, 287);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(575, 285);
+            this.groupBox1.Size = new System.Drawing.Size(580, 285);
             this.groupBox1.TabIndex = 29;
             this.groupBox1.TabStop = false;
             // 
             // PictureBox_Durum
             // 
             this.PictureBox_Durum.BackColor = System.Drawing.Color.Transparent;
-            this.PictureBox_Durum.Location = new System.Drawing.Point(539, 248);
+            this.PictureBox_Durum.Location = new System.Drawing.Point(545, 248);
             this.PictureBox_Durum.Name = "PictureBox_Durum";
             this.PictureBox_Durum.Size = new System.Drawing.Size(20, 20);
             this.PictureBox_Durum.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -148,19 +150,19 @@ namespace CertificateChecker
             // Label_Durum
             // 
             this.Label_Durum.AutoSize = true;
-            this.Label_Durum.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Label_Durum.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Label_Durum.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.Label_Durum.Location = new System.Drawing.Point(300, 247);
+            this.Label_Durum.Location = new System.Drawing.Point(306, 246);
             this.Label_Durum.Name = "Label_Durum";
-            this.Label_Durum.Size = new System.Drawing.Size(49, 16);
+            this.Label_Durum.Size = new System.Drawing.Size(56, 20);
             this.Label_Durum.TabIndex = 25;
             this.Label_Durum.Text = "Durum";
             // 
             // Textbox_Durum
             // 
             this.Textbox_Durum.BackColor = System.Drawing.SystemColors.Control;
-            this.Textbox_Durum.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Textbox_Durum.Location = new System.Drawing.Point(363, 243);
+            this.Textbox_Durum.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Textbox_Durum.Location = new System.Drawing.Point(369, 243);
             this.Textbox_Durum.Multiline = true;
             this.Textbox_Durum.Name = "Textbox_Durum";
             this.Textbox_Durum.ReadOnly = true;
@@ -170,8 +172,8 @@ namespace CertificateChecker
             // Textbox_Bitis
             // 
             this.Textbox_Bitis.BackColor = System.Drawing.SystemColors.Control;
-            this.Textbox_Bitis.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Textbox_Bitis.Location = new System.Drawing.Point(363, 207);
+            this.Textbox_Bitis.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Textbox_Bitis.Location = new System.Drawing.Point(369, 207);
             this.Textbox_Bitis.Multiline = true;
             this.Textbox_Bitis.Name = "Textbox_Bitis";
             this.Textbox_Bitis.ReadOnly = true;
@@ -181,19 +183,19 @@ namespace CertificateChecker
             // Label_Bitis
             // 
             this.Label_Bitis.AutoSize = true;
-            this.Label_Bitis.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Label_Bitis.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Label_Bitis.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.Label_Bitis.Location = new System.Drawing.Point(300, 211);
+            this.Label_Bitis.Location = new System.Drawing.Point(306, 210);
             this.Label_Bitis.Name = "Label_Bitis";
-            this.Label_Bitis.Size = new System.Drawing.Size(34, 16);
+            this.Label_Bitis.Size = new System.Drawing.Size(35, 20);
             this.Label_Bitis.TabIndex = 23;
             this.Label_Bitis.Text = "Bitiş";
             // 
             // Textbox_Serino
             // 
             this.Textbox_Serino.BackColor = System.Drawing.SystemColors.Control;
-            this.Textbox_Serino.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Textbox_Serino.Location = new System.Drawing.Point(87, 171);
+            this.Textbox_Serino.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Textbox_Serino.Location = new System.Drawing.Point(93, 171);
             this.Textbox_Serino.Multiline = true;
             this.Textbox_Serino.Name = "Textbox_Serino";
             this.Textbox_Serino.ReadOnly = true;
@@ -203,8 +205,8 @@ namespace CertificateChecker
             // Textbox_Baslangic
             // 
             this.Textbox_Baslangic.BackColor = System.Drawing.SystemColors.Control;
-            this.Textbox_Baslangic.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Textbox_Baslangic.Location = new System.Drawing.Point(87, 207);
+            this.Textbox_Baslangic.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Textbox_Baslangic.Location = new System.Drawing.Point(93, 207);
             this.Textbox_Baslangic.Multiline = true;
             this.Textbox_Baslangic.Name = "Textbox_Baslangic";
             this.Textbox_Baslangic.ReadOnly = true;
@@ -214,41 +216,41 @@ namespace CertificateChecker
             // Label_Baslangic
             // 
             this.Label_Baslangic.AutoSize = true;
-            this.Label_Baslangic.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Label_Baslangic.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Label_Baslangic.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.Label_Baslangic.Location = new System.Drawing.Point(6, 212);
+            this.Label_Baslangic.Location = new System.Drawing.Point(6, 207);
             this.Label_Baslangic.Name = "Label_Baslangic";
-            this.Label_Baslangic.Size = new System.Drawing.Size(69, 16);
+            this.Label_Baslangic.Size = new System.Drawing.Size(79, 20);
             this.Label_Baslangic.TabIndex = 10;
             this.Label_Baslangic.Text = "Başlangıç";
             // 
             // Label_Serino
             // 
             this.Label_Serino.AutoSize = true;
-            this.Label_Serino.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Label_Serino.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Label_Serino.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.Label_Serino.Location = new System.Drawing.Point(6, 175);
+            this.Label_Serino.Location = new System.Drawing.Point(7, 171);
             this.Label_Serino.Name = "Label_Serino";
-            this.Label_Serino.Size = new System.Drawing.Size(58, 16);
+            this.Label_Serino.Size = new System.Drawing.Size(63, 20);
             this.Label_Serino.TabIndex = 19;
             this.Label_Serino.Text = "Seri No ";
             // 
             // Label_Algoritma
             // 
             this.Label_Algoritma.AutoSize = true;
-            this.Label_Algoritma.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Label_Algoritma.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Label_Algoritma.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.Label_Algoritma.Location = new System.Drawing.Point(6, 247);
+            this.Label_Algoritma.Location = new System.Drawing.Point(7, 246);
             this.Label_Algoritma.Name = "Label_Algoritma";
-            this.Label_Algoritma.Size = new System.Drawing.Size(69, 16);
+            this.Label_Algoritma.Size = new System.Drawing.Size(79, 20);
             this.Label_Algoritma.TabIndex = 22;
             this.Label_Algoritma.Text = "Algoritma";
             // 
             // Textbox_Algoritma
             // 
             this.Textbox_Algoritma.BackColor = System.Drawing.SystemColors.Control;
-            this.Textbox_Algoritma.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Textbox_Algoritma.Location = new System.Drawing.Point(87, 243);
+            this.Textbox_Algoritma.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Textbox_Algoritma.Location = new System.Drawing.Point(92, 243);
             this.Textbox_Algoritma.Multiline = true;
             this.Textbox_Algoritma.Name = "Textbox_Algoritma";
             this.Textbox_Algoritma.ReadOnly = true;
@@ -258,8 +260,8 @@ namespace CertificateChecker
             // Textbox_Verilen
             // 
             this.Textbox_Verilen.BackColor = System.Drawing.SystemColors.Control;
-            this.Textbox_Verilen.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Textbox_Verilen.Location = new System.Drawing.Point(87, 95);
+            this.Textbox_Verilen.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Textbox_Verilen.Location = new System.Drawing.Point(93, 95);
             this.Textbox_Verilen.Multiline = true;
             this.Textbox_Verilen.Name = "Textbox_Verilen";
             this.Textbox_Verilen.ReadOnly = true;
@@ -269,8 +271,8 @@ namespace CertificateChecker
             // Textbox_Veren
             // 
             this.Textbox_Veren.BackColor = System.Drawing.SystemColors.Control;
-            this.Textbox_Veren.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Textbox_Veren.Location = new System.Drawing.Point(87, 19);
+            this.Textbox_Veren.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Textbox_Veren.Location = new System.Drawing.Point(93, 19);
             this.Textbox_Veren.Multiline = true;
             this.Textbox_Veren.Name = "Textbox_Veren";
             this.Textbox_Veren.ReadOnly = true;
@@ -280,30 +282,30 @@ namespace CertificateChecker
             // Label_Veren
             // 
             this.Label_Veren.AutoSize = true;
-            this.Label_Veren.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Label_Veren.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Label_Veren.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.Label_Veren.Location = new System.Drawing.Point(6, 23);
+            this.Label_Veren.Location = new System.Drawing.Point(7, 18);
             this.Label_Veren.Name = "Label_Veren";
-            this.Label_Veren.Size = new System.Drawing.Size(44, 16);
+            this.Label_Veren.Size = new System.Drawing.Size(54, 20);
             this.Label_Veren.TabIndex = 9;
             this.Label_Veren.Text = "Veren";
             // 
             // Label_Verilen
             // 
             this.Label_Verilen.AutoSize = true;
-            this.Label_Verilen.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Label_Verilen.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Label_Verilen.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.Label_Verilen.Location = new System.Drawing.Point(6, 99);
+            this.Label_Verilen.Location = new System.Drawing.Point(7, 95);
             this.Label_Verilen.Name = "Label_Verilen";
-            this.Label_Verilen.Size = new System.Drawing.Size(52, 16);
+            this.Label_Verilen.Size = new System.Drawing.Size(60, 20);
             this.Label_Verilen.TabIndex = 8;
             this.Label_Verilen.Text = "Verilen";
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(0, 93);
+            this.progressBar1.Location = new System.Drawing.Point(0, 126);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(598, 5);
+            this.progressBar1.Size = new System.Drawing.Size(604, 6);
             this.progressBar1.TabIndex = 8;
             // 
             // timer1
@@ -314,9 +316,9 @@ namespace CertificateChecker
             // Textbox_DosyaAdi
             // 
             this.Textbox_DosyaAdi.BackColor = System.Drawing.SystemColors.Control;
-            this.Textbox_DosyaAdi.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Textbox_DosyaAdi.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Textbox_DosyaAdi.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Textbox_DosyaAdi.Location = new System.Drawing.Point(86, 18);
+            this.Textbox_DosyaAdi.Location = new System.Drawing.Point(93, 18);
             this.Textbox_DosyaAdi.Multiline = true;
             this.Textbox_DosyaAdi.Name = "Textbox_DosyaAdi";
             this.Textbox_DosyaAdi.ReadOnly = true;
@@ -326,9 +328,9 @@ namespace CertificateChecker
             // Textbox_DosyaYolu
             // 
             this.Textbox_DosyaYolu.BackColor = System.Drawing.SystemColors.Control;
-            this.Textbox_DosyaYolu.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Textbox_DosyaYolu.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Textbox_DosyaYolu.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Textbox_DosyaYolu.Location = new System.Drawing.Point(86, 54);
+            this.Textbox_DosyaYolu.Location = new System.Drawing.Point(93, 54);
             this.Textbox_DosyaYolu.Multiline = true;
             this.Textbox_DosyaYolu.Name = "Textbox_DosyaYolu";
             this.Textbox_DosyaYolu.ReadOnly = true;
@@ -343,20 +345,20 @@ namespace CertificateChecker
             this.groupBox3.Controls.Add(this.Buton_Dosya_Sec);
             this.groupBox3.Controls.Add(this.Textbox_DosyaAdi);
             this.groupBox3.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox3.Location = new System.Drawing.Point(12, 109);
+            this.groupBox3.Location = new System.Drawing.Point(11, 138);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(575, 143);
+            this.groupBox3.Size = new System.Drawing.Size(581, 143);
             this.groupBox3.TabIndex = 28;
             this.groupBox3.TabStop = false;
             // 
             // Label_DosyaYolu
             // 
             this.Label_DosyaYolu.AutoSize = true;
-            this.Label_DosyaYolu.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Label_DosyaYolu.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Label_DosyaYolu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.Label_DosyaYolu.Location = new System.Drawing.Point(5, 58);
+            this.Label_DosyaYolu.Location = new System.Drawing.Point(6, 57);
             this.Label_DosyaYolu.Name = "Label_DosyaYolu";
-            this.Label_DosyaYolu.Size = new System.Drawing.Size(76, 16);
+            this.Label_DosyaYolu.Size = new System.Drawing.Size(87, 20);
             this.Label_DosyaYolu.TabIndex = 28;
             this.Label_DosyaYolu.Text = "Dosya Yolu";
             // 
@@ -364,34 +366,23 @@ namespace CertificateChecker
             // 
             this.Label_DosyaAdi.AutoSize = true;
             this.Label_DosyaAdi.BackColor = System.Drawing.SystemColors.Control;
-            this.Label_DosyaAdi.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Label_DosyaAdi.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Label_DosyaAdi.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.Label_DosyaAdi.Location = new System.Drawing.Point(5, 22);
+            this.Label_DosyaAdi.Location = new System.Drawing.Point(6, 21);
             this.Label_DosyaAdi.Name = "Label_DosyaAdi";
-            this.Label_DosyaAdi.Size = new System.Drawing.Size(70, 16);
+            this.Label_DosyaAdi.Size = new System.Drawing.Size(82, 20);
             this.Label_DosyaAdi.TabIndex = 26;
             this.Label_DosyaAdi.Text = "Dosya Adı";
-            // 
-            // Picturebox_Logo
-            // 
-            this.Picturebox_Logo.BackColor = System.Drawing.SystemColors.Control;
-            this.Picturebox_Logo.Image = global::CertificateChecker.Properties.Resources.certificate;
-            this.Picturebox_Logo.Location = new System.Drawing.Point(12, 12);
-            this.Picturebox_Logo.Name = "Picturebox_Logo";
-            this.Picturebox_Logo.Size = new System.Drawing.Size(75, 70);
-            this.Picturebox_Logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.Picturebox_Logo.TabIndex = 32;
-            this.Picturebox_Logo.TabStop = false;
             // 
             // Label_Baslik
             // 
             this.Label_Baslik.AutoSize = true;
-            this.Label_Baslik.BackColor = System.Drawing.SystemColors.Control;
-            this.Label_Baslik.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label_Baslik.ForeColor = System.Drawing.Color.Black;
-            this.Label_Baslik.Location = new System.Drawing.Point(97, 26);
+            this.Label_Baslik.BackColor = System.Drawing.SystemColors.Window;
+            this.Label_Baslik.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Label_Baslik.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.Label_Baslik.Location = new System.Drawing.Point(11, 8);
             this.Label_Baslik.Name = "Label_Baslik";
-            this.Label_Baslik.Size = new System.Drawing.Size(203, 24);
+            this.Label_Baslik.Size = new System.Drawing.Size(244, 28);
             this.Label_Baslik.TabIndex = 33;
             this.Label_Baslik.Text = "Sertifika Kontrolcüsü";
             // 
@@ -404,7 +395,7 @@ namespace CertificateChecker
             this.linkLabel1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.linkLabel1.ForeColor = System.Drawing.Color.Gray;
             this.linkLabel1.LinkColor = System.Drawing.Color.Gray;
-            this.linkLabel1.Location = new System.Drawing.Point(11, 545);
+            this.linkLabel1.Location = new System.Drawing.Point(464, 575);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(128, 17);
             this.linkLabel1.TabIndex = 34;
@@ -416,13 +407,13 @@ namespace CertificateChecker
             // Buton_Yardim
             // 
             this.Buton_Yardim.BackColor = System.Drawing.SystemColors.Control;
-            this.Buton_Yardim.BackgroundImage = global::CertificateChecker.Properties.Resources.yardim;
             this.Buton_Yardim.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Buton_Yardim.FlatAppearance.BorderSize = 0;
-            this.Buton_Yardim.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Buton_Yardim.Location = new System.Drawing.Point(562, 542);
+            this.Buton_Yardim.ImageIndex = 3;
+            this.Buton_Yardim.ImageList = this.ımageList1;
+            this.Buton_Yardim.Location = new System.Drawing.Point(68, 64);
             this.Buton_Yardim.Name = "Buton_Yardim";
-            this.Buton_Yardim.Size = new System.Drawing.Size(25, 25);
+            this.Buton_Yardim.Size = new System.Drawing.Size(50, 50);
             this.Buton_Yardim.TabIndex = 36;
             this.Buton_Yardim.UseVisualStyleBackColor = false;
             this.Buton_Yardim.Click += new System.EventHandler(this.Buton_Yardim_Click);
@@ -430,28 +421,52 @@ namespace CertificateChecker
             // Label_AltBaslik
             // 
             this.Label_AltBaslik.AutoSize = true;
-            this.Label_AltBaslik.BackColor = System.Drawing.SystemColors.Control;
-            this.Label_AltBaslik.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Label_AltBaslik.Location = new System.Drawing.Point(99, 51);
+            this.Label_AltBaslik.BackColor = System.Drawing.SystemColors.Window;
+            this.Label_AltBaslik.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Label_AltBaslik.Location = new System.Drawing.Point(12, 36);
             this.Label_AltBaslik.Name = "Label_AltBaslik";
-            this.Label_AltBaslik.Size = new System.Drawing.Size(185, 17);
+            this.Label_AltBaslik.Size = new System.Drawing.Size(205, 20);
             this.Label_AltBaslik.TabIndex = 29;
             this.Label_AltBaslik.Text = "Dijital Sertifika Kontrol Aracı";
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.SystemColors.Window;
+            this.label1.Location = new System.Drawing.Point(0, -1);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(604, 133);
+            this.label1.TabIndex = 37;
+            // 
+            // Buton_Goruntule
+            // 
+            this.Buton_Goruntule.BackColor = System.Drawing.SystemColors.Control;
+            this.Buton_Goruntule.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Buton_Goruntule.FlatAppearance.BorderSize = 0;
+            this.Buton_Goruntule.ImageIndex = 2;
+            this.Buton_Goruntule.ImageList = this.ımageList1;
+            this.Buton_Goruntule.Location = new System.Drawing.Point(12, 64);
+            this.Buton_Goruntule.Name = "Buton_Goruntule";
+            this.Buton_Goruntule.Size = new System.Drawing.Size(50, 50);
+            this.Buton_Goruntule.TabIndex = 38;
+            this.Buton_Goruntule.UseVisualStyleBackColor = false;
+            this.Buton_Goruntule.Click += new System.EventHandler(this.button_Goruntule_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(598, 575);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(604, 601);
+            this.Controls.Add(this.Buton_Goruntule);
             this.Controls.Add(this.Label_AltBaslik);
             this.Controls.Add(this.Buton_Yardim);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.Label_Baslik);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.Picturebox_Logo);
             this.Controls.Add(this.Label_SurumBilgisi);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ForeColor = System.Drawing.SystemColors.Desktop;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -459,14 +474,13 @@ namespace CertificateChecker
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Sertifika Kontrolcüsü";
+            this.Text = "Certificate Checker";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Durum)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Picturebox_Logo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -500,10 +514,11 @@ namespace CertificateChecker
         private System.Windows.Forms.Label Label_DosyaAdi;
         private System.Windows.Forms.PictureBox PictureBox_Durum;
         private System.Windows.Forms.ImageList ımageList1;
-        private System.Windows.Forms.PictureBox Picturebox_Logo;
         private System.Windows.Forms.Label Label_Baslik;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Button Buton_Yardim;
         private System.Windows.Forms.Label Label_AltBaslik;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button Buton_Goruntule;
     }
 }

@@ -20,23 +20,11 @@ namespace CertificateChecker
         {
             InitializeComponent();
         }
-        //formu kenarlıkları olmadan Label_Altbaslik ile sürüklüyerek taşımamızı sağlayan bölüm.
-        bool formTasiniyor = false;
-        Point baslangicNoktasi = new Point(0, 0);
+
         //Seçilen dosyanın adının ve yolunu sakladığımız değişkenler.
         string Dosya_Yolu;
         string Dosya_Adi;
-        //forma kenarlıklar olmadan gölge efekti kazandıran bölüm
-        private const int CS_DROPSHADOW = 0x20000;
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ClassStyle |= CS_DROPSHADOW;
-                return cp;
-            }
-        }
+
         //seçtiğimiz sertifikamızı doğrulamamızı sağlayan metot.
         public void SertifikaDogrula()
         {
@@ -90,17 +78,12 @@ namespace CertificateChecker
                 
             }
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
         
         private void Buton_Dosya_Sec_Click(object sender, EventArgs e)//dosya seçme işleminin yapıldığı kısım.
         {
             OpenFileDialog DosyaAc = new OpenFileDialog();
             DosyaAc.Title = "Sertifika Dosyasını Seçiniz...";
-            DosyaAc.Filter = ".cer Dosyası |*.cer|.cert Dosyası|*.cert|.exe Dosyası|*.exe| Tüm Dosyalar|*.*";
+            DosyaAc.Filter = ".cer Dosyası |*.cer|.cert Dosyası|*.cert|.crt Dosyası|*.crt| Tüm Dosyalar|*.*";
             DosyaAc.Multiselect = false;
             if (DosyaAc.ShowDialog() == DialogResult.OK)
             {
@@ -132,6 +115,7 @@ namespace CertificateChecker
                 progressBar1.Value = 100;
                 Buton_Dosya_Sec.Text = "Sertifika Seç";
                 Buton_Dosya_Sec.Enabled = true;
+                Buton_Goruntule.Enabled = true;
                 return;
             }
             Buton_Dosya_Sec.Enabled = false;
@@ -150,7 +134,30 @@ namespace CertificateChecker
 
         private void Buton_Yardim_Click(object sender, EventArgs e)//yardım butonu
         {
-            MessageBox.Show("Sertifika Kontrolcüsü, sistemden seçilen bir dijital sertifikayı kontrol ederek kullanıcıya sertifikanın geçerli ya da geçersiz olduğu bilgisini vermekte olan ücretsiz bir yazılımdır. Sertifika kontrolcüsü, .Net platformunda açık kaynak olarak geliştirilen bir yazılımdır. Destek olmak ve daha fazla bilgi sahibi olmak için web sitemizi ziyaret ediniz. www.yazilimturkiye.com", "Sertifika Kontrolcüsü Ücretsiz Versiyon Hakkında", MessageBoxButtons.OK, MessageBoxIcon.None);
+            MessageBox.Show("Sertifika Kontrolcüsü, sistemden seçilen bir dijital sertifikayı kontrol ederek kullanıcıya sertifikanın geçerli ya da geçersiz olduğu bilgisini vermekte olan ücretsiz bir yazılımdır. Sertifika kontrolcüsü, .Net platformunda açık kaynak olarak geliştirilen bir yazılımdır. Destek ve daha fazla bilgi sahibi olmak için web sitemizi ziyaret ediniz. www.yazilimturkiye.com", "Sertifika Kontrolcüsü Ücretsiz Versiyon Hakkında", MessageBoxButtons.OK, MessageBoxIcon.None);
+        }
+
+        private void button_Goruntule_Click(object sender, EventArgs e)//Sertifika görüntüleme
+        {
+            try
+            {
+                Process cmd = new Process();
+                cmd.StartInfo.FileName = "cmd.exe";
+                cmd.StartInfo.Arguments = "/K Start " + Dosya_Yolu + " & Exit";
+                cmd.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                cmd.Start();
+                cmd.WaitForExit();
+                cmd.Close();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Görüntüleme işlemi gerçekleştirilemedi.\nSertifika Kontrolcüsünü yönetici olarak çalıştırın ve tekrar deneyin.", "Sertifikayı Görüntüle", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Buton_Goruntule.Enabled = false;
         }
     }
 
