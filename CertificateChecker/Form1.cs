@@ -143,18 +143,14 @@ namespace CertificateChecker
         {
             try
             {
-                Process cmd = new Process();
-                cmd.StartInfo.FileName = "cmd.exe";
-                cmd.StartInfo.Arguments = "/K Start " + Dosya_Yolu + " & Exit";
-                cmd.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
-                cmd.Start();
-                cmd.WaitForExit();
-                cmd.Close();
+                Process.Start(new ProcessStartInfo(Dosya_Yolu) { UseShellExecute = true });
             }
             catch (Exception)
             {
                 MessageBox.Show("Görüntüleme işlemi gerçekleştirilemedi.\nSertifika Kontrolcüsünü yönetici olarak çalıştırın ve tekrar deneyin.", "Sertifikayı Görüntüle", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
