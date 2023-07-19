@@ -17,4 +17,4 @@ Uygulamanın çalışması için “Sertifika Seç” düğmesine tıklanır ve 
 - Geçersiz, İptal Edilmiş. ❌
 
 ### İndir
-Bu <b>[adresten](https://mega.nz/file/j89E3aCJ#wqq9AGcgr46_gw3QE_2GatIxJaajdIyh3O4SIyHz9m8)</b> Sertifika Kontrolcüsü v1.0 sürümünü indrebilirsiniz.
+Bu <b>[adresten](https://mega.nz/file/y0FjWBzR#0gO7-NnHCJ-mH4KqtqegR8TIdSc-_z7vgYP8yExgTcQ)</b> Sertifika Kontrolcüsü v2.0 sürümünü indrebilirsiniz.
