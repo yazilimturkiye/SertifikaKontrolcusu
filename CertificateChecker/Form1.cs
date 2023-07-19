@@ -69,18 +69,18 @@ namespace CertificateChecker
                         Textbox_Durum.Text = "Geçersiz, İptal Edilmiş";
                         PictureBox_Durum.Image = Properties.Resources.error;
                     }
-                    
+
                 }
 
             }
             catch (Exception) //sertifika dosyası dışında farklı bir dosya seçmesi durumunda kullanıcıyı uyaran bölüm.
             {
                 timer1.Stop();
-                MessageBox.Show("Lütfen geçerli bir sertifika dosyası seçiniz. Geçerli dosya uzantılar:\n.cer, .cert, .exe.","Geçersiz Dosya", MessageBoxButtons.OK,MessageBoxIcon.Warning);
-                
+                MessageBox.Show("Lütfen geçerli bir sertifika dosyası seçiniz. Geçerli dosya uzantılar:\n.cer, .cert, .exe.", "Geçersiz Dosya", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
             }
         }
-        
+
         private void Buton_Dosya_Sec_Click(object sender, EventArgs e)//dosya seçme işleminin yapıldığı kısım.
         {
             OpenFileDialog DosyaAc = new OpenFileDialog();
@@ -103,7 +103,7 @@ namespace CertificateChecker
                 PictureBox_Durum.Image = null;
                 Textbox_Durum.Clear();
                 progressBar1.Value = 0;
-            }   
+            }
 
         }
 
@@ -131,7 +131,7 @@ namespace CertificateChecker
             Process sayfa_ac = new Process();
             sayfa_ac.StartInfo.UseShellExecute = true;
             sayfa_ac.StartInfo.FileName = "https://www.yazilimturkiye.com/";
-            sayfa_ac.Start(); 
+            sayfa_ac.Start();
         }
 
         private void Buton_Yardim_Click(object sender, EventArgs e)//yardım butonu
@@ -149,7 +149,7 @@ namespace CertificateChecker
             {
                 MessageBox.Show("Görüntüleme işlemi gerçekleştirilemedi.\nSertifika Kontrolcüsünü yönetici olarak çalıştırın ve tekrar deneyin.", "Sertifikayı Görüntüle", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            
+
 
         }
 
@@ -159,4 +159,4 @@ namespace CertificateChecker
         }
     }
 
-    }
+}

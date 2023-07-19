@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertificateChecker", "CertificateChecker\CertificateChecker.csproj", "{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CertificateChecker_Setup", "CertificateChecker_Setup\CertificateChecker_Setup.vdproj", "{73DB1E06-3B19-4160-9D2F-CB59C59F634F}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SertifikaKontrolcusu_Setup", "SertifikaKontrolcusu_Setup\SertifikaKontrolcusu_Setup.vdproj", "{28B98C7B-F3A8-4B59-B762-66A3631B3063}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +17,8 @@ Global
 		{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73DB1E06-3B19-4160-9D2F-CB59C59F634F}.Debug|Any CPU.ActiveCfg = Debug
-		{73DB1E06-3B19-4160-9D2F-CB59C59F634F}.Release|Any CPU.ActiveCfg = Release
+		{28B98C7B-F3A8-4B59-B762-66A3631B3063}.Debug|Any CPU.ActiveCfg = Debug
+		{28B98C7B-F3A8-4B59-B762-66A3631B3063}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
