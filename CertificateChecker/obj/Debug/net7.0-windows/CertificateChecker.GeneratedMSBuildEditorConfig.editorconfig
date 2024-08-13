@@ -14,4 +14,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = CertificateChecker
-build_property.ProjectDir = C:\Users\yazilimturk\Documents\GitHub\SertifikaKontrolcusu\CertificateChecker\
+build_property.ProjectDir = C:\Users\ylmzmrtcyr\Documents\GitHub\SertifikaKontrolcusu\CertificateChecker\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

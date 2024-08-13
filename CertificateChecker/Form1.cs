@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
 using System.IO;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Windows.Forms.VisualStyles;
 
 namespace CertificateChecker
 {
@@ -20,14 +22,13 @@ namespace CertificateChecker
         public Form1()
         {
             InitializeComponent();
+            this.SetStyle(ControlStyles.UserPaint, true);
         }
 
-        //Seçilen dosyanın adının ve yolunu sakladığımız değişkenler.
-        string Dosya_Yolu;
+        string Dosya_Yolu;//Seçilen dosyanın adının ve yolunu sakladığımız değişkenler.
         string Dosya_Adi;
 
-        //seçtiğimiz sertifikamızı doğrulamamızı sağlayan metot.
-        public void SertifikaDogrula()
+        public void SertifikaDogrula()//seçtiğimiz sertifikamızı doğrulamamızı sağlayan metot.
         {
             try
             {
@@ -43,7 +44,7 @@ namespace CertificateChecker
                 if (Textbox_DosyaAdi.TextLength > 0) Textbox_DosyaAdi.DeselectAll();
                 if (Textbox_Durum.Text == "True")
                 {
-                    Textbox_Durum.Text = "Geçerli";
+                    Textbox_Durum.Text = "Valid";
                     PictureBox_Durum.Image = Properties.Resources.ok;
                     timer1.Stop();
                 }
@@ -56,17 +57,17 @@ namespace CertificateChecker
                     {
                         timer1.Stop();
                         PictureBox_Durum.Image = Properties.Resources.error;
-                        Textbox_Durum.Text = "Geçersiz, Süresi İleri";
+                        Textbox_Durum.Text = "Time Ahead";
                     }
                     else if (bitis_zamani < simdiki_zaman)
                     {
                         timer1.Stop();
                         PictureBox_Durum.Image = Properties.Resources.error;
-                        Textbox_Durum.Text = "Geçersiz, Süresi Bitmiş";
+                        Textbox_Durum.Text = "Expired";
                     }
                     else
                     {
-                        Textbox_Durum.Text = "Geçersiz, İptal Edilmiş";
+                        Textbox_Durum.Text = "Revoked";
                         PictureBox_Durum.Image = Properties.Resources.error;
                     }
 
@@ -76,16 +77,138 @@ namespace CertificateChecker
             catch (Exception) //sertifika dosyası dışında farklı bir dosya seçmesi durumunda kullanıcıyı uyaran bölüm.
             {
                 timer1.Stop();
-                MessageBox.Show("Lütfen geçerli bir sertifika dosyası seçiniz. Geçerli dosya uzantılar:\n.cer, .cert, .exe.", "Geçersiz Dosya", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a valid certificate file. Valid file extensions:\n.cer, .cert, .exe.", "Invalid File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        private void Hunter_KaranlikModu(Control parent)//Hunter adındaki karanlık mod açan metot.
+        {
+            parent.BackColor = Color.FromArgb(34, 40, 49);
+            parent.ForeColor = Color.White;
 
+            foreach (Control control in parent.Controls)
+            {
+                if (control is System.Windows.Forms.TextBox || control is System.Windows.Forms.ComboBox)
+                {
+                    control.BackColor = Color.FromArgb(49, 54, 63);
+                    control.ForeColor = Color.White;
+                }
+                else if (control is System.Windows.Forms.Button)
+                {
+                    control.BackColor = Color.FromArgb(49, 54, 63);
+                    control.ForeColor = Color.White;
+                    Buton_Ayarlar.FlatAppearance.BorderColor = Color.DimGray;
+                    Buton_Goruntule.FlatAppearance.BorderColor = Color.DimGray;
+                    Buton_Dosya_Sec.FlatAppearance.BorderColor = Color.DimGray;
+                }
+                else
+                {
+                    control.BackColor = Color.FromArgb(34, 40, 49);
+                    control.ForeColor = Color.White;
+                    PictureBox_Durum.BackColor = Color.FromArgb(49, 54, 64);
+                    Label_Baslik.ForeColor = Color.Goldenrod;
+                    Label_Baslik.BackColor = Color.FromArgb(40, 44, 51);
+                    Label_AltBaslik.BackColor = Color.FromArgb(40, 44, 51);
+                    label1.BackColor = Color.FromArgb(40, 44, 51);
+                }
+                if (control is System.Windows.Forms.TextBox textBox)
+                {
+                    textBox.BorderStyle = BorderStyle.FixedSingle;
+                }
+                if (control.HasChildren)
+                {
+                    Hunter_KaranlikModu(control);
+                }
+            }
+        }
+        private void Argent_AydinlikModu(Control parent)//Argent adındaki Aydinlik mod açan metot.
+        {
+            parent.BackColor = SystemColors.Control;
+            parent.ForeColor = Color.FromArgb(64, 64, 64);
+
+            foreach (Control control in parent.Controls)
+            {
+                if (control is System.Windows.Forms.TextBox || control is System.Windows.Forms.ComboBox)
+                {
+                    control.BackColor = SystemColors.Control;
+                    control.ForeColor = SystemColors.WindowText;
+                }
+                else if (control is System.Windows.Forms.Button)
+                {
+                    control.BackColor = SystemColors.ControlLight;
+                    control.ForeColor = Color.FromArgb(64, 64, 64);
+                    Buton_Ayarlar.FlatAppearance.BorderColor = Color.Silver;
+                    Buton_Goruntule.FlatAppearance.BorderColor = Color.Silver;
+                    Buton_Dosya_Sec.FlatAppearance.BorderColor = Color.Silver;
+                    Buton_Ayarlar.BackColor = SystemColors.Control;
+                    Buton_Goruntule.BackColor = SystemColors.Control;
+                }
+                else
+                {
+                    control.BackColor = SystemColors.Control;
+                    control.ForeColor = Color.FromArgb(64, 64, 64);
+                    PictureBox_Durum.BackColor = SystemColors.Control;
+                    Label_Baslik.ForeColor = Color.Goldenrod;
+                    Label_Baslik.BackColor = SystemColors.ControlLight;
+                    Label_AltBaslik.ForeColor = Color.FromArgb(64, 64, 64);
+                    Label_AltBaslik.BackColor = SystemColors.ControlLight;
+                    label1.BackColor = SystemColors.ControlLight;
+                }
+                if (control is System.Windows.Forms.TextBox textBox)
+                {
+                    textBox.BorderStyle = BorderStyle.Fixed3D;
+                }
+                if (control.HasChildren)
+                {
+                    Argent_AydinlikModu(control);
+                }
+            }
+        }
+        private void Stunner_SariModu(Control parent)//Stunner adındaki Sari mod açan metot.
+        {
+            parent.BackColor = Color.FromArgb(248, 240, 229);
+            parent.ForeColor = Color.FromArgb(63, 35, 5);
+
+            foreach (Control control in parent.Controls)
+            {
+                if (control is System.Windows.Forms.TextBox || control is System.Windows.Forms.ComboBox)
+                {
+                    control.BackColor = Color.FromArgb(248, 240, 229);
+                    control.ForeColor = Color.FromArgb(63, 35, 5);
+                }
+                else if (control is System.Windows.Forms.Button)
+                {
+                    control.BackColor = Color.FromArgb(234, 219, 200);
+                    control.ForeColor = Color.FromArgb(63, 35, 5);
+                    Buton_Ayarlar.FlatAppearance.BorderColor = Color.Tan;
+                    Buton_Goruntule.FlatAppearance.BorderColor = Color.Tan;
+                    Buton_Dosya_Sec.FlatAppearance.BorderColor = Color.Tan;
+                }
+                else
+                {
+                    control.BackColor = Color.FromArgb(248, 240, 229);
+                    control.ForeColor = Color.FromArgb(63, 35, 5);
+                    PictureBox_Durum.BackColor = Color.FromArgb(248, 240, 229);
+                    Label_Baslik.ForeColor = Color.Goldenrod;
+                    Label_Baslik.BackColor = Color.FromArgb(234, 219, 200);
+                    Label_AltBaslik.BackColor = Color.FromArgb(234, 219, 200);
+                    label1.BackColor = Color.FromArgb(234, 219, 200);
+                }
+                if (control is System.Windows.Forms.TextBox textBox)
+                {
+                    textBox.BorderStyle = BorderStyle.Fixed3D;
+                }
+                if (control.HasChildren)
+                {
+                    Stunner_SariModu(control);
+                }
             }
         }
 
         private void Buton_Dosya_Sec_Click(object sender, EventArgs e)//dosya seçme işleminin yapıldığı kısım.
         {
             OpenFileDialog DosyaAc = new OpenFileDialog();
-            DosyaAc.Title = "Sertifika Dosyasını Seçiniz...";
-            DosyaAc.Filter = "Tüm Dosyalar|*.*| .cer Dosyası |*.cer| .cert Dosyası|*.cert| .crt Dosyası|*.crt";
+            DosyaAc.Title = "Please Select Certificate File...";
+            DosyaAc.Filter = "All Files|*.*| .cer File|*.cer| .cert File|*.cert| .crt File|*.crt";
             DosyaAc.Multiselect = false;
             if (DosyaAc.ShowDialog() == DialogResult.OK)
             {
@@ -115,14 +238,14 @@ namespace CertificateChecker
                 SertifikaDogrula();//sertifika doğrulama metotu burada çağırılıyor.
                 timer1.Stop();
                 progressBar1.Value = 100;
-                Buton_Dosya_Sec.Text = "Sertifika Seç";
+                Buton_Dosya_Sec.Text = "Select Certificate";
                 Buton_Dosya_Sec.Enabled = true;
                 Buton_Goruntule.Enabled = true;
                 return;
             }
             Buton_Dosya_Sec.Enabled = false;
 
-            Buton_Dosya_Sec.Text = "Sertifika Doğrulanıyor...";
+            Buton_Dosya_Sec.Text = "Certificate Verifying...";
             progressBar1.Value += 1;
         }
 
@@ -134,11 +257,6 @@ namespace CertificateChecker
             sayfa_ac.Start();
         }
 
-        private void Buton_Yardim_Click(object sender, EventArgs e)//yardım butonu
-        {
-            MessageBox.Show("Sertifika Kontrolcüsü, sistemden seçilen bir dijital sertifikayı kontrol ederek kullanıcıya sertifikanın geçerli ya da geçersiz olduğu bilgisini vermekte olan ücretsiz bir yazılımdır. Sertifika kontrolcüsü, .Net platformunda açık kaynak olarak geliştirilen bir yazılımdır. Destek ve daha fazla bilgi sahibi olmak için web sitemizi ziyaret ediniz. www.yazilimturkiye.com", "Sertifika Kontrolcüsü Ücretsiz Versiyon Hakkında", MessageBoxButtons.OK, MessageBoxIcon.None);
-        }
-
         private void button_Goruntule_Click(object sender, EventArgs e)//Sertifika görüntüleme
         {
             try
@@ -147,15 +265,43 @@ namespace CertificateChecker
             }
             catch (Exception)
             {
-                MessageBox.Show("Görüntüleme işlemi gerçekleştirilemedi.\nSertifika Kontrolcüsünü yönetici olarak çalıştırın ve tekrar deneyin.", "Sertifikayı Görüntüle", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("The Certificate display operation could not be performed.\nRun the Certificate Checker as administrator and try again.", "View Certificate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
-
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)//form başlangıç.
         {
             Buton_Goruntule.Enabled = false;
+            panel_Ayarlar.Visible = false;
+        }
+
+        private void radioButton_darkmode_CheckedChanged(object sender, EventArgs e)//HUnter Karanlık Modu Radiobuttonu
+        {
+            Hunter_KaranlikModu(this);
+        }
+
+        private void radioButton_lightmode_CheckedChanged(object sender, EventArgs e)
+        {
+            Argent_AydinlikModu(this);
+        }
+
+        private void radioButton_stunner_CheckedChanged(object sender, EventArgs e)
+        {
+            Stunner_SariModu(this);
+        }
+
+        private void Buton_Ayarlar_Click(object sender, EventArgs e)//Ayarlar butonu.
+        {
+            if (Panel_SertifikaKontrol.Visible == true)
+            {
+                panel_Ayarlar.Visible = true;
+                Panel_SertifikaKontrol.Visible = false;
+            }
+            else if (panel_Ayarlar.Visible == true)
+            {
+                panel_Ayarlar.Visible = false;
+                Panel_SertifikaKontrol.Visible = true;
+            }
         }
     }
 

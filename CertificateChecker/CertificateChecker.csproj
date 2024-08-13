@@ -2,22 +2,27 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.22000.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <Company>yazilimturkiye</Company>
     <Version>1.0</Version>
     <Description>Sertifika Kontrolcüsü ücretsiz olarak dijital sertifikaları kontrol eden bir yazılımdır.</Description>
     <PackageProjectUrl>www.yazilimturkiye.com</PackageProjectUrl>
     <PackageIcon>certificate.png</PackageIcon>
-    <ApplicationIcon>certificate.ico</ApplicationIcon>
+    <ApplicationIcon>Images\certificate.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="bin\Debug\net7.0-windows\images\uk-flag.png" />
+    <Compile Remove="bin\Debug\net5.0-windows\**" />
+    <Compile Remove="bin\Debug\net7.0-windows\**" />
+    <EmbeddedResource Remove="bin\Debug\net5.0-windows\**" />
+    <EmbeddedResource Remove="bin\Debug\net7.0-windows\**" />
+    <None Remove="bin\Debug\net5.0-windows\**" />
+    <None Remove="bin\Debug\net7.0-windows\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="bin\Debug\net7.0-windows\images\tr-flag.png" />
+    <Content Include="Images\certificate.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +30,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -36,9 +46,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="bin\Debug\net5.0-windows\images\certificate.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
+    <Folder Include="bin\Debug\" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
