@@ -33,51 +33,94 @@ namespace CertificateChecker
             try
             {
                 X509Certificate2 sertifika = new X509Certificate2(Dosya_Yolu);
-                byte[] rawdata = sertifika.RawData;
-                Textbox_Veren.Text = sertifika.Issuer.ToString();                                           // Sertifikayı Veren Makam.
-                Textbox_Verilen.Text = sertifika.Subject.ToString();                                        // Sertifikanın Konu Adı
-                Textbox_Baslangic.Text = sertifika.NotBefore.ToString();                                    // Başlangıç Tarihi.
-                Textbox_Bitis.Text = sertifika.NotAfter.ToString();                                         // Bitiş Tarihi.
-                Textbox_Serino.Text = sertifika.SerialNumber.ToString();                                    // Sertifika Seri no.
-                Textbox_Algoritma.Text = sertifika.SignatureAlgorithm.FriendlyName.ToString();              // sertifikanın algoritması.
-                Textbox_Durum.Text = sertifika.Verify().ToString();                                         // Sertifika doğrulama, true ise başarılı, false ise başarısız.
-                if (Textbox_DosyaAdi.TextLength > 0) Textbox_DosyaAdi.DeselectAll();
-                if (Textbox_Durum.Text == "True")
+                Textbox_Veren.Text = sertifika.Issuer.ToString(); // Sertifikayı Veren Makam.
+                Textbox_Verilen.Text = sertifika.Subject.ToString(); // Sertifikanın Konu Adı
+                Textbox_Baslangic.Text = sertifika.NotBefore.ToString(); // Başlangıç Tarihi.
+                Textbox_Bitis.Text = sertifika.NotAfter.ToString(); // Bitiş Tarihi.
+                Textbox_Serino.Text = sertifika.SerialNumber.ToString(); // Sertifika Seri no.
+                Textbox_Algoritma.Text = sertifika.SignatureAlgorithm.FriendlyName.ToString(); // sertifikanın algoritması.
+
+                X509Chain chain = new X509Chain(); // Sertifika zincirini oluştur
+                chain.ChainPolicy.RevocationMode = X509RevocationMode.Online; // Sertifika iptal durumu kontrolü (revocation check)
+                chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
+
+                bool isChainValid = chain.Build(sertifika);
+                if (isChainValid) // Sertifika Geçerli
                 {
                     Textbox_Durum.Text = "Valid";
                     PictureBox_Durum.Image = Properties.Resources.ok;
-                    timer1.Stop();
                 }
-                else //eğer sertifika geçersiz ise aşağıdaki işlemler ile elenerek neden geçersiz olduğu kullanıcıya bildirilir.
+                else // Zincir geçersiz, sebebi açıklanıyor.
                 {
-                    DateTime simdiki_zaman = DateTime.Now;
-                    DateTime baslangic_zamani = DateTime.Parse(Textbox_Baslangic.Text);
-                    DateTime bitis_zamani = DateTime.Parse(Textbox_Bitis.Text);
-                    if (baslangic_zamani > simdiki_zaman)
-                    {
-                        timer1.Stop();
-                        PictureBox_Durum.Image = Properties.Resources.error;
-                        Textbox_Durum.Text = "Time Ahead";
-                    }
-                    else if (bitis_zamani < simdiki_zaman)
-                    {
-                        timer1.Stop();
-                        PictureBox_Durum.Image = Properties.Resources.error;
-                        Textbox_Durum.Text = "Expired";
-                    }
-                    else
-                    {
-                        Textbox_Durum.Text = "Revoked";
-                        PictureBox_Durum.Image = Properties.Resources.error;
-                    }
+                    Textbox_Durum.Text = "Invalid";
+                    PictureBox_Durum.Image = Properties.Resources.error;
 
+                    foreach (X509ChainStatus status in chain.ChainStatus)
+                    {
+                        if (status.Status == X509ChainStatusFlags.NotTimeValid) //eğer expired ise bu adıma geçecek.
+                        {
+                            DateTime simdiki_zaman = DateTime.Now;
+                            DateTime baslangic_zamani = DateTime.Parse(Textbox_Baslangic.Text);
+                            DateTime bitis_zamani = DateTime.Parse(Textbox_Bitis.Text);
+                            if (baslangic_zamani > simdiki_zaman) //zaman ileride ise.
+                            {
+                                timer1.Stop();
+                                PictureBox_Durum.Image = Properties.Resources.error;
+                                Textbox_Durum.Text = "Not Yet Valid";
+                            }
+                            else if (bitis_zamani < simdiki_zaman) //zaman geride ise.
+                            {
+                                timer1.Stop();
+                                PictureBox_Durum.Image = Properties.Resources.error;
+                                Textbox_Durum.Text = "Expired";
+                            }
+                            break;
+                        }
+                        else if (status.Status == X509ChainStatusFlags.Revoked) //sertifika iptal ise.
+                        {
+                            Textbox_Durum.Text = "Revoked";
+                            break;
+                        }
+                        else if (status.Status == X509ChainStatusFlags.UntrustedRoot) //kök güvenilmez ise.
+                        {
+                            Textbox_Durum.Text = "Untrusted Root";
+                            break;
+                        }
+                        else
+                        {
+                            Textbox_Durum.Text = "Invalid: " + status.StatusInformation;
+                        }
+                    }
                 }
-
             }
             catch (Exception) //sertifika dosyası dışında farklı bir dosya seçmesi durumunda kullanıcıyı uyaran bölüm.
             {
                 timer1.Stop();
                 MessageBox.Show("Please select a valid certificate file. Valid file extensions:\n.cer, .cert, .exe.", "Invalid File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        public void KayitliAyarlar()
+        {
+            if(Properties.Settings.Default.Theme == "Argent")
+            {
+                Argent_AydinlikModu(this);
+                radioButton_lightmode.Checked = true;
+                radioButton_darkmode.Checked = false;
+                radioButton_stunner.Checked = false;
+            }
+            else if (Properties.Settings.Default.Theme == "Hunter")
+            {
+                Hunter_KaranlikModu(this);
+                radioButton_darkmode.Checked = true;
+                radioButton_stunner.Checked = false;
+                radioButton_lightmode.Checked= false;
+            }
+            else if (Properties.Settings.Default.Theme == "Stunner")
+            {
+                Stunner_SariModu(this);
+                radioButton_stunner.Checked = true;
+                radioButton_darkmode.Checked = false;
+                radioButton_lightmode.Checked = false;
             }
         }
         private void Hunter_KaranlikModu(Control parent)//Hunter adındaki karanlık mod açan metot.
@@ -118,6 +161,8 @@ namespace CertificateChecker
                 {
                     Hunter_KaranlikModu(control);
                 }
+                Properties.Settings.Default.Theme = "Hunter";
+                Properties.Settings.Default.Save();
             }
         }
         private void Argent_AydinlikModu(Control parent)//Argent adındaki Aydinlik mod açan metot.
@@ -135,7 +180,7 @@ namespace CertificateChecker
                 else if (control is System.Windows.Forms.Button)
                 {
                     control.BackColor = SystemColors.ControlLight;
-                    control.ForeColor = Color.FromArgb(64, 64, 64);
+                    control.ForeColor = SystemColors.ControlText;
                     Buton_Ayarlar.FlatAppearance.BorderColor = Color.Silver;
                     Buton_Goruntule.FlatAppearance.BorderColor = Color.Silver;
                     Buton_Dosya_Sec.FlatAppearance.BorderColor = Color.Silver;
@@ -161,6 +206,8 @@ namespace CertificateChecker
                 {
                     Argent_AydinlikModu(control);
                 }
+                Properties.Settings.Default.Theme = "Argent";
+                Properties.Settings.Default.Save();
             }
         }
         private void Stunner_SariModu(Control parent)//Stunner adındaki Sari mod açan metot.
@@ -201,6 +248,8 @@ namespace CertificateChecker
                 {
                     Stunner_SariModu(control);
                 }
+                Properties.Settings.Default.Theme = "Stunner";
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -227,7 +276,6 @@ namespace CertificateChecker
                 Textbox_Durum.Clear();
                 progressBar1.Value = 0;
             }
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)//timer1'de progressbar tetiklenir ve progressbar'ın değeri maximum olduktan sonra sertifika doğrulama adımına geçilir.
@@ -273,6 +321,7 @@ namespace CertificateChecker
         {
             Buton_Goruntule.Enabled = false;
             panel_Ayarlar.Visible = false;
+            KayitliAyarlar();
         }
 
         private void radioButton_darkmode_CheckedChanged(object sender, EventArgs e)//HUnter Karanlık Modu Radiobuttonu
@@ -289,7 +338,6 @@ namespace CertificateChecker
         {
             Stunner_SariModu(this);
         }
-
         private void Buton_Ayarlar_Click(object sender, EventArgs e)//Ayarlar butonu.
         {
             if (Panel_SertifikaKontrol.Visible == true)
@@ -304,5 +352,4 @@ namespace CertificateChecker
             }
         }
     }
-
 }

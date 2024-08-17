@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Sertifika Kontrolcüsü ücretsiz olarak dijital sertifikaları kontrol eden bir yazı" +
     "lımdır.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+d3cb1a415148f071c27885177b6d093e71ea5ceb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+3dc0c01a1e908ff7b3f13cf1eaaf72ee4e8916b4")]
 [assembly: System.Reflection.AssemblyProductAttribute("CertificateChecker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CertificateChecker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

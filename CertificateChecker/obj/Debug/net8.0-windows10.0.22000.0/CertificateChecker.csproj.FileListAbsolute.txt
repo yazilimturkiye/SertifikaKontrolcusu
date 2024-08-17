@@ -19,3 +19,4 @@ C:\Users\ylmzmrtcyr\Documents\GitHub\SertifikaKontrolcusu\CertificateChecker\obj
 C:\Users\ylmzmrtcyr\Documents\GitHub\SertifikaKontrolcusu\CertificateChecker\obj\Debug\net8.0-windows10.0.22000.0\CertificateChecker.pdb
 C:\Users\ylmzmrtcyr\Documents\GitHub\SertifikaKontrolcusu\CertificateChecker\obj\Debug\net8.0-windows10.0.22000.0\CertificateChecker.genruntimeconfig.cache
 C:\Users\ylmzmrtcyr\Documents\GitHub\SertifikaKontrolcusu\CertificateChecker\obj\Debug\net8.0-windows10.0.22000.0\ref\CertificateChecker.dll
+C:\Users\ylmzmrtcyr\Documents\GitHub\SertifikaKontrolcusu\CertificateChecker\bin\Debug\net8.0-windows10.0.22000.0\CertificateChecker.dll.config
