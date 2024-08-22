@@ -1,4 +1,4 @@
-# Sertifika Kontrolcüsü v3.0
+# 🇹🇷 Sertifika Kontrolcüsü v3.0
 Sertifika Kontrolcüsü, Windows işletim sistemleri için dijital sertifikaları kontrol eden .Net tabanlı ücretsiz bir uygulamadır.
 
 <p align="center">
@@ -7,14 +7,39 @@ Sertifika Kontrolcüsü, Windows işletim sistemleri için dijital sertifikalar�
 
 ### Sertifika Kontrolcüsü Nedir?
 Sertifika kontrolcüsü .Net 8.0 ortamında geliştirilmiş bir kontrol uygulamasıdır.
-Uygulama ile Windows işletim sistemindeki .cer-.cert uzantılı dijital sertifikaları sadece tek bir tuş ile kontrol edebilir ve sertifika hakkında detaylı bilgileri edinebilirsiniz. Uygulama tamamen ücretsiz ve açık kaynaklıdır. Uygulamanın çalışması için <b>[.Net kütüphanesi](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)</b> bilgisayarınızda yüklü olması gerekmektedir. Uygulama hakkında daha fazla bilgi sahibi olmak için <b>[web sayfasını](https://www.yazilimturkiye.com/dijital-sertifika-kontrol-uygulamasi/)</b> inceleyebilirsiniz.
+Uygulama ile Windows işletim sistemindeki .cer-.cert uzantılı dijital sertifikaları sadece tek bir tuş ile kontrol edebilir ve sertifika hakkında detaylı bilgileri edinebilirsiniz. Uygulama tamamen ücretsiz ve açık kaynaklıdır. Uygulamanın çalışması için <b>[.Net kütüphanesi](https://dotnet.microsoft.com/)</b> bilgisayarınızda yüklü olması gerekmektedir. Uygulama hakkında daha fazla bilgi sahibi olmak için <b>[web sayfasını](https://www.yazilimturkiye.com/dijital-sertifika-kontrol-uygulamasi/)</b> inceleyebilirsiniz.
 
 ### Nasıl Çalışır?
-Uygulamanın çalışması için “Sertifika Seç” düğmesine tıklanır ve sistemden .cer ya da .cert uzantılı sertifika seçilir ve kontrollerin gerçekleşmesi sonucu sertifikanın durumu “Durum” bölümü üzerinde gösterilir. 3 Adet durum mevcuttur ;
+Uygulamanın çalışması için “Sertifika Seç” düğmesine tıklanır ve sistemden .cer ya da .cert uzantılı sertifika seçilir ve kontrollerin gerçekleşmesi sonucu sertifikanın durumu “Durum” bölümü üzerinde gösterilir. 4 Adet durum mevcuttur ;
 
 - Geçerli. ✅
-- Geçersiz, Süresi Bitmiş. ❌
-- Geçersiz, İptal Edilmiş. ❌
+- Süresi Bitmiş. ❌
+- İptal Edilmiş. ❌
+- Henüz Geçerli Değil. ❌
 
 ### İndir
-Bu <b>[adresten](https://mega.nz/file/y0FjWBzR#0gO7-NnHCJ-mH4KqtqegR8TIdSc-_z7vgYP8yExgTcQ)</b> Sertifika Kontrolcüsü v2.0 sürümünü indrebilirsiniz.
+Bu <b>[adresten](https://mega.nz/file/Dwtg3aTb#9oeQFh_YOQadO3SDxDCJA-n8BDZVUoCYg5sS-n4NetE)</b> Sertifika Kontrolcüsü v3.0 sürümünü indrebilirsiniz.
+
+
+
+# 🇬🇧 Certificate Checker v3.0
+Certificate Checker, a free app based on .NET checks digital certificate for windows operating systems
+
+
+<p align="center">
+  <img width="400" height="250" src="https://www.yazilimturkiye.com/wp-content/uploads/2021/08/SertifikaKontrolcusu.jpg">
+</p>
+
+### What is Certificate Checker App?
+Certificate Checker is a control application developed in the .Net 8.0 environment. With the application, you can check the .cer or .cert extension digital certificates in the Windows operating system with just a single click and obtain detailed information about the certificate. The application is completely free and open source. In order for the application to work, <b>[.Net library](https://dotnet.microsoft.com/)</b> must be installed on your computer. For more information about the application, you can review the <b>[web page](https://www.yazilimturkiye.com/dijital-sertifika-kontrol-uygulamasi/)</b>
+
+### How Is It Work?
+In order for the application to work, the "Select Certificate" button is clicked and a certificate with a .cer or .cert extension is selected from the system and the status of the certificate as a result of the checks is shown in the "Status" section. There are 4 statuses;
+
+- Valid. ✅
+- Expired. ❌
+- Revoked. ❌
+- Not Yet Valid. ❌
+
+### Download
+With this <b>[web page](https://mega.nz/file/Dwtg3aTb#9oeQFh_YOQadO3SDxDCJA-n8BDZVUoCYg5sS-n4NetE)</b> You can download Certificate Checker v3.0.
