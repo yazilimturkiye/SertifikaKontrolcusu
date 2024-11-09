@@ -18,7 +18,7 @@ Uygulamanın çalışması için “Sertifika Seç” düğmesine tıklanır ve 
 - Henüz Geçerli Değil. ❌
 
 ### İndir
-Bu <b>[adresten](https://mega.nz/file/b1USTS4C#TC_sYVWytAZ5S9fqCasSnDvWU95xyW3r4wsGIcYL_Dk)</b> Sertifika Kontrolcüsü v3.0 sürümünü indrebilirsiniz.
+Bu <b>[adresten](https://mega.nz/file/b1USTS4C#TC_sYVWytAZ5S9fqCasSnDvWU95xyW3r4wsGIcYL_Dk)</b> Sertifika Kontrolcüsü sürümünü indrebilirsiniz.
 
 
 
@@ -42,4 +42,4 @@ In order for the application to work, the "Select Certificate" button is clicked
 - Not Yet Valid. ❌
 
 ### Download
-With this <b>[web page](https://mega.nz/file/b1USTS4C#TC_sYVWytAZ5S9fqCasSnDvWU95xyW3r4wsGIcYL_Dk)</b> You can download Certificate Checker v3.0.
+With this <b>[web page](https://mega.nz/file/b1USTS4C#TC_sYVWytAZ5S9fqCasSnDvWU95xyW3r4wsGIcYL_Dk)</b> You can download Certificate Checker.
