@@ -10,6 +10,9 @@
     <PackageProjectUrl>www.yazilimturkiye.com</PackageProjectUrl>
     <PackageIcon>certificate.png</PackageIcon>
     <ApplicationIcon>Images\certificate.ico</ApplicationIcon>
+    <SignAssembly>False</SignAssembly>
+    <DelaySign>False</DelaySign>
+	<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
   </PropertyGroup>
 
   <ItemGroup>

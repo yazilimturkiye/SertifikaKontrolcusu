@@ -14,6 +14,12 @@ using System.Security.Cryptography;
 using System.IO;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Windows.Forms.VisualStyles;
+using Windows.Security.Cryptography.Certificates;
+using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.ConstrainedExecution;
+using System.Net;
+using System.Security.Policy;
+using System.Net.Security;
 
 namespace CertificateChecker
 {
@@ -28,7 +34,67 @@ namespace CertificateChecker
         string Dosya_Yolu;//Seçilen dosyanın adının ve yolunu sakladığımız değişkenler.
         string Dosya_Adi;
 
-        public void SertifikaDogrula()//seçtiğimiz sertifikamızı doğrulamamızı sağlayan metot.
+        private string GetBasicConstraints(X509Certificate2 ConstrationsCert)// Basic Constraints bilgisini çeken metot.
+        {
+            foreach (var extension in ConstrationsCert.Extensions)
+            {
+                if (extension is X509BasicConstraintsExtension basicConstraints)
+                {
+                    return $"CA: {basicConstraints.CertificateAuthority}, " +
+                           $"PathLength: {(basicConstraints.HasPathLengthConstraint ? basicConstraints.PathLengthConstraint.ToString() : "None")}";
+                }
+            }
+            return "No constraints found in certificate.";
+        }
+        private string GetKeyUsage(X509Certificate2 ConstrationsCertUsage)// Key Usage bilgisini çeken metot.
+        {
+            string result = "";
+
+            foreach (var extension in ConstrationsCertUsage.Extensions)// Sertifika uzantıları arasında Key Usage varsa bulan metot.
+            {
+                if (extension is X509KeyUsageExtension keyUsage)
+                {
+                    if (keyUsage.KeyUsages.HasFlag(X509KeyUsageFlags.DigitalSignature))
+                        result += "Digital Signature, ";
+                    if (keyUsage.KeyUsages.HasFlag(X509KeyUsageFlags.NonRepudiation))
+                        result += "Non Repudiation, ";
+                    if (keyUsage.KeyUsages.HasFlag(X509KeyUsageFlags.KeyEncipherment))
+                        result += "Key Encipherment, ";
+                    if (keyUsage.KeyUsages.HasFlag(X509KeyUsageFlags.DataEncipherment))
+                        result += "Data Encipherment, ";
+                    if (keyUsage.KeyUsages.HasFlag(X509KeyUsageFlags.KeyAgreement))
+                        result += "Key Agreement, ";
+                    if (keyUsage.KeyUsages.HasFlag(X509KeyUsageFlags.KeyCertSign))
+                        result += "Certificate Signing, ";
+                    if (keyUsage.KeyUsages.HasFlag(X509KeyUsageFlags.CrlSign))
+                        result += "CRL Signing, ";
+                    if (keyUsage.KeyUsages.HasFlag(X509KeyUsageFlags.EncipherOnly))
+                        result += "Encipher Only, ";
+                    if (keyUsage.KeyUsages.HasFlag(X509KeyUsageFlags.DecipherOnly))
+                        result += "Decipher Only, ";
+
+                    if (result.EndsWith(", "))// Fazladan virgülü kaldır
+                        result = result.Substring(0, result.Length - 2);
+                    return result;
+                }
+            }
+            return "No Key Usage found in certificate.";
+        }
+        private string GetKeySize(X509Certificate2 cert) // Sertifikanın anahtar tipi ve boyunutu alan metot.
+        {
+            var rsaKey = cert.GetRSAPublicKey(); // RSA anahtar boyutunu almak
+            if (rsaKey != null)
+            {
+                return $"RSA{rsaKey.KeySize}";
+            }
+            var ecKey = cert.GetECDsaPublicKey(); // EC (ECC) anahtar boyutunu almak
+            if (ecKey != null)
+            {
+                return $"ECC{ecKey.KeySize}";
+            }
+            return "Not Found"; // Desteklenmeyen anahtar türleri veya anahtar bulunamaması durumunda
+        }
+        public void SertifikaDogrula()// Seçtiğimiz sertifikamızı doğrulamamızı sağlayan metot.
         {
             try
             {
@@ -39,6 +105,9 @@ namespace CertificateChecker
                 Textbox_Bitis.Text = sertifika.NotAfter.ToString(); // Bitiş Tarihi.
                 Textbox_Serino.Text = sertifika.SerialNumber.ToString(); // Sertifika Seri no.
                 Textbox_Algoritma.Text = sertifika.SignatureAlgorithm.FriendlyName.ToString(); // sertifikanın algoritması.
+                Textbox_Constraints.Text = GetBasicConstraints(sertifika); // Sertifika Temel Kısıtları.
+                Textbox_Usage.Text = GetKeyUsage(sertifika); // Anahtar Kullanım amaçları.
+                TextBox_Publickey.Text = GetKeySize(sertifika); // Anahtar tipi ve boyutu.
 
                 X509Chain chain = new X509Chain(); // Sertifika zincirini oluştur
                 chain.ChainPolicy.RevocationMode = X509RevocationMode.Online; // Sertifika iptal durumu kontrolü (revocation check)
@@ -47,12 +116,12 @@ namespace CertificateChecker
                 bool isChainValid = chain.Build(sertifika);
                 if (isChainValid) // Sertifika Geçerli
                 {
-                    Textbox_Durum.Text = "Valid";
+                    Textbox_Durum.Text = "Certificate is Valid.";
                     PictureBox_Durum.Image = Properties.Resources.ok;
                 }
                 else // Zincir geçersiz, sebebi açıklanıyor.
                 {
-                    Textbox_Durum.Text = "Invalid";
+                    Textbox_Durum.Text = "Certificate is Invalid!";
                     PictureBox_Durum.Image = Properties.Resources.error;
 
                     foreach (X509ChainStatus status in chain.ChainStatus)
@@ -66,24 +135,24 @@ namespace CertificateChecker
                             {
                                 timer1.Stop();
                                 PictureBox_Durum.Image = Properties.Resources.error;
-                                Textbox_Durum.Text = "Not Yet Valid";
+                                Textbox_Durum.Text = "Certificate is Not Yet Valid!";
                             }
                             else if (bitis_zamani < simdiki_zaman) //zaman geride ise.
                             {
                                 timer1.Stop();
                                 PictureBox_Durum.Image = Properties.Resources.error;
-                                Textbox_Durum.Text = "Expired";
+                                Textbox_Durum.Text = "Certificate is Expired!";
                             }
                             break;
                         }
                         else if (status.Status == X509ChainStatusFlags.Revoked) //sertifika iptal ise.
                         {
-                            Textbox_Durum.Text = "Revoked";
+                            Textbox_Durum.Text = "Certificate is Revoked!";
                             break;
                         }
                         else if (status.Status == X509ChainStatusFlags.UntrustedRoot) //kök güvenilmez ise.
                         {
-                            Textbox_Durum.Text = "Untrusted Root";
+                            Textbox_Durum.Text = "Untrusted Root!";
                             break;
                         }
                         else
@@ -97,159 +166,6 @@ namespace CertificateChecker
             {
                 timer1.Stop();
                 MessageBox.Show("Please select a valid certificate file. Valid file extensions:\n.cer, .cert, .exe.", "Invalid File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-        public void KayitliAyarlar()
-        {
-            if(Properties.Settings.Default.Theme == "Argent")
-            {
-                Argent_AydinlikModu(this);
-                radioButton_lightmode.Checked = true;
-                radioButton_darkmode.Checked = false;
-                radioButton_stunner.Checked = false;
-            }
-            else if (Properties.Settings.Default.Theme == "Hunter")
-            {
-                Hunter_KaranlikModu(this);
-                radioButton_darkmode.Checked = true;
-                radioButton_stunner.Checked = false;
-                radioButton_lightmode.Checked= false;
-            }
-            else if (Properties.Settings.Default.Theme == "Stunner")
-            {
-                Stunner_SariModu(this);
-                radioButton_stunner.Checked = true;
-                radioButton_darkmode.Checked = false;
-                radioButton_lightmode.Checked = false;
-            }
-        }
-        private void Hunter_KaranlikModu(Control parent)//Hunter adındaki karanlık mod açan metot.
-        {
-            parent.BackColor = Color.FromArgb(34, 40, 49);
-            parent.ForeColor = Color.White;
-
-            foreach (Control control in parent.Controls)
-            {
-                if (control is System.Windows.Forms.TextBox || control is System.Windows.Forms.ComboBox)
-                {
-                    control.BackColor = Color.FromArgb(49, 54, 63);
-                    control.ForeColor = Color.White;
-                }
-                else if (control is System.Windows.Forms.Button)
-                {
-                    control.BackColor = Color.FromArgb(49, 54, 63);
-                    control.ForeColor = Color.White;
-                    Buton_Ayarlar.FlatAppearance.BorderColor = Color.DimGray;
-                    Buton_Goruntule.FlatAppearance.BorderColor = Color.DimGray;
-                    Buton_Dosya_Sec.FlatAppearance.BorderColor = Color.DimGray;
-                }
-                else
-                {
-                    control.BackColor = Color.FromArgb(34, 40, 49);
-                    control.ForeColor = Color.White;
-                    PictureBox_Durum.BackColor = Color.FromArgb(49, 54, 64);
-                    Label_Baslik.ForeColor = Color.Goldenrod;
-                    Label_Baslik.BackColor = Color.FromArgb(40, 44, 51);
-                    Label_AltBaslik.BackColor = Color.FromArgb(40, 44, 51);
-                    label1.BackColor = Color.FromArgb(40, 44, 51);
-                }
-                if (control is System.Windows.Forms.TextBox textBox)
-                {
-                    textBox.BorderStyle = BorderStyle.FixedSingle;
-                }
-                if (control.HasChildren)
-                {
-                    Hunter_KaranlikModu(control);
-                }
-                Properties.Settings.Default.Theme = "Hunter";
-                Properties.Settings.Default.Save();
-            }
-        }
-        private void Argent_AydinlikModu(Control parent)//Argent adındaki Aydinlik mod açan metot.
-        {
-            parent.BackColor = SystemColors.Control;
-            parent.ForeColor = Color.FromArgb(64, 64, 64);
-
-            foreach (Control control in parent.Controls)
-            {
-                if (control is System.Windows.Forms.TextBox || control is System.Windows.Forms.ComboBox)
-                {
-                    control.BackColor = SystemColors.Control;
-                    control.ForeColor = SystemColors.WindowText;
-                }
-                else if (control is System.Windows.Forms.Button)
-                {
-                    control.BackColor = SystemColors.ControlLight;
-                    control.ForeColor = SystemColors.ControlText;
-                    Buton_Ayarlar.FlatAppearance.BorderColor = Color.Silver;
-                    Buton_Goruntule.FlatAppearance.BorderColor = Color.Silver;
-                    Buton_Dosya_Sec.FlatAppearance.BorderColor = Color.Silver;
-                    Buton_Ayarlar.BackColor = SystemColors.Control;
-                    Buton_Goruntule.BackColor = SystemColors.Control;
-                }
-                else
-                {
-                    control.BackColor = SystemColors.Control;
-                    control.ForeColor = Color.FromArgb(64, 64, 64);
-                    PictureBox_Durum.BackColor = SystemColors.Control;
-                    Label_Baslik.ForeColor = Color.Goldenrod;
-                    Label_Baslik.BackColor = SystemColors.ControlLight;
-                    Label_AltBaslik.ForeColor = Color.FromArgb(64, 64, 64);
-                    Label_AltBaslik.BackColor = SystemColors.ControlLight;
-                    label1.BackColor = SystemColors.ControlLight;
-                }
-                if (control is System.Windows.Forms.TextBox textBox)
-                {
-                    textBox.BorderStyle = BorderStyle.Fixed3D;
-                }
-                if (control.HasChildren)
-                {
-                    Argent_AydinlikModu(control);
-                }
-                Properties.Settings.Default.Theme = "Argent";
-                Properties.Settings.Default.Save();
-            }
-        }
-        private void Stunner_SariModu(Control parent)//Stunner adındaki Sari mod açan metot.
-        {
-            parent.BackColor = Color.FromArgb(248, 240, 229);
-            parent.ForeColor = Color.FromArgb(63, 35, 5);
-
-            foreach (Control control in parent.Controls)
-            {
-                if (control is System.Windows.Forms.TextBox || control is System.Windows.Forms.ComboBox)
-                {
-                    control.BackColor = Color.FromArgb(248, 240, 229);
-                    control.ForeColor = Color.FromArgb(63, 35, 5);
-                }
-                else if (control is System.Windows.Forms.Button)
-                {
-                    control.BackColor = Color.FromArgb(234, 219, 200);
-                    control.ForeColor = Color.FromArgb(63, 35, 5);
-                    Buton_Ayarlar.FlatAppearance.BorderColor = Color.Tan;
-                    Buton_Goruntule.FlatAppearance.BorderColor = Color.Tan;
-                    Buton_Dosya_Sec.FlatAppearance.BorderColor = Color.Tan;
-                }
-                else
-                {
-                    control.BackColor = Color.FromArgb(248, 240, 229);
-                    control.ForeColor = Color.FromArgb(63, 35, 5);
-                    PictureBox_Durum.BackColor = Color.FromArgb(248, 240, 229);
-                    Label_Baslik.ForeColor = Color.Goldenrod;
-                    Label_Baslik.BackColor = Color.FromArgb(234, 219, 200);
-                    Label_AltBaslik.BackColor = Color.FromArgb(234, 219, 200);
-                    label1.BackColor = Color.FromArgb(234, 219, 200);
-                }
-                if (control is System.Windows.Forms.TextBox textBox)
-                {
-                    textBox.BorderStyle = BorderStyle.Fixed3D;
-                }
-                if (control.HasChildren)
-                {
-                    Stunner_SariModu(control);
-                }
-                Properties.Settings.Default.Theme = "Stunner";
-                Properties.Settings.Default.Save();
             }
         }
 
@@ -274,6 +190,9 @@ namespace CertificateChecker
                 Textbox_Algoritma.Clear();
                 PictureBox_Durum.Image = null;
                 Textbox_Durum.Clear();
+                Textbox_Constraints.Clear();
+                TextBox_Publickey.Clear();
+                Textbox_Usage.Clear();
                 progressBar1.Value = 0;
             }
         }
@@ -282,17 +201,18 @@ namespace CertificateChecker
         {
             if (progressBar1.Value == progressBar1.Maximum)
             {
-
                 SertifikaDogrula();//sertifika doğrulama metotu burada çağırılıyor.
                 timer1.Stop();
                 progressBar1.Value = 100;
-                Buton_Dosya_Sec.Text = "Select Certificate";
+                Buton_Dosya_Sec.Text = "Select Certificate File";
                 Buton_Dosya_Sec.Enabled = true;
                 Buton_Goruntule.Enabled = true;
+                button_CPS.Enabled = true;
                 return;
             }
             Buton_Dosya_Sec.Enabled = false;
-
+            button_CPS.Enabled = false;
+            Buton_Goruntule.Enabled = false;
             Buton_Dosya_Sec.Text = "Certificate Verifying...";
             progressBar1.Value += 1;
         }
@@ -320,36 +240,70 @@ namespace CertificateChecker
         private void Form1_Load(object sender, EventArgs e)//form başlangıç.
         {
             Buton_Goruntule.Enabled = false;
+            button_CPS.Enabled = false;
             panel_Ayarlar.Visible = false;
-            KayitliAyarlar();
         }
 
-        private void radioButton_darkmode_CheckedChanged(object sender, EventArgs e)//HUnter Karanlık Modu Radiobuttonu
+        private void Buton_Ayarlar_Click(object sender, EventArgs e)//Ayarlar butonu, diğer panelleri kapatacak ve ayarlar panelini açacak.
         {
-            Hunter_KaranlikModu(this);
+            panel_Ayarlar.Visible = true;
+            Panel_SertifikaKontrol.Visible = false;
+
         }
 
-        private void radioButton_lightmode_CheckedChanged(object sender, EventArgs e)
+        private void button_CPS_Click(object sender, EventArgs e)//Eğer sertifika bir "Issuer Statement" değerine sahip ise bunu tarayıcıda açan kod bloğu.
         {
-            Argent_AydinlikModu(this);
-        }
-
-        private void radioButton_stunner_CheckedChanged(object sender, EventArgs e)
-        {
-            Stunner_SariModu(this);
-        }
-        private void Buton_Ayarlar_Click(object sender, EventArgs e)//Ayarlar butonu.
-        {
-            if (Panel_SertifikaKontrol.Visible == true)
+            try
             {
-                panel_Ayarlar.Visible = true;
-                Panel_SertifikaKontrol.Visible = false;
+                X509Certificate2 cert = new X509Certificate2(Dosya_Yolu);
+
+                string certificatePolicyUrl = GetCertificatePolicyUrl(cert);
+                if (!string.IsNullOrEmpty(certificatePolicyUrl))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = certificatePolicyUrl,
+                        UseShellExecute = true
+                    });
+                }
+                else
+                {
+                    MessageBox.Show("No valid URL found in Certificate Policies field.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
-            else if (panel_Ayarlar.Visible == true)
+            catch (Exception ex)
             {
-                panel_Ayarlar.Visible = false;
-                Panel_SertifikaKontrol.Visible = true;
+                MessageBox.Show("An error occurred: ", "Error" + ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private string GetCertificatePolicyUrl(X509Certificate2 cert)
+        {
+            foreach (var extension in cert.Extensions)
+            {
+                if (extension.Oid.Value == "2.5.29.32") // OID for Certificate Policies
+                {
+                    var asnData = new AsnEncodedData(extension.Oid, extension.RawData);
+                    string policies = asnData.Format(true);
+
+                    var urlStartIndex = policies.IndexOf("http");// URL arama işlemi
+                    if (urlStartIndex >= 0)
+                    {
+                        var urlEndIndex = policies.IndexOfAny(new char[] { ' ', '\n', '\r' }, urlStartIndex);
+                        if (urlEndIndex > urlStartIndex)
+                        {
+                            return policies.Substring(urlStartIndex, urlEndIndex - urlStartIndex);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        private void button_Sertifikakontrol_Click(object sender, EventArgs e) //Dosya ile Sertifika Kontrol butonu, diğer panelleri kapatacak ve ayarlar panelini açacak.
+        {
+            Panel_SertifikaKontrol.Visible = true;
+            panel_Ayarlar.Visible = false;
         }
     }
 }
