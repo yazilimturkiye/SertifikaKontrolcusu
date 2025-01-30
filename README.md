@@ -22,7 +22,7 @@ Bu <b>[adresten](https://mega.nz/file/b1USTS4C#TC_sYVWytAZ5S9fqCasSnDvWU95xyW3r4
 
 
 
-# 🇬🇧 Certificate Checker v4.0
+# 🌍 Certificate Checker v4.0
 Certificate Checker, a free app based on .NET checks digital certificate for windows operating systems
 
 
