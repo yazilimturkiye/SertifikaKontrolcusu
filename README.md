@@ -1,4 +1,4 @@
-# 🇹🇷 Sertifika Kontrolcüsü v4.0
+# 🇹🇷 Sertifika Kontrolcüsü v5.0
 Sertifika Kontrolcüsü, Windows işletim sistemleri için dijital sertifikaları kontrol eden .Net tabanlı ücretsiz bir uygulamadır.
 
 <p align="center">
@@ -18,11 +18,11 @@ Uygulamanın çalışması için “Sertifika Seç” düğmesine tıklanır ve 
 - Henüz Geçerli Değil. ❌
 
 ### İndir
-Bu <b>[adresten](https://mega.nz/file/b1USTS4C#TC_sYVWytAZ5S9fqCasSnDvWU95xyW3r4wsGIcYL_Dk)</b> Sertifika Kontrolcüsü sürümünü indrebilirsiniz.
+Bu <b>[adresten](https://mega.nz/file/fpECCBZB#UslFMEpti1XLLwikeO9nQyvu3WrxQpEaDCee8fUgI3o)</b> Sertifika Kontrolcüsü sürümünü indrebilirsiniz.
 
 
 
-# 🌍 Certificate Checker v4.0
+# 🌍 Certificate Checker v5.0
 Certificate Checker, a free app based on .NET checks digital certificate for windows operating systems
 
 
@@ -42,4 +42,4 @@ In order for the application to work, the "Select Certificate" button is clicked
 - Not Yet Valid. ❌
 
 ### Download
-With this <b>[web page](https://mega.nz/file/b1USTS4C#TC_sYVWytAZ5S9fqCasSnDvWU95xyW3r4wsGIcYL_Dk)</b> You can download Certificate Checker.
+With this <b>[web page](https://mega.nz/file/fpECCBZB#UslFMEpti1XLLwikeO9nQyvu3WrxQpEaDCee8fUgI3o)</b> You can download Certificate Checker.
