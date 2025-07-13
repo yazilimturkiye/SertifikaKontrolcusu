@@ -1,28 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ylmzmrtcyr\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CertificateChecker.csproj": {}
+    "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CertificateChecker.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ylmzmrtcyr\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CertificateChecker.csproj": {
+    "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CertificateChecker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ylmzmrtcyr\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CertificateChecker.csproj",
+        "projectUniqueName": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CertificateChecker.csproj",
         "projectName": "CertificateChecker",
-        "projectPath": "C:\\Users\\ylmzmrtcyr\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CertificateChecker.csproj",
-        "packagesPath": "C:\\Users\\ylmzmrtcyr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ylmzmrtcyr\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\obj\\",
+        "projectPath": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CertificateChecker.csproj",
+        "packagesPath": "C:\\Users\\HOME-PC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ylmzmrtcyr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\HOME-PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net8.0-windows10.0.22000.0"
+          "net9.0-windows10.0.22000.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -30,8 +30,8 @@
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0-windows10.0.22000": {
-            "targetAlias": "net8.0-windows10.0.22000.0",
+          "net9.0-windows10.0.22000": {
+            "targetAlias": "net9.0-windows10.0.22000.0",
             "projectReferences": {}
           }
         },
@@ -43,13 +43,19 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "all"
+          "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
-        "net8.0-windows10.0.22000": {
-          "targetAlias": "net8.0-windows10.0.22000.0",
+        "net9.0-windows10.0.22000": {
+          "targetAlias": "net9.0-windows10.0.22000.0",
+          "dependencies": {
+            "BouncyCastle.NetCore": {
+              "target": "Package",
+              "version": "[2.2.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -64,7 +70,7 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.Windows.SDK.NET.Ref",
-              "version": "[10.0.22000.45, 10.0.22000.45]"
+              "version": "[10.0.22000.57, 10.0.22000.57]"
             }
           ],
           "frameworkReferences": {
@@ -78,7 +84,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100-rc.2.24474.11/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
