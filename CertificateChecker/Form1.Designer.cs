@@ -77,13 +77,19 @@ namespace CertificateChecker
             linkLabel1 = new System.Windows.Forms.LinkLabel();
             Buton_Ayarlar = new System.Windows.Forms.Button();
             Label_AltBaslik = new System.Windows.Forms.Label();
-            label1 = new System.Windows.Forms.Label();
             Panel_SertifikaKontrol = new System.Windows.Forms.Panel();
             Panel_CertificateControl2 = new System.Windows.Forms.Panel();
-            groupBox2 = new System.Windows.Forms.GroupBox();
+            tabControl1 = new System.Windows.Forms.TabControl();
+            tabPage1 = new System.Windows.Forms.TabPage();
             Label_TotalChain = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             TreeView_Chain = new System.Windows.Forms.TreeView();
+            tabPage2 = new System.Windows.Forms.TabPage();
+            listView_DetailLog = new System.Windows.Forms.ListView();
+            columnComponent = new System.Windows.Forms.ColumnHeader("(none)");
+            columnStatus = new System.Windows.Forms.ColumnHeader();
+            columnDescription = new System.Windows.Forms.ColumnHeader();
+            columnSource = new System.Windows.Forms.ColumnHeader();
             textBox_converter = new System.Windows.Forms.TextBox();
             Panel_VerifyMethod = new System.Windows.Forms.Panel();
             groupBox7 = new System.Windows.Forms.GroupBox();
@@ -102,22 +108,28 @@ namespace CertificateChecker
             Label_WebAdress = new System.Windows.Forms.Label();
             panel1 = new System.Windows.Forms.Panel();
             groupBox3 = new System.Windows.Forms.GroupBox();
+            pictureBox_OCSP = new System.Windows.Forms.PictureBox();
+            pictureBox_AIA = new System.Windows.Forms.PictureBox();
+            pictureBox_CDP = new System.Windows.Forms.PictureBox();
             TextBox_SAN = new System.Windows.Forms.TextBox();
-            label3 = new System.Windows.Forms.Label();
+            label_SAN = new System.Windows.Forms.Label();
             TextBox_EKU = new System.Windows.Forms.TextBox();
             TextBox_AIA = new System.Windows.Forms.TextBox();
             TextBox_OCSP = new System.Windows.Forms.TextBox();
-            label4 = new System.Windows.Forms.Label();
-            label10 = new System.Windows.Forms.Label();
+            label_OCSP = new System.Windows.Forms.Label();
+            label_EKU = new System.Windows.Forms.Label();
             TextBox_CRL = new System.Windows.Forms.TextBox();
-            label17 = new System.Windows.Forms.Label();
-            label18 = new System.Windows.Forms.Label();
+            label_CDP = new System.Windows.Forms.Label();
+            label_AIA = new System.Windows.Forms.Label();
+            toolTip1 = new System.Windows.Forms.ToolTip(components);
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBox_Durum).BeginInit();
             GroupBox_FileSelect.SuspendLayout();
             Panel_SertifikaKontrol.SuspendLayout();
             Panel_CertificateControl2.SuspendLayout();
-            groupBox2.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
             Panel_VerifyMethod.SuspendLayout();
             groupBox7.SuspendLayout();
             Panel_SelectCertificate.SuspendLayout();
@@ -125,6 +137,9 @@ namespace CertificateChecker
             GroupBox_ScanWebAddress.SuspendLayout();
             panel1.SuspendLayout();
             groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_OCSP).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_AIA).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_CDP).BeginInit();
             SuspendLayout();
             // 
             // openFileDialog1
@@ -219,6 +234,7 @@ namespace CertificateChecker
             Label_Ski.Size = new System.Drawing.Size(32, 21);
             Label_Ski.TabIndex = 34;
             Label_Ski.Text = "SKI";
+            toolTip1.SetToolTip(Label_Ski, "Subject Key Identifier");
             // 
             // TextBox_aki
             // 
@@ -240,6 +256,7 @@ namespace CertificateChecker
             Label_Aki.Size = new System.Drawing.Size(37, 21);
             Label_Aki.TabIndex = 32;
             Label_Aki.Text = "AKI";
+            toolTip1.SetToolTip(Label_Aki, "Authority Key Identifier");
             // 
             // TextBox_Publickey
             // 
@@ -307,7 +324,7 @@ namespace CertificateChecker
             // PictureBox_Durum
             // 
             PictureBox_Durum.BackColor = System.Drawing.Color.Transparent;
-            PictureBox_Durum.Location = new System.Drawing.Point(67, 397);
+            PictureBox_Durum.Location = new System.Drawing.Point(89, 397);
             PictureBox_Durum.Name = "PictureBox_Durum";
             PictureBox_Durum.Size = new System.Drawing.Size(23, 23);
             PictureBox_Durum.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -630,7 +647,7 @@ namespace CertificateChecker
             // Label_Baslik
             // 
             Label_Baslik.AutoSize = true;
-            Label_Baslik.BackColor = System.Drawing.SystemColors.ControlLight;
+            Label_Baslik.BackColor = System.Drawing.SystemColors.Control;
             Label_Baslik.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 162);
             Label_Baslik.ForeColor = System.Drawing.Color.FromArgb(231, 174, 78);
             Label_Baslik.Location = new System.Drawing.Point(9, 3);
@@ -675,21 +692,13 @@ namespace CertificateChecker
             // Label_AltBaslik
             // 
             Label_AltBaslik.AutoSize = true;
-            Label_AltBaslik.BackColor = System.Drawing.SystemColors.ControlLight;
+            Label_AltBaslik.BackColor = System.Drawing.SystemColors.Control;
             Label_AltBaslik.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 162);
             Label_AltBaslik.Location = new System.Drawing.Point(12, 34);
             Label_AltBaslik.Name = "Label_AltBaslik";
-            Label_AltBaslik.Size = new System.Drawing.Size(292, 20);
+            Label_AltBaslik.Size = new System.Drawing.Size(382, 20);
             Label_AltBaslik.TabIndex = 29;
-            Label_AltBaslik.Text = "Digital Certificate Checker Application";
-            // 
-            // label1
-            // 
-            label1.BackColor = System.Drawing.SystemColors.ControlLight;
-            label1.Location = new System.Drawing.Point(0, -1);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(1262, 61);
-            label1.TabIndex = 37;
+            Label_AltBaslik.Text = "Professional Digital Certificate Checker Application";
             // 
             // Panel_SertifikaKontrol
             // 
@@ -701,22 +710,35 @@ namespace CertificateChecker
             // 
             // Panel_CertificateControl2
             // 
-            Panel_CertificateControl2.Controls.Add(groupBox2);
+            Panel_CertificateControl2.Controls.Add(tabControl1);
             Panel_CertificateControl2.Location = new System.Drawing.Point(627, 61);
             Panel_CertificateControl2.Name = "Panel_CertificateControl2";
             Panel_CertificateControl2.Size = new System.Drawing.Size(628, 284);
             Panel_CertificateControl2.TabIndex = 40;
             // 
-            // groupBox2
+            // tabControl1
             // 
-            groupBox2.Controls.Add(Label_TotalChain);
-            groupBox2.Controls.Add(label2);
-            groupBox2.Controls.Add(TreeView_Chain);
-            groupBox2.Location = new System.Drawing.Point(10, 2);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new System.Drawing.Size(608, 275);
-            groupBox2.TabIndex = 0;
-            groupBox2.TabStop = false;
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            tabControl1.Location = new System.Drawing.Point(7, 3);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new System.Drawing.Size(610, 274);
+            tabControl1.TabIndex = 48;
+            // 
+            // tabPage1
+            // 
+            tabPage1.Controls.Add(Label_TotalChain);
+            tabPage1.Controls.Add(label2);
+            tabPage1.Controls.Add(TreeView_Chain);
+            tabPage1.Location = new System.Drawing.Point(4, 29);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            tabPage1.Size = new System.Drawing.Size(602, 241);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Certificate Chain";
+            tabPage1.UseVisualStyleBackColor = true;
             // 
             // Label_TotalChain
             // 
@@ -724,7 +746,7 @@ namespace CertificateChecker
             Label_TotalChain.BackColor = System.Drawing.Color.White;
             Label_TotalChain.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             Label_TotalChain.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            Label_TotalChain.Location = new System.Drawing.Point(58, 249);
+            Label_TotalChain.Location = new System.Drawing.Point(53, 218);
             Label_TotalChain.Name = "Label_TotalChain";
             Label_TotalChain.Size = new System.Drawing.Size(12, 17);
             Label_TotalChain.TabIndex = 47;
@@ -736,7 +758,7 @@ namespace CertificateChecker
             label2.BackColor = System.Drawing.Color.White;
             label2.Font = new System.Drawing.Font("Century Gothic", 9.75F);
             label2.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            label2.Location = new System.Drawing.Point(11, 249);
+            label2.Location = new System.Drawing.Point(6, 218);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(47, 17);
             label2.TabIndex = 46;
@@ -747,11 +769,57 @@ namespace CertificateChecker
             TreeView_Chain.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             TreeView_Chain.ImageIndex = 0;
             TreeView_Chain.ImageList = ımageList1;
-            TreeView_Chain.Location = new System.Drawing.Point(8, 14);
+            TreeView_Chain.Location = new System.Drawing.Point(3, 3);
             TreeView_Chain.Name = "TreeView_Chain";
             TreeView_Chain.SelectedImageIndex = 0;
-            TreeView_Chain.Size = new System.Drawing.Size(590, 255);
+            TreeView_Chain.Size = new System.Drawing.Size(596, 235);
             TreeView_Chain.TabIndex = 28;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(listView_DetailLog);
+            tabPage2.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            tabPage2.Location = new System.Drawing.Point(4, 29);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            tabPage2.Size = new System.Drawing.Size(602, 241);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Verification Detail";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // listView_DetailLog
+            // 
+            listView_DetailLog.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            listView_DetailLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnComponent, columnStatus, columnDescription, columnSource });
+            listView_DetailLog.FullRowSelect = true;
+            listView_DetailLog.GridLines = true;
+            listView_DetailLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            listView_DetailLog.Location = new System.Drawing.Point(3, 3);
+            listView_DetailLog.Name = "listView_DetailLog";
+            listView_DetailLog.Size = new System.Drawing.Size(596, 235);
+            listView_DetailLog.TabIndex = 0;
+            listView_DetailLog.UseCompatibleStateImageBehavior = false;
+            listView_DetailLog.View = System.Windows.Forms.View.Details;
+            // 
+            // columnComponent
+            // 
+            columnComponent.Text = "Component";
+            columnComponent.Width = 110;
+            // 
+            // columnStatus
+            // 
+            columnStatus.Text = "Status";
+            columnStatus.Width = 100;
+            // 
+            // columnDescription
+            // 
+            columnDescription.Text = "Description";
+            columnDescription.Width = 270;
+            // 
+            // columnSource
+            // 
+            columnSource.Text = "Source";
+            columnSource.Width = 500;
             // 
             // textBox_converter
             // 
@@ -952,23 +1020,56 @@ namespace CertificateChecker
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(pictureBox_OCSP);
+            groupBox3.Controls.Add(pictureBox_AIA);
+            groupBox3.Controls.Add(pictureBox_CDP);
             groupBox3.Controls.Add(TextBox_SAN);
-            groupBox3.Controls.Add(label3);
+            groupBox3.Controls.Add(label_SAN);
             groupBox3.Controls.Add(TextBox_EKU);
             groupBox3.Controls.Add(TextBox_AIA);
             groupBox3.Controls.Add(TextBox_OCSP);
             groupBox3.Controls.Add(linkLabel1);
-            groupBox3.Controls.Add(label4);
-            groupBox3.Controls.Add(label10);
+            groupBox3.Controls.Add(label_OCSP);
+            groupBox3.Controls.Add(label_EKU);
             groupBox3.Controls.Add(TextBox_CRL);
-            groupBox3.Controls.Add(label17);
-            groupBox3.Controls.Add(label18);
+            groupBox3.Controls.Add(label_CDP);
+            groupBox3.Controls.Add(label_AIA);
             groupBox3.Font = new System.Drawing.Font("Arial", 9.75F);
             groupBox3.Location = new System.Drawing.Point(12, 2);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new System.Drawing.Size(605, 463);
             groupBox3.TabIndex = 29;
             groupBox3.TabStop = false;
+            // 
+            // pictureBox_OCSP
+            // 
+            pictureBox_OCSP.BackColor = System.Drawing.Color.Transparent;
+            pictureBox_OCSP.Location = new System.Drawing.Point(89, 169);
+            pictureBox_OCSP.Name = "pictureBox_OCSP";
+            pictureBox_OCSP.Size = new System.Drawing.Size(23, 23);
+            pictureBox_OCSP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            pictureBox_OCSP.TabIndex = 39;
+            pictureBox_OCSP.TabStop = false;
+            // 
+            // pictureBox_AIA
+            // 
+            pictureBox_AIA.BackColor = System.Drawing.Color.Transparent;
+            pictureBox_AIA.Location = new System.Drawing.Point(89, 93);
+            pictureBox_AIA.Name = "pictureBox_AIA";
+            pictureBox_AIA.Size = new System.Drawing.Size(23, 23);
+            pictureBox_AIA.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            pictureBox_AIA.TabIndex = 38;
+            pictureBox_AIA.TabStop = false;
+            // 
+            // pictureBox_CDP
+            // 
+            pictureBox_CDP.BackColor = System.Drawing.Color.Transparent;
+            pictureBox_CDP.Location = new System.Drawing.Point(89, 17);
+            pictureBox_CDP.Name = "pictureBox_CDP";
+            pictureBox_CDP.Size = new System.Drawing.Size(23, 23);
+            pictureBox_CDP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            pictureBox_CDP.TabIndex = 37;
+            pictureBox_CDP.TabStop = false;
             // 
             // TextBox_SAN
             // 
@@ -982,16 +1083,17 @@ namespace CertificateChecker
             TextBox_SAN.Size = new System.Drawing.Size(476, 113);
             TextBox_SAN.TabIndex = 34;
             // 
-            // label3
+            // label_SAN
             // 
-            label3.AutoSize = true;
-            label3.Font = new System.Drawing.Font("Century Gothic", 12F);
-            label3.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            label3.Location = new System.Drawing.Point(10, 314);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(43, 21);
-            label3.TabIndex = 36;
-            label3.Text = "SAN";
+            label_SAN.AutoSize = true;
+            label_SAN.Font = new System.Drawing.Font("Century Gothic", 12F);
+            label_SAN.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            label_SAN.Location = new System.Drawing.Point(10, 314);
+            label_SAN.Name = "label_SAN";
+            label_SAN.Size = new System.Drawing.Size(43, 21);
+            label_SAN.TabIndex = 36;
+            label_SAN.Text = "SAN";
+            toolTip1.SetToolTip(label_SAN, "Subject Alternative Name");
             // 
             // TextBox_EKU
             // 
@@ -1026,27 +1128,29 @@ namespace CertificateChecker
             TextBox_OCSP.Size = new System.Drawing.Size(476, 70);
             TextBox_OCSP.TabIndex = 31;
             // 
-            // label4
+            // label_OCSP
             // 
-            label4.AutoSize = true;
-            label4.Font = new System.Drawing.Font("Century Gothic", 12F);
-            label4.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            label4.Location = new System.Drawing.Point(10, 169);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(54, 21);
-            label4.TabIndex = 32;
-            label4.Text = "OCSP";
+            label_OCSP.AutoSize = true;
+            label_OCSP.Font = new System.Drawing.Font("Century Gothic", 12F);
+            label_OCSP.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            label_OCSP.Location = new System.Drawing.Point(10, 169);
+            label_OCSP.Name = "label_OCSP";
+            label_OCSP.Size = new System.Drawing.Size(54, 21);
+            label_OCSP.TabIndex = 32;
+            label_OCSP.Text = "OCSP";
+            toolTip1.SetToolTip(label_OCSP, "Online Certificate Status Protocol");
             // 
-            // label10
+            // label_EKU
             // 
-            label10.AutoSize = true;
-            label10.Font = new System.Drawing.Font("Century Gothic", 12F);
-            label10.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            label10.Location = new System.Drawing.Point(10, 238);
-            label10.Name = "label10";
-            label10.Size = new System.Drawing.Size(39, 21);
-            label10.TabIndex = 29;
-            label10.Text = "EKU";
+            label_EKU.AutoSize = true;
+            label_EKU.Font = new System.Drawing.Font("Century Gothic", 12F);
+            label_EKU.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            label_EKU.Location = new System.Drawing.Point(10, 238);
+            label_EKU.Name = "label_EKU";
+            label_EKU.Size = new System.Drawing.Size(39, 21);
+            label_EKU.TabIndex = 29;
+            label_EKU.Text = "EKU";
+            toolTip1.SetToolTip(label_EKU, "Extended Key Usage");
             // 
             // TextBox_CRL
             // 
@@ -1059,27 +1163,29 @@ namespace CertificateChecker
             TextBox_CRL.Size = new System.Drawing.Size(476, 70);
             TextBox_CRL.TabIndex = 29;
             // 
-            // label17
+            // label_CDP
             // 
-            label17.AutoSize = true;
-            label17.Font = new System.Drawing.Font("Century Gothic", 12F);
-            label17.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            label17.Location = new System.Drawing.Point(9, 17);
-            label17.Name = "label17";
-            label17.Size = new System.Drawing.Size(40, 21);
-            label17.TabIndex = 9;
-            label17.Text = "CRL";
+            label_CDP.AutoSize = true;
+            label_CDP.Font = new System.Drawing.Font("Century Gothic", 12F);
+            label_CDP.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            label_CDP.Location = new System.Drawing.Point(9, 17);
+            label_CDP.Name = "label_CDP";
+            label_CDP.Size = new System.Drawing.Size(44, 21);
+            label_CDP.TabIndex = 9;
+            label_CDP.Text = "CDP";
+            toolTip1.SetToolTip(label_CDP, "CRL Distribution Point");
             // 
-            // label18
+            // label_AIA
             // 
-            label18.AutoSize = true;
-            label18.Font = new System.Drawing.Font("Century Gothic", 12F);
-            label18.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            label18.Location = new System.Drawing.Point(9, 93);
-            label18.Name = "label18";
-            label18.Size = new System.Drawing.Size(41, 21);
-            label18.TabIndex = 8;
-            label18.Text = "AIA";
+            label_AIA.AutoSize = true;
+            label_AIA.Font = new System.Drawing.Font("Century Gothic", 12F);
+            label_AIA.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            label_AIA.Location = new System.Drawing.Point(9, 93);
+            label_AIA.Name = "label_AIA";
+            label_AIA.Size = new System.Drawing.Size(41, 21);
+            label_AIA.TabIndex = 8;
+            label_AIA.Text = "AIA";
+            toolTip1.SetToolTip(label_AIA, "Authority Information Access");
             // 
             // Form1
             // 
@@ -1094,7 +1200,6 @@ namespace CertificateChecker
             Controls.Add(Label_AltBaslik);
             Controls.Add(Buton_Ayarlar);
             Controls.Add(Label_Baslik);
-            Controls.Add(label1);
             Controls.Add(Panel_CertificateControl2);
             Font = new System.Drawing.Font("Arial", 9.75F);
             ForeColor = System.Drawing.SystemColors.Desktop;
@@ -1112,8 +1217,10 @@ namespace CertificateChecker
             GroupBox_FileSelect.PerformLayout();
             Panel_SertifikaKontrol.ResumeLayout(false);
             Panel_CertificateControl2.ResumeLayout(false);
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
+            tabControl1.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage1.PerformLayout();
+            tabPage2.ResumeLayout(false);
             Panel_VerifyMethod.ResumeLayout(false);
             groupBox7.ResumeLayout(false);
             groupBox7.PerformLayout();
@@ -1125,6 +1232,9 @@ namespace CertificateChecker
             panel1.ResumeLayout(false);
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_OCSP).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_AIA).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_CDP).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1158,11 +1268,9 @@ namespace CertificateChecker
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Button Buton_Ayarlar;
         private System.Windows.Forms.Label Label_AltBaslik;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button Buton_Goruntule;
         private System.Windows.Forms.Panel Panel_SertifikaKontrol;
         private System.Windows.Forms.Panel Panel_CertificateControl2;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button_CPS;
         private System.Windows.Forms.TextBox Textbox_Constraints;
         private System.Windows.Forms.Label Label_Constraints;
@@ -1202,17 +1310,29 @@ namespace CertificateChecker
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox TextBox_EKU;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label_SAN;
         private System.Windows.Forms.TextBox TextBox_SAN;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label_OCSP;
+        private System.Windows.Forms.Label label_EKU;
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.TextBox TextBox_CRL;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label_CDP;
+        private System.Windows.Forms.Label label_AIA;
         private System.Windows.Forms.TextBox TextBox_OCSP;
         private System.Windows.Forms.TextBox TextBox_AIA;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.PictureBox pictureBox_OCSP;
+        private System.Windows.Forms.PictureBox pictureBox_AIA;
+        private System.Windows.Forms.PictureBox pictureBox_CDP;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ListView listView_DetailLog;
+        private System.Windows.Forms.ColumnHeader columnComponent;
+        private System.Windows.Forms.ColumnHeader columnStatus;
+        private System.Windows.Forms.ColumnHeader columnDescription;
+        private System.Windows.Forms.ColumnHeader columnSource;
     }
 }

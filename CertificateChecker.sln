@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33403.182
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertificateChecker", "CertificateChecker\CertificateChecker.csproj", "{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CertificateChecker_Setup_v5.0", "CertificateChecker_Setup_v5.0\CertificateChecker_Setup_v5.0.vdproj", "{2B03F21A-56CE-2D6C-A60F-7C8ACC9AF82A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +15,6 @@ Global
 		{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B03F21A-56CE-2D6C-A60F-7C8ACC9AF82A}.Debug|Any CPU.ActiveCfg = Debug
-		{2B03F21A-56CE-2D6C-A60F-7C8ACC9AF82A}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

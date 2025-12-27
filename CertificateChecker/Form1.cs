@@ -1,4 +1,11 @@
-﻿using System; //yazilimturkiye.com 03.07.2021 Tüm hakları saklıdır.
+﻿using Org.BouncyCastle.Asn1;
+using Org.BouncyCastle.Asn1.Ocsp;
+using Org.BouncyCastle.Asn1.X500;
+using Org.BouncyCastle.Asn1.X509;
+using Org.BouncyCastle.Ocsp;
+using Org.BouncyCastle.Security;
+using Org.BouncyCastle.X509;
+using System; //yazilimturkiye.com 03.07.2021 Tüm hakları saklıdır.
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +15,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Runtime.ConstrainedExecution;
@@ -23,11 +31,6 @@ using System.Windows.Forms.VisualStyles;
 using Windows.Security.Cryptography.Certificates;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using Org.BouncyCastle.X509;
-using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Asn1;
-using Org.BouncyCastle.Asn1.X509;
-using Org.BouncyCastle.Asn1.X500;
 
 namespace CertificateChecker
 {
@@ -77,7 +80,7 @@ namespace CertificateChecker
                 StringBuilder sb = new StringBuilder();
                 foreach (byte b in hashBytes)
                 {
-                    sb.Append(b.ToString("x2")); //Hex format
+                    sb.Append(b.ToString("x2"));
                 }
                 return sb.ToString();
             }
@@ -121,7 +124,7 @@ namespace CertificateChecker
                     if (keyUsage.KeyUsages.HasFlag(X509KeyUsageFlags.DecipherOnly))
                         result += "Decipher Only, ";
 
-                    if (result.EndsWith(", "))//Fazladan virgülü kaldır
+                    if (result.EndsWith(", "))
                         result = result.Substring(0, result.Length - 2);
                     return result;
                 }
@@ -382,6 +385,9 @@ namespace CertificateChecker
             TextBox_ski.Clear();
             Textbox_Algoritma.Clear();
             PictureBox_Durum.Image = null;
+            pictureBox_AIA.Image = null;
+            pictureBox_CDP.Image = null;
+            pictureBox_OCSP.Image = null;
             Textbox_Durum.Clear();
             Textbox_Constraints.Clear();
             TextBox_Publickey.Clear();
@@ -397,6 +403,7 @@ namespace CertificateChecker
             TextBox_OCSP.Clear();
             TextBox_SAN.Clear();
             Label_TotalChain.Text = "-";
+            listView_DetailLog.Items.Clear();
             button_CPS.Enabled = false;
             Buton_Goruntule.Enabled = false;
             Button_GoToAddress.Enabled = false;
@@ -454,16 +461,11 @@ namespace CertificateChecker
         private void CertificateChain(X509Certificate2 sertifika, System.Windows.Forms.TreeView treeView) //Sertifika Zinciri oluşturan metot.
         {
             treeView.Nodes.Clear();
-
             X509Chain zincir = new X509Chain();
             zincir.ChainPolicy.RevocationMode = X509RevocationMode.Online;
             zincir.Build(sertifika);
-
             Label_TotalChain.Text = zincir.ChainElements.Count.ToString();
-
             TreeNode currentNode = null;
-
-            // Zinciri sondan başa doğru işliyoruz
             for (int i = zincir.ChainElements.Count - 1; i >= 0; i--)
             {
                 var element = zincir.ChainElements[i];
@@ -508,13 +510,15 @@ namespace CertificateChecker
                 chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
 
                 CertificateChain(sertifika, TreeView_Chain); //Zinciri ekleyen metodu çağır.
-                ParseCRLAddresses(sertifika);//CRL adreslerini çeken metot.
+                ParseCRLAddresses(sertifika);//CDP adreslerini çeken metot.
                 ParseAIAAddresses(sertifika); //AIA adreslerini çeken metot.
                 ParseOCSPAddresses(sertifika); //OCSP adreslerini çeken metot.
                 ParseEKU(sertifika); //Extended Key Usage (EKU) bilgilerini çeken metot.
                 ParseSAN(sertifika); //Subject Alternative Name (SAN) bilgilerini çeken metot.
-
                 CertificateDatesCheck(sertifika.NotBefore, sertifika.NotAfter);//Sertifikanın bitiş tarihini kontrol eden metot.
+                CheckCdpValidation(sertifika);//CDP adreslerinin geçerliliğini kontrol eden metot.
+                CheckAiaValidation(sertifika);//AIA adreslerinin geçerliliğini kontrol eden metot.
+                CheckOcspValidation(sertifika);//OCSP adreslerinin geçerliliğini kontrol eden metot.
 
                 bool isChainValid = chain.Build(sertifika);
                 if (isChainValid) //Sertifika Geçerli
@@ -536,7 +540,7 @@ namespace CertificateChecker
                             DateTime bitis_zamani = DateTime.Parse(Textbox_Bitis.Text);
                             if (baslangic_zamani > simdiki_zaman) //zaman ileride ise.
                             {
-                                PictureBox_Durum.Image = Properties.Resources.error;
+                                PictureBox_Durum.Image = Properties.Resources.ok;
                                 Textbox_Durum.Text = "Certificate is Not Yet Valid!";
                             }
                             else if (bitis_zamani < simdiki_zaman) //zaman geride ise.
@@ -565,33 +569,441 @@ namespace CertificateChecker
             }
             catch (Exception) //sertifika dosyası dışında farklı bir dosya seçmesi durumunda kullanıcıyı uyaran bölüm.
             {
-                MessageBox.Show("Please select a valid certificate file. Valid file extensions:\n.cer, .crt, .exe.", "Invalid File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a valid certificate file. Valid file extensions:\n.cer, .crt, .exe, .pem, etc.", "Invalid File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-        private void Buton_Dosya_Sec_Click(object sender, EventArgs e)//dosya seçme işleminin yapıldığı kısım.
+        private void CheckCdpValidation(X509Certificate2 cert)
+        {
+            bool anyCdpFound = false;
+            bool anyCdpReachable = false;
+
+            try
+            {
+                var lines = TextBox_CRL.Text
+                    .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(l => l.Trim())
+                    .Where(l => !string.IsNullOrWhiteSpace(l) &&
+                                l != "No URI found" &&
+                                l != "Not Found" &&
+                                !l.StartsWith("ldap://", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                if (lines.Count == 0)
+                {
+                    pictureBox_CDP.Image = Properties.Resources.warning;
+                    listView_DetailLog.Items.Add(
+                        new ListViewItem(new[] { "CDP", "Warning", "CDP not available", "-" })
+                    );
+                    return;
+                }
+
+                anyCdpFound = true;
+
+                var parser = new Org.BouncyCastle.X509.X509CrlParser();
+                var bcParser = new Org.BouncyCastle.X509.X509CertificateParser();
+
+                foreach (var url in lines)
+                {
+                    try
+                    {
+                        if (!(url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                              url.StartsWith("https://", StringComparison.OrdinalIgnoreCase) ||
+                              url.StartsWith("file://", StringComparison.OrdinalIgnoreCase)))
+                            continue;
+
+                        byte[] crlBytes;
+
+                        if (url.StartsWith("file://", StringComparison.OrdinalIgnoreCase))
+                        {
+                            crlBytes = File.ReadAllBytes(new Uri(url).LocalPath);
+                        }
+                        else
+                        {
+                            using (var wc = new WebClient())
+                            {
+                                wc.Headers.Add("User-Agent", "CertificateChecker/1.0");
+                                crlBytes = wc.DownloadData(url);
+                            }
+                        }
+
+                        if (crlBytes == null || crlBytes.Length == 0)
+                            continue;
+
+                        anyCdpReachable = true;
+
+                        var crl = parser.ReadCrl(crlBytes);
+                        var serial = new Org.BouncyCastle.Math.BigInteger(cert.SerialNumber, 16);
+                        var revoked = crl.GetRevokedCertificate(serial);
+
+                        Org.BouncyCastle.X509.X509Certificate issuerBc = null;
+
+                        try
+                        {
+                            X509Chain chain = new X509Chain();
+                            chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+                            chain.Build(cert);
+
+                            foreach (X509ChainElement elem in chain.ChainElements)
+                            {
+                                var bc = bcParser.ReadCertificate(elem.Certificate.RawData);
+                                if (bc.SubjectDN.Equivalent(crl.IssuerDN))
+                                {
+                                    issuerBc = bc;
+                                    break;
+                                }
+                            }
+                        }
+                        catch { }
+
+                        if (issuerBc == null)
+                        {
+                            pictureBox_CDP.Image = Properties.Resources.error;
+                            listView_DetailLog.Items.Add(
+                                new ListViewItem(new[] { "CDP", "Error", "Issuer not found", url })
+                            );
+                            return;
+                        }
+
+                        try
+                        {
+                            crl.Verify(issuerBc.GetPublicKey());
+                        }
+                        catch
+                        {
+                            pictureBox_CDP.Image = Properties.Resources.error;
+                            listView_DetailLog.Items.Add(
+                                new ListViewItem(new[] { "CDP", "Error", "CRL signature invalid", url })
+                            );
+                            return;
+                        }
+
+                        if (revoked != null)
+                        {
+                            pictureBox_CDP.Image = Properties.Resources.error;
+                            listView_DetailLog.Items.Add(
+                                new ListViewItem(new[] { "CDP", "Error", "Certificate revoked", url })
+                            );
+                            return;
+                        }
+
+                        pictureBox_CDP.Image = Properties.Resources.ok;
+                        listView_DetailLog.Items.Add(
+                            new ListViewItem(new[] { "CDP", "OK", "CRL verified", url })
+                        );
+                        return;
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+
+                if (anyCdpFound && !anyCdpReachable)
+                {
+                    pictureBox_CDP.Image = Properties.Resources.warning;
+                    listView_DetailLog.Items.Add(
+                        new ListViewItem(new[] { "CDP", "Warning", "CRL unreachable", "-" })
+                    );
+                    return;
+                }
+
+                pictureBox_CDP.Image = Properties.Resources.error;
+                listView_DetailLog.Items.Add(
+                    new ListViewItem(new[] { "CDP", "Error", "Validation failed", "-" })
+                );
+            }
+            catch
+            {
+                pictureBox_CDP.Image = Properties.Resources.error;
+                listView_DetailLog.Items.Add(
+                    new ListViewItem(new[] { "CDP", "Error", "Unexpected error", "-" })
+                );
+            }
+        }
+        private void CheckAiaValidation(X509Certificate2 cert)// AIA doğrulamasını yapan metot
+        {
+            List<string> aiaUrls = new List<string>();
+            bool windowsTrusted = false;
+
+            try
+            {
+                // 0️⃣ AIA URL parse
+                aiaUrls = TextBox_AIA.Text
+                    .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(l => l.Trim())
+                    .Where(l => !string.IsNullOrWhiteSpace(l) &&
+                                l != "No URI found" &&
+                                l != "Not Found")
+                    .Select(l =>
+                    {
+                        int http = l.IndexOf("http://", StringComparison.OrdinalIgnoreCase);
+                        int https = l.IndexOf("https://", StringComparison.OrdinalIgnoreCase);
+                        int idx = http >= 0 ? http : https;
+                        return idx >= 0 ? l.Substring(idx) : null;
+                    })
+                    .Where(u => !string.IsNullOrWhiteSpace(u))
+                    .ToList();
+
+                // 1️⃣ Windows Trust Engine
+                X509Chain chain = new X509Chain();
+                chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+                chain.ChainPolicy.VerificationFlags = X509VerificationFlags.NoFlag;
+                chain.ChainPolicy.UrlRetrievalTimeout = TimeSpan.FromSeconds(10);
+
+                windowsTrusted = chain.Build(cert);
+
+                // 2️⃣ ICON KARARI
+                if (windowsTrusted)
+                {
+                    // Soft trust durumları → WARNING
+                    if (aiaUrls.Count == 0)
+                        pictureBox_AIA.Image = Properties.Resources.warning;
+                    else
+                        pictureBox_AIA.Image = Properties.Resources.ok;
+                }
+                else
+                {
+                    pictureBox_AIA.Image = Properties.Resources.error;
+                }
+
+                // 3️⃣ LOG
+                if (aiaUrls.Count > 0)
+                {
+                    foreach (var url in aiaUrls)
+                    {
+                        listView_DetailLog.Items.Add(
+                            new ListViewItem(new[]
+                            {
+                        "AIA",
+                        windowsTrusted
+                            ? (aiaUrls.Count > 0 ? "OK" : "Warning")
+                            : "Error",
+                        windowsTrusted
+                            ? "Issuer trusted (Windows policy)"
+                            : "Issuer not trusted",
+                        url
+                            })
+                        );
+                    }
+                }
+                else
+                {
+                    listView_DetailLog.Items.Add(
+                        new ListViewItem(new[]
+                        {
+                    "AIA",
+                    windowsTrusted ? "Warning" : "Error",
+                    windowsTrusted
+                        ? "No AIA URL, Windows policy used"
+                        : "AIA not available",
+                    "-"
+                        })
+                    );
+                }
+            }
+            catch
+            {
+                pictureBox_AIA.Image = Properties.Resources.error;
+                listView_DetailLog.Items.Add(
+                    new ListViewItem(new[] { "AIA", "Error", "AIA validation error", "-" })
+                );
+            }
+        }
+        private void CheckOcspValidation(X509Certificate2 cert) // OCSP doğrulamasını yapan metot
+        {
+            List<string> ocspUrls = new List<string>();
+            bool anyResponderReached = false;
+            bool ocspGood = false;
+            bool ocspRevoked = false;
+
+            try
+            {
+
+                ocspUrls = TextBox_OCSP.Text
+                    .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(l => l.Trim())
+                    .Where(l => !string.IsNullOrWhiteSpace(l) &&
+                                l != "No URI found" &&
+                                l != "Not Found")
+                    .Select(l =>
+                    {
+                        int http = l.IndexOf("http://", StringComparison.OrdinalIgnoreCase);
+                        int https = l.IndexOf("https://", StringComparison.OrdinalIgnoreCase);
+                        int idx = http >= 0 ? http : https;
+                        return idx >= 0 ? l.Substring(idx) : null;
+                    })
+                    .Where(u => !string.IsNullOrWhiteSpace(u))
+                    .ToList();
+
+                var bcParser = new Org.BouncyCastle.X509.X509CertificateParser();
+                var subjectBc = bcParser.ReadCertificate(cert.RawData);
+                Org.BouncyCastle.X509.X509Certificate issuerBc = null;
+
+                try
+                {
+                    X509Chain chain = new X509Chain();
+                    chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+                    chain.Build(cert);
+
+                    if (chain.ChainElements.Count > 1)
+                        issuerBc = bcParser.ReadCertificate(chain.ChainElements[1].Certificate.RawData);
+                }
+                catch { }
+
+                if (issuerBc != null && ocspUrls.Count > 0)
+                {
+                    foreach (var url in ocspUrls)
+                    {
+                        try
+                        {
+                            var certId = new Org.BouncyCastle.Ocsp.CertificateID(
+                                Org.BouncyCastle.Ocsp.CertificateID.HashSha1,
+                                issuerBc,
+                                subjectBc.SerialNumber
+                            );
+
+                            var gen = new Org.BouncyCastle.Ocsp.OcspReqGenerator();
+                            gen.AddRequest(certId);
+                            var req = gen.Generate();
+
+                            byte[] respBytes;
+                            using (var wc = new WebClient())
+                            {
+                                wc.Headers.Add("Content-Type", "application/ocsp-request");
+                                wc.Headers.Add("Accept", "application/ocsp-response");
+                                wc.Headers.Add("User-Agent", "CertificateChecker/1.0");
+                                respBytes = wc.UploadData(url, req.GetEncoded());
+                            }
+
+                            anyResponderReached = true;
+
+                            var ocspResp = new Org.BouncyCastle.Ocsp.OcspResp(respBytes);
+                            if (ocspResp.Status != 0)
+                                continue;
+
+                            var basic = (Org.BouncyCastle.Ocsp.BasicOcspResp)ocspResp.GetResponseObject();
+                            var single = basic.Responses.FirstOrDefault();
+                            if (single == null)
+                                continue;
+
+                            var status = single.GetCertStatus();
+
+                            if (status == Org.BouncyCastle.Ocsp.CertificateStatus.Good)
+                            {
+                                ocspGood = true;
+                                listView_DetailLog.Items.Add(
+                                    new ListViewItem(new[] { "OCSP", "OK", "Responder returned GOOD", url })
+                                );
+                                break;
+                            }
+                            else
+                            {
+                                ocspRevoked = true;
+                                listView_DetailLog.Items.Add(
+                                    new ListViewItem(new[] { "OCSP", "Error", "Responder returned REVOKED", url })
+                                );
+                                break;
+                            }
+                        }
+                        catch
+                        {
+                            continue;
+                        }
+                    }
+                }
+
+                if (ocspGood)
+                {
+                    pictureBox_OCSP.Image = Properties.Resources.ok;
+                    return;
+                }
+
+                if (ocspRevoked)
+                {
+                    pictureBox_OCSP.Image = Properties.Resources.error;
+                    return;
+                }
+
+                X509Chain winChain = new X509Chain();
+                winChain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
+                winChain.ChainPolicy.RevocationFlag = X509RevocationFlag.EndCertificateOnly;
+                winChain.ChainPolicy.UrlRetrievalTimeout = TimeSpan.FromSeconds(10);
+
+                bool windowsOk = winChain.Build(cert);
+
+                if (windowsOk)
+                    pictureBox_OCSP.Image = Properties.Resources.warning;
+                else
+                    pictureBox_OCSP.Image = Properties.Resources.error;
+
+                if (ocspUrls.Count == 0)
+                {
+                    listView_DetailLog.Items.Add(
+                        new ListViewItem(new[]
+                        {
+                    "OCSP",
+                    windowsOk ? "Warning" : "Error",
+                    "No OCSP URL, Windows policy used",
+                    "-"
+                        })
+                    );
+                }
+                else
+                {
+                    foreach (var url in ocspUrls)
+                    {
+                        listView_DetailLog.Items.Add(
+                            new ListViewItem(new[]
+                            {
+                        "OCSP",
+                        windowsOk ? "Warning" : "Error",
+                        anyResponderReached
+                            ? "No definitive OCSP result, Windows policy used"
+                            : "OCSP unreachable, Windows policy used",
+                        url
+                            })
+                        );
+                    }
+                }
+            }
+            catch
+            {
+                pictureBox_OCSP.Image = Properties.Resources.error;
+                listView_DetailLog.Items.Add(
+                    new ListViewItem(new[] { "OCSP", "Error", "OCSP validation error", "-" })
+                );
+            }
+        }
+        private async void Buton_Dosya_Sec_Click(object sender, EventArgs e)//dosya seçme işleminin yapıldığı kısım.
         {
             OpenFileDialog DosyaAc = new OpenFileDialog();
             DosyaAc.Title = "Please Select Certificate File...";
-            DosyaAc.Filter = "Certificate Files (*.cer;*.cert;*.crt)|*.cer;*.cert;*.crt|All Files (*.*)|*.*";
+            DosyaAc.Filter = "Certificate Files (*.cer;*.cert;*.crt;*.pem;*.der;*.p7b;*.p7c;*.pfx;*.key)|*.cer;*.cert;*.crt;*.pem;*.der;*.p7b;*.p7c;*.pfx;*.key|All Files (*.*)|*.*";
+
             DosyaAc.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             DosyaAc.Multiselect = false;
+
             if (DosyaAc.ShowDialog() == DialogResult.OK)
             {
+                ClearUI();
                 File_Name = DosyaAc.SafeFileName;
                 File_Path = DosyaAc.FileName;
                 FileInfo DosyaAcInfo = new FileInfo(File_Path);
                 File_Size = DosyaAcInfo.Length.ToString() + " bytes";
                 File_Created = DosyaAcInfo.CreationTime.ToString();
                 File_Hash = CalculateSHA256(File_Path);
+
                 Textbox_DosyaAdi.Text = File_Name;
                 Textbox_DosyaYolu.Text = File_Path;
                 TextBox_FileSize.Text = File_Size;
                 TextBox_FileCreated.Text = File_Created;
                 TextBox_FileHash.Text = File_Hash;
+
                 FileCertificateVerification();
                 Buton_Goruntule.Enabled = true;
                 button_CPS.Enabled = true;
             }
+
         }
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)//linklabel kaynak web sitesine yönlendirme yapıyor.
         {
@@ -689,13 +1101,11 @@ namespace CertificateChecker
                 if (string.IsNullOrWhiteSpace(pem) || pem.Length < 100)
                     return;
 
-                //PEM bloğundaki base64 kısmı ayıkla (başlıklar kalsın)
                 string base64 = ExtractBase64FromPem(pem);
 
                 byte[] certBytes = Convert.FromBase64String(base64);
                 X509Certificate2 sertifika = new X509Certificate2(certBytes);
-
-                //Sertifika bilgilerini doldur
+                listView_DetailLog.Items.Clear();
                 Textbox_Veren.Text = sertifika.Issuer;
                 Textbox_Verilen.Text = sertifika.Subject;
                 Textbox_Baslangic.Text = sertifika.NotBefore.ToString();
@@ -714,12 +1124,15 @@ namespace CertificateChecker
 
                 CertificateChain(sertifika, TreeView_Chain); //Zinciri ekleyen metodu çağır.
                 ParseCRLAddresses(sertifika);//CRL adreslerini çeken metot.
+
                 ParseAIAAddresses(sertifika); //AIA adreslerini çeken metot.
                 ParseOCSPAddresses(sertifika); //OCSP adreslerini çeken metot.
                 ParseEKU(sertifika); //Extended Key Usage (EKU) bilgilerini çeken metot.
                 ParseSAN(sertifika); //Subject Alternative Name (SAN) bilgilerini çeken metot.
-
                 CertificateDatesCheck(sertifika.NotBefore, sertifika.NotAfter);//Sertifikanın bitiş tarihini kontrol eden metot.
+                CheckCdpValidation(sertifika);//CDP adreslerinin geçerliliğini kontrol eden metot.
+                CheckAiaValidation(sertifika);//AIA adreslerinin geçerliliğini kontrol eden metot.
+                CheckOcspValidation(sertifika);//OCSP adreslerinin geçerliliğini kontrol eden metot.
 
                 bool isChainValid = chain.Build(sertifika);
                 if (isChainValid) //Sertifika Geçerli
@@ -830,15 +1243,13 @@ namespace CertificateChecker
                     return;
                 }
 
-                Uri uri = new Uri(url);
-                //IP adresini al       
+                Uri uri = new Uri(url);     
                 IPAddress[] ipAddresses = Dns.GetHostAddresses(uri.Host);
                 if (ipAddresses.Length > 0)
                     TextBox_IPAddress.Text = ipAddresses[0].ToString();
                 else
                     TextBox_IPAddress.Text = "Not Found";
 
-                //Sertifika ve TLS sürümünü al
                 var (sertifika, tlsVersiyon) = GetRemoteCertificateWithTls(uri.Host, uri.Port == -1 ? 443 : uri.Port);
                 TextBox_TLS.Text = tlsVersiyon.ToString();
 
@@ -848,7 +1259,7 @@ namespace CertificateChecker
                     PictureBox_Durum.Image = Properties.Resources.error;
                     return;
                 }
-                //Sertifika bilgileri
+                listView_DetailLog.Items.Clear();
                 Textbox_Veren.Text = sertifika.Issuer;
                 Textbox_Verilen.Text = sertifika.Subject;
                 Textbox_Baslangic.Text = sertifika.NotBefore.ToString();
@@ -860,7 +1271,7 @@ namespace CertificateChecker
                 TextBox_Publickey.Text = GetKeySize(sertifika);
                 TextBox_ski.Text = GetSubjectKeyIdentifier(sertifika);
                 TextBox_aki.Text = GetAuthorityKeyIdentifier(sertifika);
-                //Zincir doğrulaması
+
                 X509Chain chain = new X509Chain();
                 chain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
                 chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
@@ -871,7 +1282,9 @@ namespace CertificateChecker
                 ParseOCSPAddresses(sertifika); //OCSP adreslerini çeken metot.
                 ParseEKU(sertifika); //Extended Key Usage (EKU) bilgilerini çeken metot.
                 ParseSAN(sertifika); //Subject Alternative Name (SAN) bilgilerini çeken metot.
-
+                CheckCdpValidation(sertifika);//CDP adreslerinin geçerliliğini kontrol eden metot.
+                CheckAiaValidation(sertifika);//AIA adreslerinin geçerliliğini kontrol eden metot.
+                CheckOcspValidation(sertifika);//OCSP adreslerinin geçerliliğini kontrol eden metot.
                 CertificateDatesCheck(sertifika.NotBefore, sertifika.NotAfter);//Sertifikanın bitiş tarihini kontrol eden metot.
 
                 bool isChainValid = chain.Build(sertifika);
@@ -939,7 +1352,7 @@ namespace CertificateChecker
                 "Built on the .NET platform with BouncyCastle, it helps users identify certificate details and validate their authenticity.\n\n" +
                 "© 2021 yazilimturkiye.com – All rights reserved.\n\n" +
                 "Visit our website for updates and support.\n\n" +
-                "Version: 5.0",
+                "Version: 6.0",
                 "About Certificate Checker",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
