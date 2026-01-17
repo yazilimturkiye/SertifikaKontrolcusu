@@ -1,0 +1,59 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "CertificateChecker/1.0": {
+        "dependencies": {
+          "BouncyCastle.NetCore": "2.2.1",
+          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.22000.57"
+        },
+        "runtime": {
+          "CertificateChecker.dll": {}
+        }
+      },
+      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22000.57": {
+        "runtime": {
+          "Microsoft.Windows.SDK.NET.dll": {
+            "assemblyVersion": "10.0.22000.38",
+            "fileVersion": "10.0.22000.55"
+          },
+          "WinRT.Runtime.dll": {
+            "assemblyVersion": "2.2.0.0",
+            "fileVersion": "2.2.0.48161"
+          }
+        }
+      },
+      "BouncyCastle.NetCore/2.2.1": {
+        "runtime": {
+          "lib/netstandard2.0/BouncyCastle.Crypto.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CertificateChecker/1.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.22000.57": {
+      "type": "runtimepack",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BouncyCastle.NetCore/2.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yfWn8JYPc4rkeM2kcsCqFVFOvwCuuQvIieGtQWcjoWxOioeznXQB3M/GmHgbCWbJjc8ycrwGhZaZPiasifYi4A==",
+      "path": "bouncycastle.netcore/2.2.1",
+      "hashPath": "bouncycastle.netcore.2.2.1.nupkg.sha512"
+    }
+  }
+}
