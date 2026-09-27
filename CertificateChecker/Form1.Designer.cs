@@ -43,6 +43,8 @@ namespace CertificateChecker
             label5 = new System.Windows.Forms.Label();
             Textbox_Constraints = new System.Windows.Forms.TextBox();
             Label_Constraints = new System.Windows.Forms.Label();
+            Textbox_Verilen = new System.Windows.Forms.TextBox();
+            Label_Verilen = new System.Windows.Forms.Label();
             Textbox_Usage = new System.Windows.Forms.TextBox();
             Label_Usage = new System.Windows.Forms.Label();
             PictureBox_Durum = new System.Windows.Forms.PictureBox();
@@ -56,10 +58,8 @@ namespace CertificateChecker
             Label_Serino = new System.Windows.Forms.Label();
             Label_Algoritma = new System.Windows.Forms.Label();
             Textbox_Algoritma = new System.Windows.Forms.TextBox();
-            Textbox_Verilen = new System.Windows.Forms.TextBox();
             Textbox_Veren = new System.Windows.Forms.TextBox();
             Label_Veren = new System.Windows.Forms.Label();
-            Label_Verilen = new System.Windows.Forms.Label();
             Textbox_DosyaAdi = new System.Windows.Forms.TextBox();
             Textbox_DosyaYolu = new System.Windows.Forms.TextBox();
             GroupBox_FileSelect = new System.Windows.Forms.GroupBox();
@@ -74,8 +74,6 @@ namespace CertificateChecker
             Buton_Goruntule = new System.Windows.Forms.Button();
             Label_DosyaAdi = new System.Windows.Forms.Label();
             Label_Baslik = new System.Windows.Forms.Label();
-            linkLabel1 = new System.Windows.Forms.LinkLabel();
-            Buton_Ayarlar = new System.Windows.Forms.Button();
             Label_AltBaslik = new System.Windows.Forms.Label();
             Panel_SertifikaKontrol = new System.Windows.Forms.Panel();
             Panel_CertificateControl2 = new System.Windows.Forms.Panel();
@@ -108,6 +106,15 @@ namespace CertificateChecker
             Label_WebAdress = new System.Windows.Forms.Label();
             panel1 = new System.Windows.Forms.Panel();
             groupBox3 = new System.Windows.Forms.GroupBox();
+            button_san_recheck = new System.Windows.Forms.Button();
+            ımageList2 = new System.Windows.Forms.ImageList(components);
+            button_eku_recheck = new System.Windows.Forms.Button();
+            button_ocsp_recheck = new System.Windows.Forms.Button();
+            button_aia_recheck = new System.Windows.Forms.Button();
+            button_crl_recheck = new System.Windows.Forms.Button();
+            button_ocsp_downloader = new System.Windows.Forms.Button();
+            button_aia_downloader = new System.Windows.Forms.Button();
+            button_crl_downloader = new System.Windows.Forms.Button();
             pictureBox_OCSP = new System.Windows.Forms.PictureBox();
             pictureBox_AIA = new System.Windows.Forms.PictureBox();
             pictureBox_CDP = new System.Windows.Forms.PictureBox();
@@ -122,6 +129,15 @@ namespace CertificateChecker
             label_CDP = new System.Windows.Forms.Label();
             label_AIA = new System.Windows.Forms.Label();
             toolTip1 = new System.Windows.Forms.ToolTip(components);
+            menuStrip1 = new System.Windows.Forms.MenuStrip();
+            toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            officalWebSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            githubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            button_terminal = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBox_Durum).BeginInit();
             GroupBox_FileSelect.SuspendLayout();
@@ -140,6 +156,7 @@ namespace CertificateChecker
             ((System.ComponentModel.ISupportInitialize)pictureBox_OCSP).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_AIA).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_CDP).BeginInit();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // openFileDialog1
@@ -160,6 +177,7 @@ namespace CertificateChecker
             Buton_Dosya_Sec.Size = new System.Drawing.Size(365, 45);
             Buton_Dosya_Sec.TabIndex = 6;
             Buton_Dosya_Sec.Text = "Select Certificate File";
+            toolTip1.SetToolTip(Buton_Dosya_Sec, "Select an X.509 certificate file to analyze and verify.");
             Buton_Dosya_Sec.UseVisualStyleBackColor = false;
             Buton_Dosya_Sec.Click += Buton_Dosya_Sec_Click;
             // 
@@ -178,7 +196,7 @@ namespace CertificateChecker
             ımageList1.Images.SetKeyName(7, "yazilimturkiye.png");
             ımageList1.Images.SetKeyName(8, "earth.png");
             ımageList1.Images.SetKeyName(9, "info.png");
-            ımageList1.Images.SetKeyName(10, "turn.png");
+            ımageList1.Images.SetKeyName(10, "terminal.fw.png");
             // 
             // groupBox1
             // 
@@ -190,6 +208,8 @@ namespace CertificateChecker
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(Textbox_Constraints);
             groupBox1.Controls.Add(Label_Constraints);
+            groupBox1.Controls.Add(Textbox_Verilen);
+            groupBox1.Controls.Add(Label_Verilen);
             groupBox1.Controls.Add(Textbox_Usage);
             groupBox1.Controls.Add(Label_Usage);
             groupBox1.Controls.Add(PictureBox_Durum);
@@ -203,10 +223,8 @@ namespace CertificateChecker
             groupBox1.Controls.Add(Label_Serino);
             groupBox1.Controls.Add(Label_Algoritma);
             groupBox1.Controls.Add(Textbox_Algoritma);
-            groupBox1.Controls.Add(Textbox_Verilen);
             groupBox1.Controls.Add(Textbox_Veren);
             groupBox1.Controls.Add(Label_Veren);
-            groupBox1.Controls.Add(Label_Verilen);
             groupBox1.Font = new System.Drawing.Font("Arial", 9.75F);
             groupBox1.Location = new System.Drawing.Point(12, 2);
             groupBox1.Name = "groupBox1";
@@ -223,6 +241,7 @@ namespace CertificateChecker
             TextBox_ski.ReadOnly = true;
             TextBox_ski.Size = new System.Drawing.Size(476, 26);
             TextBox_ski.TabIndex = 18;
+            toolTip1.SetToolTip(TextBox_ski, "Subject Key Identifier of the certificate.");
             // 
             // Label_Ski
             // 
@@ -245,6 +264,7 @@ namespace CertificateChecker
             TextBox_aki.ReadOnly = true;
             TextBox_aki.Size = new System.Drawing.Size(476, 26);
             TextBox_aki.TabIndex = 17;
+            toolTip1.SetToolTip(TextBox_aki, "Authority Key Identifier of the issuing CA.");
             // 
             // Label_Aki
             // 
@@ -267,6 +287,7 @@ namespace CertificateChecker
             TextBox_Publickey.ReadOnly = true;
             TextBox_Publickey.Size = new System.Drawing.Size(200, 26);
             TextBox_Publickey.TabIndex = 26;
+            toolTip1.SetToolTip(TextBox_Publickey, "Public key algorithm and key size.");
             // 
             // label5
             // 
@@ -288,6 +309,7 @@ namespace CertificateChecker
             Textbox_Constraints.ReadOnly = true;
             Textbox_Constraints.Size = new System.Drawing.Size(476, 26);
             Textbox_Constraints.TabIndex = 22;
+            toolTip1.SetToolTip(Textbox_Constraints, "Basic constraints defining certificate and CA capabilities.");
             // 
             // Label_Constraints
             // 
@@ -300,6 +322,29 @@ namespace CertificateChecker
             Label_Constraints.TabIndex = 29;
             Label_Constraints.Text = "Constraints";
             // 
+            // Textbox_Verilen
+            // 
+            Textbox_Verilen.BackColor = System.Drawing.SystemColors.Control;
+            Textbox_Verilen.Font = new System.Drawing.Font("Century Gothic", 11.25F);
+            Textbox_Verilen.Location = new System.Drawing.Point(120, 15);
+            Textbox_Verilen.Multiline = true;
+            Textbox_Verilen.Name = "Textbox_Verilen";
+            Textbox_Verilen.ReadOnly = true;
+            Textbox_Verilen.Size = new System.Drawing.Size(476, 70);
+            Textbox_Verilen.TabIndex = 16;
+            toolTip1.SetToolTip(Textbox_Verilen, "Identity and information of the certificate holder.");
+            // 
+            // Label_Verilen
+            // 
+            Label_Verilen.AutoSize = true;
+            Label_Verilen.Font = new System.Drawing.Font("Century Gothic", 12F);
+            Label_Verilen.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            Label_Verilen.Location = new System.Drawing.Point(10, 15);
+            Label_Verilen.Name = "Label_Verilen";
+            Label_Verilen.Size = new System.Drawing.Size(69, 21);
+            Label_Verilen.TabIndex = 8;
+            Label_Verilen.Text = "Subject";
+            // 
             // Textbox_Usage
             // 
             Textbox_Usage.BackColor = System.Drawing.SystemColors.Control;
@@ -309,6 +354,7 @@ namespace CertificateChecker
             Textbox_Usage.ReadOnly = true;
             Textbox_Usage.Size = new System.Drawing.Size(476, 26);
             Textbox_Usage.TabIndex = 21;
+            toolTip1.SetToolTip(Textbox_Usage, "Cryptographic operations permitted by the certificate.");
             // 
             // Label_Usage
             // 
@@ -324,9 +370,9 @@ namespace CertificateChecker
             // PictureBox_Durum
             // 
             PictureBox_Durum.BackColor = System.Drawing.Color.Transparent;
-            PictureBox_Durum.Location = new System.Drawing.Point(89, 397);
+            PictureBox_Durum.Location = new System.Drawing.Point(92, 397);
             PictureBox_Durum.Name = "PictureBox_Durum";
-            PictureBox_Durum.Size = new System.Drawing.Size(23, 23);
+            PictureBox_Durum.Size = new System.Drawing.Size(20, 20);
             PictureBox_Durum.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             PictureBox_Durum.TabIndex = 0;
             PictureBox_Durum.TabStop = false;
@@ -352,6 +398,7 @@ namespace CertificateChecker
             Textbox_Durum.ReadOnly = true;
             Textbox_Durum.Size = new System.Drawing.Size(476, 57);
             Textbox_Durum.TabIndex = 27;
+            toolTip1.SetToolTip(Textbox_Durum, "Overall certificate validation result.");
             // 
             // Textbox_Bitis
             // 
@@ -362,6 +409,7 @@ namespace CertificateChecker
             Textbox_Bitis.ReadOnly = true;
             Textbox_Bitis.Size = new System.Drawing.Size(200, 26);
             Textbox_Bitis.TabIndex = 24;
+            toolTip1.SetToolTip(Textbox_Bitis, "Date and time when the certificate expires.");
             // 
             // Label_Bitis
             // 
@@ -383,6 +431,7 @@ namespace CertificateChecker
             Textbox_Serino.ReadOnly = true;
             Textbox_Serino.Size = new System.Drawing.Size(476, 26);
             Textbox_Serino.TabIndex = 19;
+            toolTip1.SetToolTip(Textbox_Serino, "Unique serial number assigned to the certificate.");
             // 
             // Textbox_Baslangic
             // 
@@ -393,6 +442,7 @@ namespace CertificateChecker
             Textbox_Baslangic.ReadOnly = true;
             Textbox_Baslangic.Size = new System.Drawing.Size(200, 26);
             Textbox_Baslangic.TabIndex = 23;
+            toolTip1.SetToolTip(Textbox_Baslangic, "Date and time when the certificate becomes valid.");
             // 
             // Label_Baslangic
             // 
@@ -436,50 +486,30 @@ namespace CertificateChecker
             Textbox_Algoritma.ReadOnly = true;
             Textbox_Algoritma.Size = new System.Drawing.Size(200, 26);
             Textbox_Algoritma.TabIndex = 25;
-            // 
-            // Textbox_Verilen
-            // 
-            Textbox_Verilen.BackColor = System.Drawing.SystemColors.Control;
-            Textbox_Verilen.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            Textbox_Verilen.Location = new System.Drawing.Point(119, 93);
-            Textbox_Verilen.Multiline = true;
-            Textbox_Verilen.Name = "Textbox_Verilen";
-            Textbox_Verilen.ReadOnly = true;
-            Textbox_Verilen.Size = new System.Drawing.Size(476, 70);
-            Textbox_Verilen.TabIndex = 16;
+            toolTip1.SetToolTip(Textbox_Algoritma, "Signature algorithm used by the certificate.");
             // 
             // Textbox_Veren
             // 
             Textbox_Veren.BackColor = System.Drawing.SystemColors.Control;
             Textbox_Veren.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            Textbox_Veren.Location = new System.Drawing.Point(119, 17);
+            Textbox_Veren.Location = new System.Drawing.Point(119, 93);
             Textbox_Veren.Multiline = true;
             Textbox_Veren.Name = "Textbox_Veren";
             Textbox_Veren.ReadOnly = true;
             Textbox_Veren.Size = new System.Drawing.Size(476, 70);
             Textbox_Veren.TabIndex = 15;
+            toolTip1.SetToolTip(Textbox_Veren, "Certificate Authority that issued the certificate.");
             // 
             // Label_Veren
             // 
             Label_Veren.AutoSize = true;
             Label_Veren.Font = new System.Drawing.Font("Century Gothic", 12F);
             Label_Veren.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            Label_Veren.Location = new System.Drawing.Point(9, 17);
+            Label_Veren.Location = new System.Drawing.Point(9, 95);
             Label_Veren.Name = "Label_Veren";
             Label_Veren.Size = new System.Drawing.Size(73, 21);
             Label_Veren.TabIndex = 9;
             Label_Veren.Text = "Issuer By";
-            // 
-            // Label_Verilen
-            // 
-            Label_Verilen.AutoSize = true;
-            Label_Verilen.Font = new System.Drawing.Font("Century Gothic", 12F);
-            Label_Verilen.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            Label_Verilen.Location = new System.Drawing.Point(9, 93);
-            Label_Verilen.Name = "Label_Verilen";
-            Label_Verilen.Size = new System.Drawing.Size(69, 21);
-            Label_Verilen.TabIndex = 8;
-            Label_Verilen.Text = "Subject";
             // 
             // Textbox_DosyaAdi
             // 
@@ -491,6 +521,7 @@ namespace CertificateChecker
             Textbox_DosyaAdi.ReadOnly = true;
             Textbox_DosyaAdi.Size = new System.Drawing.Size(477, 26);
             Textbox_DosyaAdi.TabIndex = 1;
+            toolTip1.SetToolTip(Textbox_DosyaAdi, "Name of the selected certificate file.");
             // 
             // Textbox_DosyaYolu
             // 
@@ -502,9 +533,11 @@ namespace CertificateChecker
             Textbox_DosyaYolu.ReadOnly = true;
             Textbox_DosyaYolu.Size = new System.Drawing.Size(477, 26);
             Textbox_DosyaYolu.TabIndex = 2;
+            toolTip1.SetToolTip(Textbox_DosyaYolu, "Full path of the selected certificate file.");
             // 
             // GroupBox_FileSelect
             // 
+            GroupBox_FileSelect.Controls.Add(button_terminal);
             GroupBox_FileSelect.Controls.Add(Label_FileHash);
             GroupBox_FileSelect.Controls.Add(TextBox_FileHash);
             GroupBox_FileSelect.Controls.Add(Label_FileCreated);
@@ -546,6 +579,7 @@ namespace CertificateChecker
             TextBox_FileHash.ReadOnly = true;
             TextBox_FileHash.Size = new System.Drawing.Size(477, 26);
             TextBox_FileHash.TabIndex = 5;
+            toolTip1.SetToolTip(TextBox_FileHash, "SHA-256 hash of the certificate file.");
             // 
             // Label_FileCreated
             // 
@@ -568,6 +602,7 @@ namespace CertificateChecker
             TextBox_FileCreated.ReadOnly = true;
             TextBox_FileCreated.Size = new System.Drawing.Size(200, 26);
             TextBox_FileCreated.TabIndex = 4;
+            toolTip1.SetToolTip(TextBox_FileCreated, "Creation date of the certificate file.");
             // 
             // Label_FileSize
             // 
@@ -590,6 +625,7 @@ namespace CertificateChecker
             TextBox_FileSize.ReadOnly = true;
             TextBox_FileSize.Size = new System.Drawing.Size(200, 26);
             TextBox_FileSize.TabIndex = 3;
+            toolTip1.SetToolTip(TextBox_FileSize, "Size of the certificate file.");
             // 
             // button_CPS
             // 
@@ -650,51 +686,18 @@ namespace CertificateChecker
             Label_Baslik.BackColor = System.Drawing.SystemColors.Control;
             Label_Baslik.Font = new System.Drawing.Font("Century Gothic", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 162);
             Label_Baslik.ForeColor = System.Drawing.Color.FromArgb(231, 174, 78);
-            Label_Baslik.Location = new System.Drawing.Point(9, 3);
+            Label_Baslik.Location = new System.Drawing.Point(7, 28);
             Label_Baslik.Name = "Label_Baslik";
             Label_Baslik.Size = new System.Drawing.Size(270, 32);
             Label_Baslik.TabIndex = 33;
             Label_Baslik.Text = "Certificate Checker";
-            // 
-            // linkLabel1
-            // 
-            linkLabel1.ActiveLinkColor = System.Drawing.Color.DodgerBlue;
-            linkLabel1.AutoSize = true;
-            linkLabel1.BackColor = System.Drawing.SystemColors.Control;
-            linkLabel1.Cursor = System.Windows.Forms.Cursors.Hand;
-            linkLabel1.DisabledLinkColor = System.Drawing.Color.Gray;
-            linkLabel1.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 162);
-            linkLabel1.ForeColor = System.Drawing.Color.Gray;
-            linkLabel1.LinkColor = System.Drawing.Color.Gray;
-            linkLabel1.Location = new System.Drawing.Point(475, 439);
-            linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new System.Drawing.Size(126, 17);
-            linkLabel1.TabIndex = 12;
-            linkLabel1.TabStop = true;
-            linkLabel1.Text = "yazilimturkiye.com";
-            linkLabel1.VisitedLinkColor = System.Drawing.Color.Gray;
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
-            // 
-            // Buton_Ayarlar
-            // 
-            Buton_Ayarlar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            Buton_Ayarlar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            Buton_Ayarlar.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            Buton_Ayarlar.ImageIndex = 4;
-            Buton_Ayarlar.ImageList = ımageList1;
-            Buton_Ayarlar.Location = new System.Drawing.Point(1205, 10);
-            Buton_Ayarlar.Name = "Buton_Ayarlar";
-            Buton_Ayarlar.Size = new System.Drawing.Size(40, 40);
-            Buton_Ayarlar.TabIndex = 28;
-            Buton_Ayarlar.UseVisualStyleBackColor = false;
-            Buton_Ayarlar.Click += Buton_Ayarlar_Click;
             // 
             // Label_AltBaslik
             // 
             Label_AltBaslik.AutoSize = true;
             Label_AltBaslik.BackColor = System.Drawing.SystemColors.Control;
             Label_AltBaslik.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 162);
-            Label_AltBaslik.Location = new System.Drawing.Point(12, 34);
+            Label_AltBaslik.Location = new System.Drawing.Point(10, 59);
             Label_AltBaslik.Name = "Label_AltBaslik";
             Label_AltBaslik.Size = new System.Drawing.Size(382, 20);
             Label_AltBaslik.TabIndex = 29;
@@ -703,7 +706,7 @@ namespace CertificateChecker
             // Panel_SertifikaKontrol
             // 
             Panel_SertifikaKontrol.Controls.Add(groupBox1);
-            Panel_SertifikaKontrol.Location = new System.Drawing.Point(0, 344);
+            Panel_SertifikaKontrol.Location = new System.Drawing.Point(0, 365);
             Panel_SertifikaKontrol.Name = "Panel_SertifikaKontrol";
             Panel_SertifikaKontrol.Size = new System.Drawing.Size(628, 475);
             Panel_SertifikaKontrol.TabIndex = 39;
@@ -711,7 +714,7 @@ namespace CertificateChecker
             // Panel_CertificateControl2
             // 
             Panel_CertificateControl2.Controls.Add(tabControl1);
-            Panel_CertificateControl2.Location = new System.Drawing.Point(627, 61);
+            Panel_CertificateControl2.Location = new System.Drawing.Point(627, 82);
             Panel_CertificateControl2.Name = "Panel_CertificateControl2";
             Panel_CertificateControl2.Size = new System.Drawing.Size(628, 284);
             Panel_CertificateControl2.TabIndex = 40;
@@ -738,6 +741,7 @@ namespace CertificateChecker
             tabPage1.Size = new System.Drawing.Size(602, 241);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Certificate Chain";
+            tabPage1.ToolTipText = "Displays the certificate chain from the end-entity certificate to the trusted root CA.";
             tabPage1.UseVisualStyleBackColor = true;
             // 
             // Label_TotalChain
@@ -763,6 +767,7 @@ namespace CertificateChecker
             label2.Size = new System.Drawing.Size(47, 17);
             label2.TabIndex = 46;
             label2.Text = "Total :";
+            toolTip1.SetToolTip(label2, "Total number of certificates found in the certificate chain.");
             // 
             // TreeView_Chain
             // 
@@ -785,6 +790,7 @@ namespace CertificateChecker
             tabPage2.Size = new System.Drawing.Size(602, 241);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Verification Detail";
+            tabPage2.ToolTipText = "Displays detailed certificate verification results.";
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // listView_DetailLog
@@ -838,7 +844,7 @@ namespace CertificateChecker
             // Panel_VerifyMethod
             // 
             Panel_VerifyMethod.Controls.Add(groupBox7);
-            Panel_VerifyMethod.Location = new System.Drawing.Point(0, 61);
+            Panel_VerifyMethod.Location = new System.Drawing.Point(0, 82);
             Panel_VerifyMethod.Name = "Panel_VerifyMethod";
             Panel_VerifyMethod.Size = new System.Drawing.Size(628, 67);
             Panel_VerifyMethod.TabIndex = 42;
@@ -873,6 +879,7 @@ namespace CertificateChecker
             comboBox_verifymethod.Name = "comboBox_verifymethod";
             comboBox_verifymethod.Size = new System.Drawing.Size(358, 29);
             comboBox_verifymethod.TabIndex = 0;
+            toolTip1.SetToolTip(comboBox_verifymethod, "Select how the certificate will be verified.");
             comboBox_verifymethod.SelectedIndexChanged += comboBox_verifymethod_SelectedIndexChanged;
             // 
             // Panel_SelectCertificate
@@ -880,7 +887,7 @@ namespace CertificateChecker
             Panel_SelectCertificate.Controls.Add(GroupBox_FileSelect);
             Panel_SelectCertificate.Controls.Add(GroupBox_PemBase64);
             Panel_SelectCertificate.Controls.Add(GroupBox_ScanWebAddress);
-            Panel_SelectCertificate.Location = new System.Drawing.Point(0, 127);
+            Panel_SelectCertificate.Location = new System.Drawing.Point(0, 148);
             Panel_SelectCertificate.Name = "Panel_SelectCertificate";
             Panel_SelectCertificate.Size = new System.Drawing.Size(628, 218);
             Panel_SelectCertificate.TabIndex = 43;
@@ -1013,13 +1020,21 @@ namespace CertificateChecker
             // panel1
             // 
             panel1.Controls.Add(groupBox3);
-            panel1.Location = new System.Drawing.Point(627, 344);
+            panel1.Location = new System.Drawing.Point(627, 365);
             panel1.Name = "panel1";
             panel1.Size = new System.Drawing.Size(628, 475);
             panel1.TabIndex = 44;
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(button_san_recheck);
+            groupBox3.Controls.Add(button_eku_recheck);
+            groupBox3.Controls.Add(button_ocsp_recheck);
+            groupBox3.Controls.Add(button_aia_recheck);
+            groupBox3.Controls.Add(button_crl_recheck);
+            groupBox3.Controls.Add(button_ocsp_downloader);
+            groupBox3.Controls.Add(button_aia_downloader);
+            groupBox3.Controls.Add(button_crl_downloader);
             groupBox3.Controls.Add(pictureBox_OCSP);
             groupBox3.Controls.Add(pictureBox_AIA);
             groupBox3.Controls.Add(pictureBox_CDP);
@@ -1028,7 +1043,6 @@ namespace CertificateChecker
             groupBox3.Controls.Add(TextBox_EKU);
             groupBox3.Controls.Add(TextBox_AIA);
             groupBox3.Controls.Add(TextBox_OCSP);
-            groupBox3.Controls.Add(linkLabel1);
             groupBox3.Controls.Add(label_OCSP);
             groupBox3.Controls.Add(label_EKU);
             groupBox3.Controls.Add(TextBox_CRL);
@@ -1041,12 +1055,124 @@ namespace CertificateChecker
             groupBox3.TabIndex = 29;
             groupBox3.TabStop = false;
             // 
+            // button_san_recheck
+            // 
+            button_san_recheck.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_san_recheck.ImageIndex = 1;
+            button_san_recheck.ImageList = ımageList2;
+            button_san_recheck.Location = new System.Drawing.Point(564, 424);
+            button_san_recheck.Name = "button_san_recheck";
+            button_san_recheck.Size = new System.Drawing.Size(30, 30);
+            button_san_recheck.TabIndex = 47;
+            toolTip1.SetToolTip(button_san_recheck, "Recheck the OCSP validation status.");
+            button_san_recheck.UseVisualStyleBackColor = false;
+            button_san_recheck.Click += button_san_recheck_Click;
+            // 
+            // ımageList2
+            // 
+            ımageList2.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            ımageList2.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("ımageList2.ImageStream");
+            ımageList2.TransparentColor = System.Drawing.Color.Transparent;
+            ımageList2.Images.SetKeyName(0, "download.png");
+            ımageList2.Images.SetKeyName(1, "recheck.png");
+            // 
+            // button_eku_recheck
+            // 
+            button_eku_recheck.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_eku_recheck.ImageIndex = 1;
+            button_eku_recheck.ImageList = ımageList2;
+            button_eku_recheck.Location = new System.Drawing.Point(564, 285);
+            button_eku_recheck.Name = "button_eku_recheck";
+            button_eku_recheck.Size = new System.Drawing.Size(30, 30);
+            button_eku_recheck.TabIndex = 46;
+            toolTip1.SetToolTip(button_eku_recheck, "Recheck the OCSP validation status.");
+            button_eku_recheck.UseVisualStyleBackColor = false;
+            button_eku_recheck.Click += button_eku_recheck_Click;
+            // 
+            // button_ocsp_recheck
+            // 
+            button_ocsp_recheck.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_ocsp_recheck.ImageIndex = 1;
+            button_ocsp_recheck.ImageList = ımageList2;
+            button_ocsp_recheck.Location = new System.Drawing.Point(564, 169);
+            button_ocsp_recheck.Name = "button_ocsp_recheck";
+            button_ocsp_recheck.Size = new System.Drawing.Size(30, 30);
+            button_ocsp_recheck.TabIndex = 45;
+            toolTip1.SetToolTip(button_ocsp_recheck, "Recheck the OCSP validation status.");
+            button_ocsp_recheck.UseVisualStyleBackColor = false;
+            button_ocsp_recheck.Click += button_ocsp_recheck_Click;
+            // 
+            // button_aia_recheck
+            // 
+            button_aia_recheck.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_aia_recheck.ImageIndex = 1;
+            button_aia_recheck.ImageList = ımageList2;
+            button_aia_recheck.Location = new System.Drawing.Point(564, 93);
+            button_aia_recheck.Name = "button_aia_recheck";
+            button_aia_recheck.Size = new System.Drawing.Size(30, 30);
+            button_aia_recheck.TabIndex = 44;
+            toolTip1.SetToolTip(button_aia_recheck, "Recheck the AIA validation status.");
+            button_aia_recheck.UseVisualStyleBackColor = false;
+            button_aia_recheck.Click += button_aia_recheck_Click;
+            // 
+            // button_crl_recheck
+            // 
+            button_crl_recheck.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_crl_recheck.ImageIndex = 1;
+            button_crl_recheck.ImageList = ımageList2;
+            button_crl_recheck.Location = new System.Drawing.Point(564, 15);
+            button_crl_recheck.Name = "button_crl_recheck";
+            button_crl_recheck.Size = new System.Drawing.Size(30, 30);
+            button_crl_recheck.TabIndex = 43;
+            toolTip1.SetToolTip(button_crl_recheck, "Recheck the CRL validation status.");
+            button_crl_recheck.UseVisualStyleBackColor = false;
+            button_crl_recheck.Click += button_crl_recheck_Click;
+            // 
+            // button_ocsp_downloader
+            // 
+            button_ocsp_downloader.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_ocsp_downloader.ImageIndex = 0;
+            button_ocsp_downloader.ImageList = ımageList2;
+            button_ocsp_downloader.Location = new System.Drawing.Point(564, 209);
+            button_ocsp_downloader.Name = "button_ocsp_downloader";
+            button_ocsp_downloader.Size = new System.Drawing.Size(30, 30);
+            button_ocsp_downloader.TabIndex = 42;
+            toolTip1.SetToolTip(button_ocsp_downloader, "Request and save OCSP responses from the certificate's OCSP responders.");
+            button_ocsp_downloader.UseVisualStyleBackColor = false;
+            button_ocsp_downloader.Click += button_ocsp_downloader_Click;
+            // 
+            // button_aia_downloader
+            // 
+            button_aia_downloader.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_aia_downloader.ImageIndex = 0;
+            button_aia_downloader.ImageList = ımageList2;
+            button_aia_downloader.Location = new System.Drawing.Point(564, 133);
+            button_aia_downloader.Name = "button_aia_downloader";
+            button_aia_downloader.Size = new System.Drawing.Size(30, 30);
+            button_aia_downloader.TabIndex = 41;
+            toolTip1.SetToolTip(button_aia_downloader, "Download issuer certificates from the certificate's AIA locations.");
+            button_aia_downloader.UseVisualStyleBackColor = false;
+            button_aia_downloader.Click += button_aia_downloader_Click;
+            // 
+            // button_crl_downloader
+            // 
+            button_crl_downloader.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_crl_downloader.ImageIndex = 0;
+            button_crl_downloader.ImageList = ımageList2;
+            button_crl_downloader.Location = new System.Drawing.Point(564, 57);
+            button_crl_downloader.Name = "button_crl_downloader";
+            button_crl_downloader.Size = new System.Drawing.Size(30, 30);
+            button_crl_downloader.TabIndex = 40;
+            toolTip1.SetToolTip(button_crl_downloader, "Download CRL data from the certificate's distribution points.");
+            button_crl_downloader.UseVisualStyleBackColor = false;
+            button_crl_downloader.Click += button_crl_downloader_Click;
+            // 
             // pictureBox_OCSP
             // 
             pictureBox_OCSP.BackColor = System.Drawing.Color.Transparent;
-            pictureBox_OCSP.Location = new System.Drawing.Point(89, 169);
+            pictureBox_OCSP.Location = new System.Drawing.Point(92, 170);
             pictureBox_OCSP.Name = "pictureBox_OCSP";
-            pictureBox_OCSP.Size = new System.Drawing.Size(23, 23);
+            pictureBox_OCSP.Size = new System.Drawing.Size(20, 20);
             pictureBox_OCSP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             pictureBox_OCSP.TabIndex = 39;
             pictureBox_OCSP.TabStop = false;
@@ -1054,9 +1180,9 @@ namespace CertificateChecker
             // pictureBox_AIA
             // 
             pictureBox_AIA.BackColor = System.Drawing.Color.Transparent;
-            pictureBox_AIA.Location = new System.Drawing.Point(89, 93);
+            pictureBox_AIA.Location = new System.Drawing.Point(92, 95);
             pictureBox_AIA.Name = "pictureBox_AIA";
-            pictureBox_AIA.Size = new System.Drawing.Size(23, 23);
+            pictureBox_AIA.Size = new System.Drawing.Size(20, 20);
             pictureBox_AIA.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             pictureBox_AIA.TabIndex = 38;
             pictureBox_AIA.TabStop = false;
@@ -1064,9 +1190,9 @@ namespace CertificateChecker
             // pictureBox_CDP
             // 
             pictureBox_CDP.BackColor = System.Drawing.Color.Transparent;
-            pictureBox_CDP.Location = new System.Drawing.Point(89, 17);
+            pictureBox_CDP.Location = new System.Drawing.Point(93, 17);
             pictureBox_CDP.Name = "pictureBox_CDP";
-            pictureBox_CDP.Size = new System.Drawing.Size(23, 23);
+            pictureBox_CDP.Size = new System.Drawing.Size(20, 20);
             pictureBox_CDP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             pictureBox_CDP.TabIndex = 37;
             pictureBox_CDP.TabStop = false;
@@ -1080,8 +1206,9 @@ namespace CertificateChecker
             TextBox_SAN.Name = "TextBox_SAN";
             TextBox_SAN.ReadOnly = true;
             TextBox_SAN.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            TextBox_SAN.Size = new System.Drawing.Size(476, 113);
+            TextBox_SAN.Size = new System.Drawing.Size(440, 133);
             TextBox_SAN.TabIndex = 34;
+            toolTip1.SetToolTip(TextBox_SAN, "Subject Alternative Names associated with the certificate.");
             // 
             // label_SAN
             // 
@@ -1103,8 +1230,10 @@ namespace CertificateChecker
             TextBox_EKU.Multiline = true;
             TextBox_EKU.Name = "TextBox_EKU";
             TextBox_EKU.ReadOnly = true;
-            TextBox_EKU.Size = new System.Drawing.Size(476, 70);
+            TextBox_EKU.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            TextBox_EKU.Size = new System.Drawing.Size(440, 70);
             TextBox_EKU.TabIndex = 32;
+            toolTip1.SetToolTip(TextBox_EKU, "Extended Key Usage purposes permitted by the certificate.");
             // 
             // TextBox_AIA
             // 
@@ -1114,8 +1243,10 @@ namespace CertificateChecker
             TextBox_AIA.Multiline = true;
             TextBox_AIA.Name = "TextBox_AIA";
             TextBox_AIA.ReadOnly = true;
-            TextBox_AIA.Size = new System.Drawing.Size(476, 70);
+            TextBox_AIA.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            TextBox_AIA.Size = new System.Drawing.Size(440, 70);
             TextBox_AIA.TabIndex = 30;
+            toolTip1.SetToolTip(TextBox_AIA, "Authority Information Access locations for issuer information.");
             // 
             // TextBox_OCSP
             // 
@@ -1125,8 +1256,10 @@ namespace CertificateChecker
             TextBox_OCSP.Multiline = true;
             TextBox_OCSP.Name = "TextBox_OCSP";
             TextBox_OCSP.ReadOnly = true;
-            TextBox_OCSP.Size = new System.Drawing.Size(476, 70);
+            TextBox_OCSP.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            TextBox_OCSP.Size = new System.Drawing.Size(440, 70);
             TextBox_OCSP.TabIndex = 31;
+            toolTip1.SetToolTip(TextBox_OCSP, "Online Certificate Status Protocol responder locations.");
             // 
             // label_OCSP
             // 
@@ -1160,8 +1293,10 @@ namespace CertificateChecker
             TextBox_CRL.Multiline = true;
             TextBox_CRL.Name = "TextBox_CRL";
             TextBox_CRL.ReadOnly = true;
-            TextBox_CRL.Size = new System.Drawing.Size(476, 70);
+            TextBox_CRL.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            TextBox_CRL.Size = new System.Drawing.Size(439, 70);
             TextBox_CRL.TabIndex = 29;
+            toolTip1.SetToolTip(TextBox_CRL, "Certificate Revocation List distribution points contained in the certificate.");
             // 
             // label_CDP
             // 
@@ -1170,9 +1305,9 @@ namespace CertificateChecker
             label_CDP.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
             label_CDP.Location = new System.Drawing.Point(9, 17);
             label_CDP.Name = "label_CDP";
-            label_CDP.Size = new System.Drawing.Size(44, 21);
+            label_CDP.Size = new System.Drawing.Size(40, 21);
             label_CDP.TabIndex = 9;
-            label_CDP.Text = "CDP";
+            label_CDP.Text = "CRL";
             toolTip1.SetToolTip(label_CDP, "CRL Distribution Point");
             // 
             // label_AIA
@@ -1187,24 +1322,93 @@ namespace CertificateChecker
             label_AIA.Text = "AIA";
             toolTip1.SetToolTip(label_AIA, "Authority Information Access");
             // 
+            // menuStrip1
+            // 
+            menuStrip1.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripMenuItem1, toolStripMenuItem2, toolStripMenuItem3, toolStripMenuItem4 });
+            menuStrip1.Location = new System.Drawing.Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new System.Drawing.Size(1255, 28);
+            menuStrip1.TabIndex = 45;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new System.Drawing.Size(44, 24);
+            toolStripMenuItem1.Text = "File";
+            // 
+            // toolStripMenuItem2
+            // 
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            toolStripMenuItem2.Size = new System.Drawing.Size(55, 24);
+            toolStripMenuItem2.Text = "Tools";
+            // 
+            // toolStripMenuItem3
+            // 
+            toolStripMenuItem3.Name = "toolStripMenuItem3";
+            toolStripMenuItem3.Size = new System.Drawing.Size(59, 24);
+            toolStripMenuItem3.Text = "View";
+            // 
+            // toolStripMenuItem4
+            // 
+            toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { officalWebSiteToolStripMenuItem, githubToolStripMenuItem, aboutToolStripMenuItem });
+            toolStripMenuItem4.Name = "toolStripMenuItem4";
+            toolStripMenuItem4.Size = new System.Drawing.Size(54, 24);
+            toolStripMenuItem4.Text = "Help";
+            // 
+            // officalWebSiteToolStripMenuItem
+            // 
+            officalWebSiteToolStripMenuItem.Name = "officalWebSiteToolStripMenuItem";
+            officalWebSiteToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
+            officalWebSiteToolStripMenuItem.Text = "Official Website";
+            // 
+            // githubToolStripMenuItem
+            // 
+            githubToolStripMenuItem.Name = "githubToolStripMenuItem";
+            githubToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
+            githubToolStripMenuItem.Text = "Github";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            aboutToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
+            aboutToolStripMenuItem.Text = "About";
+            // 
+            // button_terminal
+            // 
+            button_terminal.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_terminal.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            button_terminal.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 162);
+            button_terminal.ForeColor = System.Drawing.SystemColors.ControlText;
+            button_terminal.ImageIndex = 10;
+            button_terminal.ImageList = ımageList1;
+            button_terminal.Location = new System.Drawing.Point(62, 156);
+            button_terminal.Name = "button_terminal";
+            button_terminal.Size = new System.Drawing.Size(50, 45);
+            button_terminal.TabIndex = 35;
+            button_terminal.UseVisualStyleBackColor = false;
+            button_terminal.Click += button_terminal_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.SystemColors.Control;
-            ClientSize = new System.Drawing.Size(1255, 819);
+            ClientSize = new System.Drawing.Size(1255, 840);
             Controls.Add(panel1);
             Controls.Add(Panel_SelectCertificate);
             Controls.Add(Panel_VerifyMethod);
             Controls.Add(Panel_SertifikaKontrol);
             Controls.Add(Label_AltBaslik);
-            Controls.Add(Buton_Ayarlar);
             Controls.Add(Label_Baslik);
             Controls.Add(Panel_CertificateControl2);
+            Controls.Add(menuStrip1);
             Font = new System.Drawing.Font("Arial", 9.75F);
             ForeColor = System.Drawing.SystemColors.Desktop;
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             Name = "Form1";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1235,6 +1439,8 @@ namespace CertificateChecker
             ((System.ComponentModel.ISupportInitialize)pictureBox_OCSP).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_AIA).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_CDP).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1265,8 +1471,6 @@ namespace CertificateChecker
         private System.Windows.Forms.PictureBox PictureBox_Durum;
         private System.Windows.Forms.ImageList ımageList1;
         private System.Windows.Forms.Label Label_Baslik;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.Button Buton_Ayarlar;
         private System.Windows.Forms.Label Label_AltBaslik;
         private System.Windows.Forms.Button Buton_Goruntule;
         private System.Windows.Forms.Panel Panel_SertifikaKontrol;
@@ -1334,5 +1538,23 @@ namespace CertificateChecker
         private System.Windows.Forms.ColumnHeader columnStatus;
         private System.Windows.Forms.ColumnHeader columnDescription;
         private System.Windows.Forms.ColumnHeader columnSource;
+        private System.Windows.Forms.Button button_crl_downloader;
+        private System.Windows.Forms.Button button_ocsp_downloader;
+        private System.Windows.Forms.Button button_aia_downloader;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem officalWebSiteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem githubToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.Button button_ocsp_recheck;
+        private System.Windows.Forms.Button button_aia_recheck;
+        private System.Windows.Forms.Button button_crl_recheck;
+        private System.Windows.Forms.ImageList ımageList2;
+        private System.Windows.Forms.Button button_san_recheck;
+        private System.Windows.Forms.Button button_eku_recheck;
+        private System.Windows.Forms.Button button_terminal;
     }
 }
