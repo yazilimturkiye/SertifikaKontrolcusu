@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "0YmFExTCTnQ=",
+  "dgSpecHash": "kwSrTTY4N9g=",
   "success": true,
   "projectFilePath": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CertificateChecker.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\HOME-PC\\.nuget\\packages\\bouncycastle.netcore\\2.2.1\\bouncycastle.netcore.2.2.1.nupkg.sha512",
+    "C:\\Users\\HOME-PC\\.nuget\\packages\\stub.system.data.sqlite.core.netstandard\\1.0.119\\stub.system.data.sqlite.core.netstandard.1.0.119.nupkg.sha512",
+    "C:\\Users\\HOME-PC\\.nuget\\packages\\system.data.sqlite.core\\1.0.119\\system.data.sqlite.core.1.0.119.nupkg.sha512",
     "C:\\Users\\HOME-PC\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22000.57\\microsoft.windows.sdk.net.ref.10.0.22000.57.nupkg.sha512"
   ],
   "logs": []
