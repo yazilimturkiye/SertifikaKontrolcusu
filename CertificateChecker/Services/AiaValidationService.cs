@@ -3,147 +3,172 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using CertificateChecker.Models;
+using System.Net;
+using System.IO;
+using Org.BouncyCastle.X509;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace CertificateChecker.Services
 {
     public class AiaValidationService
     {
-        public List<VerificationCheckResult> Validate(
-            X509Certificate2 certificate,
-            IEnumerable<string> aiaUrls)
+        public List<VerificationCheckResult> Validate(X509Certificate2 certificate,IEnumerable<string> aiaUrls)
         {
             var results = new List<VerificationCheckResult>();
 
             if (certificate == null)
             {
+                results.Add(CreateResult("ERROR", "Certificate is null.", "-"));
+                return results;
+            }
+
+            var urls = (aiaUrls ?? Enumerable.Empty<string>())
+                .Where(url => !string.IsNullOrWhiteSpace(url))
+                .Select(url => url.Trim())
+                .Where(url => url.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                           || url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            if (urls.Count == 0)
+            {
                 results.Add(CreateResult(
-                    "ERROR",
-                    "Certificate is null.",
+                    "WARNING",
+                    "No HTTP/HTTPS CA Issuers AIA URL found.",
                     "-"
                 ));
 
                 return results;
             }
 
-            try
+            foreach (string url in urls)
             {
-                // AIA adreslerini temizle ve HTTP/HTTPS URL'lerini çıkar.
-                var urls = (aiaUrls ?? Enumerable.Empty<string>())
-                    .Where(line => !string.IsNullOrWhiteSpace(line))
-                    .Select(line => line.Trim())
-                    .Where(line =>
-                        !line.Equals(
-                            "No URI found",
-                            StringComparison.OrdinalIgnoreCase) &&
-                        !line.Equals(
-                            "Not Found",
-                            StringComparison.OrdinalIgnoreCase))
-                    .Select(line =>
-                    {
-                        int httpIndex = line.IndexOf(
-                            "http://",
-                            StringComparison.OrdinalIgnoreCase
-                        );
-
-                        int httpsIndex = line.IndexOf(
-                            "https://",
-                            StringComparison.OrdinalIgnoreCase
-                        );
-
-                        int index;
-
-                        if (httpIndex >= 0 && httpsIndex >= 0)
-                        {
-                            index = Math.Min(httpIndex, httpsIndex);
-                        }
-                        else
-                        {
-                            index = httpIndex >= 0
-                                ? httpIndex
-                                : httpsIndex;
-                        }
-
-                        return index >= 0
-                            ? line.Substring(index).Trim()
-                            : null;
-                    })
-                    .Where(url => !string.IsNullOrWhiteSpace(url))
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .ToList();
-
-                // Eski metottaki Windows sertifika zinciri kontrolü.
-                bool windowsTrusted;
-
-                using (var chain = new X509Chain())
+                try
                 {
-                    chain.ChainPolicy.RevocationMode =
-                        X509RevocationMode.NoCheck;
-
-                    chain.ChainPolicy.VerificationFlags =
-                        X509VerificationFlags.NoFlag;
-
-                    chain.ChainPolicy.UrlRetrievalTimeout =
-                        TimeSpan.FromSeconds(10);
-
-                    windowsTrusted = chain.Build(certificate);
-                }
-
-                // AIA adresi varsa her adres için ayrı sonuç üret.
-                if (urls.Count > 0)
-                {
-                    foreach (string url in urls)
+                    using (var issuerCertificate = DownloadIssuerCertificate(url))
                     {
-                        if (windowsTrusted)
-                        {
-                            results.Add(CreateResult(
-                                "OK",
-                                "Issuer trusted (Windows policy).",
-                                url
-                            ));
-                        }
-                        else
-                        {
-                            results.Add(CreateResult(
-                                "ERROR",
-                                "Issuer not trusted.",
-                                url
-                            ));
-                        }
-                    }
-                }
-                else
-                {
-                    // AIA adresi bulunamadıysa Windows sonucunu ayrı raporla.
-                    if (windowsTrusted)
-                    {
+                        bool valid = VerifyIssuer(certificate, issuerCertificate);
+
                         results.Add(CreateResult(
-                            "WARNING",
-                            "No AIA URL found. Windows certificate chain validation succeeded.",
-                            "-"
-                        ));
-                    }
-                    else
-                    {
-                        results.Add(CreateResult(
-                            "ERROR",
-                            "AIA not available and issuer is not trusted.",
-                            "-"
+                            valid ? "OK" : "ERROR",
+                            valid
+                                ? "Issuer certificate downloaded and signature verified."
+                                : "Downloaded certificate is not a valid issuer of the selected certificate.",
+                            url
                         ));
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                results.Add(CreateResult(
-                    "ERROR",
-                    "AIA validation error: " + ex.Message,
-                    "-"
-                ));
+                catch (Exception ex)
+                {
+                    results.Add(CreateResult(
+                        "ERROR",
+                        "AIA issuer retrieval or validation failed: " + ex.Message,
+                        url
+                    ));
+                }
             }
 
             return results;
         }
+        private static byte[] GetAuthorityKeyIdentifier(
+    Org.BouncyCastle.X509.X509Certificate certificate)
+        {
+            var extension = certificate.GetExtensionValue(
+                X509Extensions.AuthorityKeyIdentifier
+            );
 
+            if (extension == null)
+                return null;
+
+            var aki = AuthorityKeyIdentifier.GetInstance(
+                Org.BouncyCastle.Asn1.Asn1Object.FromByteArray(
+                    extension.GetOctets()
+                )
+            );
+
+            return aki.GetKeyIdentifier();
+        }
+        private static byte[] GetSubjectKeyIdentifier(
+    Org.BouncyCastle.X509.X509Certificate certificate)
+        {
+            var extension = certificate.GetExtensionValue(
+                X509Extensions.SubjectKeyIdentifier
+            );
+
+            if (extension == null)
+                return null;
+
+            var ski = SubjectKeyIdentifier.GetInstance(
+                Org.BouncyCastle.Asn1.Asn1Object.FromByteArray(
+                    extension.GetOctets()
+                )
+            );
+
+            return ski.GetKeyIdentifier();
+        }
+        private static X509Certificate2 DownloadIssuerCertificate(string url)
+        {
+            using (var client = new WebClient())
+            {
+                client.Headers.Add("User-Agent", "CertificateChecker/1.0");
+                client.Encoding = System.Text.Encoding.UTF8;
+
+                byte[] data = client.DownloadData(url);
+
+                var collection = new X509Certificate2Collection();
+
+                try
+                {
+                    collection.Import(data);
+                }
+                catch
+                {
+                    // DER formatında tek sertifika olabilir.
+                    return new X509Certificate2(data);
+                }
+
+                if (collection.Count == 0)
+                    throw new InvalidDataException("No certificate found at AIA URL.");
+
+                return new X509Certificate2(collection[0]);
+            }
+        }
+        private static bool VerifyIssuer(
+    X509Certificate2 certificate,
+    X509Certificate2 issuerCertificate)
+        {
+            if (!string.Equals(
+                certificate.Issuer,
+                issuerCertificate.Subject,
+                StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            var parser = new X509CertificateParser();
+
+            var childBc = parser.ReadCertificate(certificate.RawData);
+            var issuerBc = parser.ReadCertificate(issuerCertificate.RawData);
+
+            byte[] aki = GetAuthorityKeyIdentifier(childBc);
+            byte[] ski = GetSubjectKeyIdentifier(issuerBc);
+
+            if (aki != null && ski != null &&
+                !aki.SequenceEqual(ski))
+            {
+                return false;
+            }
+
+            try
+            {
+                childBc.Verify(issuerBc.GetPublicKey());
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         private static VerificationCheckResult CreateResult(
             string status,
             string description,

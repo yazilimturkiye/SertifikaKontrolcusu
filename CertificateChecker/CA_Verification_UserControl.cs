@@ -29,13 +29,32 @@ namespace CertificateChecker
         private readonly Dictionary<int, CARecord> _caCertificates = new Dictionary<int, CARecord>();
         private readonly Dictionary<int, List<int>> _caChildren = new Dictionary<int, List<int>>();
         private bool _isFilteringTree = false;
+        private readonly DeleteRootCA _deleteRootCA = new DeleteRootCA();
         private class CARecord
         {
             public int Id { get; set; }
             public string Name { get; set; }
             public string Type { get; set; }
         }
-
+        private void ClearCAInformation()
+        {
+            Textbox_Verilen.Clear();
+            Textbox_Veren.Clear();
+            TextBox_aki.Clear();
+            TextBox_ski.Clear();
+            Textbox_Serino.Clear();
+            Textbox_Usage.Clear();
+            Textbox_Constraints.Clear();
+            Textbox_Baslangic.Clear();
+            Textbox_Bitis.Clear();
+            Textbox_Algoritma.Clear();
+            TextBox_Publickey.Clear();
+            TextBox_Thumbprint.Clear();
+            TextBox_Policy.Clear();
+            TextBox_CRL.Clear();
+            TextBox_AIA.Clear();
+            TextBox_OCSP.Clear();
+        }
         private void LoadCATreeView()
         {
             string dbPath = Path.Combine(Application.StartupPath, "Data", "CertificateAuthority.db");
@@ -221,7 +240,6 @@ namespace CertificateChecker
                 MessageBox.Show("Certificate could not be loaded:\n" + ex.Message, "Certificate Authority", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void TextBox_SearchCA_TextChanged(object sender, EventArgs e)
         {
             ApplyCATreeFilter();
@@ -231,52 +249,106 @@ namespace CertificateChecker
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
                 dialog.Title = "Import Certificate Authority";
-
-                dialog.Filter =
-                    "Certificate Files (*.cer;*.crt;*.pem;*.der;*.p7b;*.p7c)|*.cer;*.crt;*.pem;*.der;*.p7b;*.p7c|" +
-                    "All Files (*.*)|*.*";
-
+                dialog.Filter = "Certificate Files (*.cer;*.crt;*.pem;*.der;*.p7b;*.p7c)|*.cer;*.crt;*.pem;*.der;*.p7b;*.p7c|" + "All Files (*.*)|*.*";
                 dialog.Multiselect = true;
-
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
-
                 try
                 {
-                    CAImportResult result =
-                        _importRootCA.ImportCertificates(dialog.FileNames);
-
+                    CAImportResult result = _importRootCA.ImportCertificates(dialog.FileNames);
                     if (result.Success)
                     {
                         LoadCATreeView();
 
-                        MessageBox.Show(
-                            result.Message,
-                            "Import CA",
-                            MessageBoxButtons.OK,
-                            result.RejectedCount > 0
-                                ? MessageBoxIcon.Warning
-                                : MessageBoxIcon.Information);
+                        MessageBox.Show(result.Message, "Import CA", MessageBoxButtons.OK, result.RejectedCount > 0 ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
                     }
                     else
                     {
-                        MessageBox.Show(
-                            string.IsNullOrWhiteSpace(result.ErrorMessage)
-                                ? result.Message
-                                : result.ErrorMessage,
-                            "Import CA",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+                        MessageBox.Show(string.IsNullOrWhiteSpace(result.ErrorMessage) ? result.Message : result.ErrorMessage, "Import CA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(
-                        "Import failed:\n" + ex.Message,
-                        "Import CA",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    MessageBox.Show("Import failed:\n" + ex.Message, "Import CA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+        private void button_DeleteCA_Click(object sender, EventArgs e)
+        {
+            if (TreeView_CA.SelectedNode == null || TreeView_CA.SelectedNode.Tag == null)
+            {
+                MessageBox.Show("Please select a certificate authority first.", "Delete CA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            int certificateId = Convert.ToInt32(TreeView_CA.SelectedNode.Tag);
+            string certificateName = TreeView_CA.SelectedNode.Text;
+            DialogResult confirmation = MessageBox.Show("Are you sure you want to delete '" + certificateName + "'?\n\n" + "All subordinate certificate authorities under this certificate will also be deleted.\n\n" + "This operation cannot be undone.", "Confirm CA Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirmation != DialogResult.Yes)
+                return;
+            int deletedCount;
+            string errorMessage;
+            bool success = _deleteRootCA.DeleteCertificate(certificateId, out deletedCount, out errorMessage);
+            if (!success)
+            {
+                MessageBox.Show("Certificate deletion failed:\n" + errorMessage, "Delete CA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            ClearCAInformation();
+            LoadCATreeView();
+            MessageBox.Show(deletedCount + " certificate authority record(s) deleted successfully.", "Delete CA", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        private void button_ExportCA_Click(object sender, EventArgs e)
+        {
+            if (TreeView_CA.SelectedNode == null || TreeView_CA.SelectedNode.Tag == null)
+            {
+                MessageBox.Show("Please select a certificate authority first.","Export CA",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                return;
+            }
+            int certificateId = Convert.ToInt32(TreeView_CA.SelectedNode.Tag);
+            string certificateName = TreeView_CA.SelectedNode.Text;
+            try
+            {
+                string dbPath = Path.Combine(Application.StartupPath,"Data","CertificateAuthority.db");
+                byte[] certificateData;
+                using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;Read Only=True;"))
+                {
+                    connection.Open();
+                    using (SQLiteCommand command = new SQLiteCommand("SELECT certificate_data FROM ca_certificates WHERE certificate_id = @id",connection))
+                    {
+                        command.Parameters.AddWithValue("@id", certificateId);
+                        object value = command.ExecuteScalar();
+                        if (value == null || value == DBNull.Value)
+                            throw new InvalidOperationException(
+                                "Certificate data could not be found.");
+                        certificateData = Convert.FromBase64String(value.ToString());
+                    }
+                }
+                using (SaveFileDialog dialog = new SaveFileDialog())
+                {
+                    dialog.Title = "Export Certificate Authority";
+                    dialog.FileName = certificateName + ".cer";
+                    dialog.Filter ="CER Certificate (*.cer)|*.cer|" +"CRT Certificate (*.crt)|*.crt|" +"DER Certificate (*.der)|*.der|" +"PEM Certificate (*.pem)|*.pem";
+                    dialog.FilterIndex = 1;
+                    dialog.AddExtension = true;
+                    dialog.DefaultExt = "cer";
+                    dialog.OverwritePrompt = true;
+                    if (dialog.ShowDialog() != DialogResult.OK)
+                        return;
+                    byte[] outputData = certificateData;
+                    string extension = Path.GetExtension(dialog.FileName).ToLowerInvariant();
+                    if (extension == ".pem")
+                    {
+                        string base64 = Convert.ToBase64String(certificateData,Base64FormattingOptions.InsertLineBreaks);
+                        string pem ="-----BEGIN CERTIFICATE-----" + Environment.NewLine + base64 + Environment.NewLine + "-----END CERTIFICATE-----" + Environment.NewLine;
+                        outputData = Encoding.ASCII.GetBytes(pem);
+                    }
+                    File.WriteAllBytes(dialog.FileName, outputData);
+                    MessageBox.Show("Certificate exported successfully.","Export CA",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Certificate export failed:\n" + ex.Message,"Export CA",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
     }

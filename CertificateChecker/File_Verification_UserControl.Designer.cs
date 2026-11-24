@@ -88,6 +88,9 @@
             columnHeader2 = new System.Windows.Forms.ColumnHeader();
             columnHeader3 = new System.Windows.Forms.ColumnHeader();
             groupBox_CertInfo2 = new System.Windows.Forms.GroupBox();
+            button_CRLFileView = new System.Windows.Forms.Button();
+            button_AIACertView = new System.Windows.Forms.Button();
+            button_OCSPCertView = new System.Windows.Forms.Button();
             Button_Result_Recheck = new System.Windows.Forms.Button();
             button_san_recheck = new System.Windows.Forms.Button();
             button_eku_recheck = new System.Windows.Forms.Button();
@@ -171,6 +174,7 @@
             ImageList_Buttons1.Images.SetKeyName(5, "info.png");
             ImageList_Buttons1.Images.SetKeyName(6, "tool.png");
             ImageList_Buttons1.Images.SetKeyName(7, "new.png");
+            ImageList_Buttons1.Images.SetKeyName(8, "certificate.png");
             // 
             // Button_Terminal
             // 
@@ -711,6 +715,7 @@
             listView_VerificationDetail.TabIndex = 0;
             listView_VerificationDetail.UseCompatibleStateImageBehavior = false;
             listView_VerificationDetail.View = System.Windows.Forms.View.Details;
+            listView_VerificationDetail.KeyDown += listView_VerificationDetail_KeyDown;
             // 
             // columnComponent
             // 
@@ -775,6 +780,9 @@
             // 
             // groupBox_CertInfo2
             // 
+            groupBox_CertInfo2.Controls.Add(button_CRLFileView);
+            groupBox_CertInfo2.Controls.Add(button_AIACertView);
+            groupBox_CertInfo2.Controls.Add(button_OCSPCertView);
             groupBox_CertInfo2.Controls.Add(Button_Result_Recheck);
             groupBox_CertInfo2.Controls.Add(tabControl1);
             groupBox_CertInfo2.Controls.Add(button_san_recheck);
@@ -807,6 +815,43 @@
             groupBox_CertInfo2.Size = new System.Drawing.Size(605, 715);
             groupBox_CertInfo2.TabIndex = 50;
             groupBox_CertInfo2.TabStop = false;
+            // 
+            // button_CRLFileView
+            // 
+            button_CRLFileView.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_CRLFileView.Enabled = false;
+            button_CRLFileView.ImageIndex = 2;
+            button_CRLFileView.ImageList = ImageList_Buttons1;
+            button_CRLFileView.Location = new System.Drawing.Point(564, 443);
+            button_CRLFileView.Name = "button_CRLFileView";
+            button_CRLFileView.Size = new System.Drawing.Size(30, 30);
+            button_CRLFileView.TabIndex = 52;
+            button_CRLFileView.UseVisualStyleBackColor = false;
+            // 
+            // button_AIACertView
+            // 
+            button_AIACertView.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_AIACertView.Enabled = false;
+            button_AIACertView.ImageIndex = 8;
+            button_AIACertView.ImageList = ImageList_Buttons1;
+            button_AIACertView.Location = new System.Drawing.Point(564, 519);
+            button_AIACertView.Name = "button_AIACertView";
+            button_AIACertView.Size = new System.Drawing.Size(30, 30);
+            button_AIACertView.TabIndex = 51;
+            button_AIACertView.UseVisualStyleBackColor = false;
+            // 
+            // button_OCSPCertView
+            // 
+            button_OCSPCertView.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_OCSPCertView.Enabled = false;
+            button_OCSPCertView.ImageIndex = 8;
+            button_OCSPCertView.ImageList = ImageList_Buttons1;
+            button_OCSPCertView.Location = new System.Drawing.Point(564, 595);
+            button_OCSPCertView.Name = "button_OCSPCertView";
+            button_OCSPCertView.Size = new System.Drawing.Size(30, 30);
+            button_OCSPCertView.TabIndex = 50;
+            button_OCSPCertView.UseVisualStyleBackColor = false;
+            button_OCSPCertView.Click += button_OCSPCertView_Click;
             // 
             // Button_Result_Recheck
             // 
@@ -892,7 +937,7 @@
             button_ocsp_downloader.Enabled = false;
             button_ocsp_downloader.ImageIndex = 3;
             button_ocsp_downloader.ImageList = ImageList_Buttons1;
-            button_ocsp_downloader.Location = new System.Drawing.Point(565, 563);
+            button_ocsp_downloader.Location = new System.Drawing.Point(564, 563);
             button_ocsp_downloader.Name = "button_ocsp_downloader";
             button_ocsp_downloader.Size = new System.Drawing.Size(30, 30);
             button_ocsp_downloader.TabIndex = 42;
@@ -1191,5 +1236,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.Button button_OCSPCertView;
+        private System.Windows.Forms.Button button_CRLFileView;
+        private System.Windows.Forms.Button button_AIACertView;
     }
 }

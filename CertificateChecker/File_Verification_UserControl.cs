@@ -29,6 +29,10 @@ namespace CertificateChecker
         private string File_Path;
         private string File_Name;
         private X509Certificate2 CurrentCertificate;
+        private readonly CertificateFileService _certificateFileService = new CertificateFileService();
+        private CertificateFileInfo _ocspResponderFile;
+        private CertificateFileInfo _aiaIssuerFile;
+        private CertificateFileInfo _crlFile;
         private void SetupToolTips()
         {
             toolTip1.SetToolTip(Textbox_DosyaAdi, "Displays the selected certificate file name.");
@@ -70,6 +74,9 @@ namespace CertificateChecker
             toolTip1.SetToolTip(button_ocsp_downloader, "Download the OCSP response.");
             toolTip1.SetToolTip(Textbox_Durum, "Displays the overall certificate validation result.");
             toolTip1.SetToolTip(Button_Result_Recheck, "Recheck the overall certificate status.");
+            toolTip1.SetToolTip(button_CRLFileView, "Download the CRL file.");
+            toolTip1.SetToolTip(button_AIACertView, "Download the CA certificate from the AIA address.");
+            toolTip1.SetToolTip(button_OCSPCertView, "Download the OCSP responder certificate.");
         }
         private void ClearFileUI() // Dosya ile ilgili tüm UI alanlarını temizleyen metot. ---------------------------------------------------------
         {
@@ -114,6 +121,12 @@ namespace CertificateChecker
             button_eku_recheck.Enabled = false;
             button_san_recheck.Enabled = false;
             CurrentCertificate = null;
+            button_OCSPCertView.Enabled = false;
+            button_AIACertView.Enabled = false;
+            button_CRLFileView.Enabled = false;
+            _ocspResponderFile = null;
+            _aiaIssuerFile = null;
+            _crlFile = null;
         }
         private readonly CertificateParsingService _certificateParsingService = new CertificateParsingService(); // Sertifika ayrıştırma servisi örneği.
         private void RefreshSecurityReport() // Sertifika güvenlik raporunu yenileyen metot. ---------------------------------------------------------
@@ -155,15 +168,15 @@ namespace CertificateChecker
         {
             if (CurrentCertificate == null)
             {
-                VerificationReportService.Render(listView_VerificationDetail,new List<VerificationCheckResult>());
+                VerificationReportService.Render(listView_VerificationDetail, new List<VerificationCheckResult>());
                 return;
             }
             var results = new List<VerificationCheckResult>();
             try
             {
-                List<string> crlUrls = TextBox_CRL.Text.Split(new[] { '\r', '\n' },StringSplitOptions.RemoveEmptyEntries).Select(url => url.Trim()).Where(url => !string.IsNullOrWhiteSpace(url)).ToList();
-                List<string> aiaUrls = TextBox_AIA.Text.Split(new[] { '\r', '\n' },StringSplitOptions.RemoveEmptyEntries).Select(url => url.Trim()).Where(url => !string.IsNullOrWhiteSpace(url)).ToList();
-                List<string> ocspUrls = TextBox_OCSP.Text.Split(new[] { '\r', '\n' },StringSplitOptions.RemoveEmptyEntries).Select(url => url.Trim()).Where(url => !string.IsNullOrWhiteSpace(url)).ToList();
+                List<string> crlUrls = TextBox_CRL.Text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(url => url.Trim()).Where(url => !string.IsNullOrWhiteSpace(url)).ToList();
+                List<string> aiaUrls = TextBox_AIA.Text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(url => url.Trim()).Where(url => !string.IsNullOrWhiteSpace(url)).ToList();
+                List<string> ocspUrls = TextBox_OCSP.Text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(url => url.Trim()).Where(url => !string.IsNullOrWhiteSpace(url)).ToList();
                 var cdpService = new CdpValidationService();
                 VerificationCheckResult cdpResult = cdpService.Validate(CurrentCertificate, crlUrls);
                 results.Add(cdpResult);
@@ -172,21 +185,23 @@ namespace CertificateChecker
                 results.AddRange(aiaResults);
                 var ocspService = new OcspValidationService();
                 List<VerificationCheckResult> ocspResults = ocspService.Validate(CurrentCertificate, ocspUrls);
+                _ocspResponderFile = ocspService.ValidatedResponderFile;
+                button_OCSPCertView.Enabled = _ocspResponderFile != null;
                 results.AddRange(ocspResults);
-                UpdateVerificationIndicator(pictureBox_CDP,new List<VerificationCheckResult> { cdpResult });
-                UpdateVerificationIndicator(pictureBox_AIA,aiaResults);
-                UpdateVerificationIndicator(pictureBox_OCSP,ocspResults);
+                UpdateVerificationIndicator(pictureBox_CDP, new List<VerificationCheckResult> { cdpResult });
+                UpdateVerificationIndicator(pictureBox_AIA, aiaResults);
+                UpdateVerificationIndicator(pictureBox_OCSP, ocspResults);
             }
             catch (Exception ex)
             {
-                results.Add(new VerificationCheckResult{Component = "Verification",Status = "ERROR",Description = "Verification report error: " + ex.Message,Source = "-"});
+                results.Add(new VerificationCheckResult { Component = "Verification", Status = "ERROR", Description = "Verification report error: " + ex.Message, Source = "-" });
             }
             finally
             {
-                VerificationReportService.Render(listView_VerificationDetail,results);
+                VerificationReportService.Render(listView_VerificationDetail, results);
             }
         }
-        private void UpdateVerificationIndicator(PictureBox pictureBox,List<VerificationCheckResult> results) // Sertifika doğrulama göstergesini güncelleyen metot. ---------------------------------------------------------
+        private void UpdateVerificationIndicator(PictureBox pictureBox, List<VerificationCheckResult> results) // Sertifika doğrulama göstergesini güncelleyen metot. ---------------------------------------------------------
         {
             if (pictureBox == null)
                 return;
@@ -195,17 +210,17 @@ namespace CertificateChecker
                 pictureBox.Image = Properties.Resources.warning;
                 return;
             }
-            if (results.Any(result =>result.Status.Equals("ERROR",StringComparison.OrdinalIgnoreCase) ||result.Status.Equals("CRITICAL",StringComparison.OrdinalIgnoreCase) ||result.Status.Equals("FAILED",StringComparison.OrdinalIgnoreCase)))
+            if (results.Any(result => result.Status.Equals("ERROR", StringComparison.OrdinalIgnoreCase) || result.Status.Equals("CRITICAL", StringComparison.OrdinalIgnoreCase) || result.Status.Equals("FAILED", StringComparison.OrdinalIgnoreCase)))
             {
                 pictureBox.Image = Properties.Resources.error;
                 return;
             }
-            if (results.Any(result =>result.Status.Equals("WARNING",StringComparison.OrdinalIgnoreCase)))
+            if (results.Any(result => result.Status.Equals("WARNING", StringComparison.OrdinalIgnoreCase)))
             {
                 pictureBox.Image = Properties.Resources.warning;
                 return;
             }
-            if (results.Any(result =>result.Status.Equals("OK",StringComparison.OrdinalIgnoreCase)))
+            if (results.Any(result => result.Status.Equals("OK", StringComparison.OrdinalIgnoreCase)))
             {
                 pictureBox.Image = Properties.Resources.ok;
                 return;
@@ -647,7 +662,7 @@ namespace CertificateChecker
                 chain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
                 chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
                 CertificateChain(sertifika, TreeView_Chain);
-                CertificateDatesCheck(sertifika.NotBefore,sertifika.NotAfter);
+                CertificateDatesCheck(sertifika.NotBefore, sertifika.NotAfter);
                 UpdateDownloadButtons();
                 bool isChainValid = chain.Build(sertifika);
                 RefreshSecurityReport();
@@ -700,7 +715,7 @@ namespace CertificateChecker
             }
             catch (Exception)
             {
-                MessageBox.Show("Please select a valid certificate file. Valid file extensions:\n.cer, .crt, .exe, .pem, etc.","Invalid File",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a valid certificate file. Valid file extensions:\n.cer, .crt, .exe, .pem, etc.", "Invalid File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private string GetCertificatePolicyUrl(X509Certificate2 cert) //Sertifika politikalarından URL'yi ayıklayan metot. ---------------------------------------------------------
@@ -876,7 +891,7 @@ namespace CertificateChecker
                 MessageBox.Show("The certificate does not contain a Subject Alternative Name (SAN) extension.", "SAN Recheck", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            MessageBox.Show("The certificate contains a SAN extension. Review the DNS/IP entries shown in the SAN field.","SAN Recheck", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("The certificate contains a SAN extension. Review the DNS/IP entries shown in the SAN field.", "SAN Recheck", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void button_crl_recheck_Click(object sender, EventArgs e) // CRL (Certificate Revocation List) doğrulamasını yapan metot. ---------------------------------------------------------
         {
@@ -1401,7 +1416,7 @@ namespace CertificateChecker
         {
             if (CurrentCertificate == null || string.IsNullOrWhiteSpace(File_Path))
             {
-                MessageBox.Show("No certificate is currently loaded. Please select a certificate first.","Recheck",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("No certificate is currently loaded. Please select a certificate first.", "Recheck", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             FileCertificateVerification();
@@ -1423,6 +1438,33 @@ namespace CertificateChecker
                 return;
             }
             DownloadOcspResponses(CurrentCertificate);
+        }
+        private void listView_VerificationDetail_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                var selectedItems = listView_VerificationDetail.SelectedItems;
+
+                if (selectedItems.Count == 0)
+                    return;
+
+                var lines = new List<string>();
+
+                foreach (ListViewItem item in selectedItems)
+                {
+                    lines.Add(string.Join("\t", item.SubItems.Cast<ListViewItem.ListViewSubItem>().Select(subItem => subItem.Text)));
+                }
+                Clipboard.SetText(string.Join(Environment.NewLine, lines));
+                e.Handled = true;
+            }
+        }
+        private void button_OCSPCertView_Click(object sender, EventArgs e)
+        {
+            if (_ocspResponderFile == null)
+                return;
+            DialogResult result = MessageBox.Show("Certificate Subject:\r\n\r\n" +_ocspResponderFile.Subject +"\r\n\r\nDo you want to save this certificate?","OCSP Responder Certificate",MessageBoxButtons.YesNo,MessageBoxIcon.Information);
+            if (result == DialogResult.Yes)
+                _certificateFileService.SaveFile(_ocspResponderFile);
         }
     }
 }

@@ -115,8 +115,9 @@ namespace CertificateChecker.Services
                     }
                     else
                     {
-                        string exponentHex = Convert.ToHexString(parameters.Exponent);
-                        string exponentDecimal = new System.Numerics.BigInteger(parameters.Exponent,isUnsigned: true,isBigEndian: true).ToString();
+                        string exponentHex = BitConverter.ToString(parameters.Exponent).Replace("-", string.Empty);
+                        byte[] exponentBytes = parameters.Exponent.Reverse().Concat(new byte[] { 0 }).ToArray();
+                        string exponentDecimal = new System.Numerics.BigInteger(exponentBytes).ToString();
                         bool commonExponent = exponentDecimal == "65537";
                         Add(results,"RSA Public Exponent",commonExponent ? "OK" : "REVIEW",$"Public exponent: {exponentDecimal} (0x{exponentHex}). " +(commonExponent? "This is the commonly used RSA public exponent.": "Review the exponent against your cryptographic policy."));
                     }

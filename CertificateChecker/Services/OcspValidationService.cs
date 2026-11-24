@@ -11,93 +11,45 @@ namespace CertificateChecker.Services
 {
     public class OcspValidationService
     {
-        public List<VerificationCheckResult> Validate(
-            X509Certificate2 certificate,
-            IEnumerable<string> ocspUrls)
+        public CertificateFileInfo ValidatedResponderFile { get; private set; }
+        public List<VerificationCheckResult> Validate(X509Certificate2 certificate,IEnumerable<string> ocspUrls)
         {
+            ValidatedResponderFile = null;
             var results = new List<VerificationCheckResult>();
 
             if (certificate == null)
             {
-                results.Add(CreateResult(
-                    "ERROR",
-                    "Certificate is null.",
-                    "-"
-                ));
-
+                results.Add(CreateResult("ERROR","Certificate is null.","-"));
                 return results;
             }
 
             try
             {
-                // OCSP adreslerini temizle.
-                var urls = (ocspUrls ?? Enumerable.Empty<string>())
-                    .Where(line => !string.IsNullOrWhiteSpace(line))
-                    .Select(line => line.Trim())
-                    .Where(line =>
-                        !line.Equals(
-                            "No URI found",
-                            StringComparison.OrdinalIgnoreCase) &&
-                        !line.Equals(
-                            "Not Found",
-                            StringComparison.OrdinalIgnoreCase))
-                    .Select(line =>
-                    {
-                        int httpIndex = line.IndexOf(
-                            "http://",
-                            StringComparison.OrdinalIgnoreCase
-                        );
-
-                        int httpsIndex = line.IndexOf(
-                            "https://",
-                            StringComparison.OrdinalIgnoreCase
-                        );
-
+                var urls = (ocspUrls ?? Enumerable.Empty<string>()).Where(line => !string.IsNullOrWhiteSpace(line)).Select(line => line.Trim()).Where(line => !line.Equals("No URI found", StringComparison.OrdinalIgnoreCase) && !line.Equals("Not Found",StringComparison.OrdinalIgnoreCase)).Select(line =>{int httpIndex = line.IndexOf("http://",StringComparison.OrdinalIgnoreCase);
+                        int httpsIndex = line.IndexOf("https://",StringComparison.OrdinalIgnoreCase);
                         int index;
-
                         if (httpIndex >= 0 && httpsIndex >= 0)
                         {
                             index = Math.Min(httpIndex, httpsIndex);
                         }
                         else
                         {
-                            index = httpIndex >= 0
-                                ? httpIndex
-                                : httpsIndex;
+                            index = httpIndex >= 0? httpIndex: httpsIndex;
                         }
-
-                        return index >= 0
-                            ? line.Substring(index).Trim()
-                            : null;
-                    })
-                    .Where(url => !string.IsNullOrWhiteSpace(url))
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .ToList();
-
+                        return index >= 0? line.Substring(index).Trim(): null;}).Where(url => !string.IsNullOrWhiteSpace(url)).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
                 bool anyResponderReached = false;
-
-                // Sertifikanın ve issuer'ın BouncyCastle karşılıklarını hazırla.
                 var bcParser = new X509CertificateParser();
-
-                var subjectCertificate =
-                    bcParser.ReadCertificate(certificate.RawData);
-
+                var subjectCertificate = bcParser.ReadCertificate(certificate.RawData);
                 Org.BouncyCastle.X509.X509Certificate issuerCertificate = null;
-
                 try
                 {
                     using (var chain = new X509Chain())
                     {
-                        chain.ChainPolicy.RevocationMode =
-                            X509RevocationMode.NoCheck;
-
+                        chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
                         chain.Build(certificate);
-
                         if (chain.ChainElements.Count > 1)
                         {
-                            issuerCertificate = bcParser.ReadCertificate(
-                                chain.ChainElements[1].Certificate.RawData
-                            );
+                            issuerCertificate = bcParser.ReadCertificate(chain.ChainElements[1].Certificate.RawData);
                         }
                     }
                 }
@@ -105,133 +57,135 @@ namespace CertificateChecker.Services
                 {
                     // Issuer bulunamazsa aşağıdaki fallback değerlendirmesi yapılır.
                 }
-
-                // Issuer ve OCSP adresleri mevcutsa doğrudan OCSP sorgusu yap.
                 if (issuerCertificate != null && urls.Count > 0)
                 {
                     foreach (string url in urls)
                     {
                         try
                         {
-                            var certId = new CertificateID(
-                                CertificateID.HashSha1,
-                                issuerCertificate,
-                                subjectCertificate.SerialNumber
-                            );
-
+                            var certId = new CertificateID(CertificateID.HashSha1,issuerCertificate,subjectCertificate.SerialNumber);
                             var requestGenerator = new OcspReqGenerator();
-
                             requestGenerator.AddRequest(certId);
-
                             var request = requestGenerator.Generate();
-
                             byte[] responseBytes;
-
                             using (var client = new TimeoutWebClient())
                             {
-                                client.Headers.Add(
-                                    "Content-Type",
-                                    "application/ocsp-request"
-                                );
-
-                                client.Headers.Add(
-                                    "Accept",
-                                    "application/ocsp-response"
-                                );
-
-                                client.Headers.Add(
-                                    "User-Agent",
-                                    "CertificateChecker/1.0"
-                                );
-
-                                responseBytes = client.UploadData(
-                                    url,
-                                    request.GetEncoded()
-                                );
+                                client.Headers.Add("Content-Type","application/ocsp-request");
+                                client.Headers.Add("Accept","application/ocsp-response");
+                                client.Headers.Add("User-Agent","CertificateChecker/1.0");
+                                responseBytes = client.UploadData(url,request.GetEncoded());
                             }
-
                             anyResponderReached = true;
-
                             var ocspResponse = new OcspResp(responseBytes);
-
-                            // OCSP responder hata döndürmüş olabilir.
                             if (ocspResponse.Status != 0)
                                 continue;
-
-                            var basicResponse =
-                                ocspResponse.GetResponseObject() as BasicOcspResp;
-
+                            var basicResponse = ocspResponse.GetResponseObject() as BasicOcspResp;
                             if (basicResponse == null)
                                 continue;
-
-                            // Gelen yanıtın gerçekten bu sertifikaya ait
-                            // sorguyu içerdiğini kontrol et.
-                            var singleResponse = basicResponse.Responses
-                                .FirstOrDefault(response =>
-                                    response.GetCertID().Equals(certId));
-
+                            var responderCertificates = basicResponse.GetCerts();
+                            if (basicResponse == null)
+                                continue;
+                            DateTime producedAt = basicResponse.ProducedAt.ToUniversalTime();
+                            if (producedAt > DateTime.UtcNow.AddMinutes(5))
+                                continue;
+                            bool signatureVerified = false;
+                            Org.BouncyCastle.X509.X509Certificate validatedResponderCertificate = null;
+                            try
+                            {
+                                signatureVerified = basicResponse.Verify(issuerCertificate.GetPublicKey());
+                            }
+                            catch
+                            {
+                                signatureVerified = false;
+                            }
+                            if (!signatureVerified)
+                            {
+                                foreach (var responderCertificate in responderCertificates)
+                                {
+                                    try
+                                    {
+                                        if (!responderCertificate.IssuerDN.Equals(issuerCertificate.SubjectDN))
+                                            continue;
+                                        responderCertificate.Verify(issuerCertificate.GetPublicKey());
+                                        if (producedAt < responderCertificate.NotBefore.ToUniversalTime() || producedAt > responderCertificate.NotAfter.ToUniversalTime())
+                                            continue;
+                                        var eku = responderCertificate.GetExtendedKeyUsage();
+                                        if (eku == null || !eku.Contains(new Org.BouncyCastle.Asn1.DerObjectIdentifier("1.3.6.1.5.5.7.3.9")))
+                                            continue;
+                                        if (basicResponse.Verify(responderCertificate.GetPublicKey()))
+                                        {
+                                            signatureVerified = true;
+                                            validatedResponderCertificate = responderCertificate;
+                                            break;
+                                        }
+                                    }
+                                    catch
+                                    {
+                                        continue;
+                                    }
+                                }
+                            }
+                            if (!signatureVerified)
+                            {
+                                results.Add(CreateResult("WARNING","OCSP response signature could not be verified using issuer or authorized responder certificate.",url));
+                                continue;
+                            }
+                            if (validatedResponderCertificate != null)
+                            {
+                                var responderCert = new X509Certificate2(validatedResponderCertificate.GetEncoded());
+                                ValidatedResponderFile = new CertificateFileInfo
+                                {
+                                    FileName = "OCSP_Responder.cer",
+                                    CommonName = responderCert.GetNameInfo(X509NameType.SimpleName, false),
+                                    Subject = responderCert.Subject,
+                                    FileExtension = ".cer",
+                                    FileData = responderCert.RawData,
+                                    Description = "Validated OCSP responder certificate"
+                                };
+                            }
+                            var singleResponse = basicResponse.Responses.FirstOrDefault(response => response.GetCertID().Equals(certId));
                             if (singleResponse == null)
                                 continue;
-
-                            var certificateStatus =
-                                singleResponse.GetCertStatus();
-
-                            // Sertifikanın iptal edilmediği bildiriliyor.
+                            var certificateStatus = singleResponse.GetCertStatus();
+                            DateTime now = DateTime.UtcNow;
+                            DateTime thisUpdate = singleResponse.ThisUpdate.ToUniversalTime();
+                            if (thisUpdate > now.AddMinutes(5))
+                                continue;
+                            if (singleResponse.NextUpdate.HasValue &&
+                                singleResponse.NextUpdate.Value.ToUniversalTime() < now)
+                            {
+                                continue;
+                            }
                             if (certificateStatus == CertificateStatus.Good)
                             {
-                                results.Add(CreateResult(
-                                    "OK",
-                                    "OCSP responder returned GOOD.",
-                                    url
-                                ));
-
+                                results.Add(CreateResult("OK","OCSP responder returned GOOD. Embedded responder certificates: " +responderCertificates.Length,url));
                                 return results;
                             }
-
-                            // Sertifikanın iptal edildiği bildiriliyor.
                             if (certificateStatus is RevokedStatus)
                             {
-                                results.Add(CreateResult(
-                                    "ERROR",
-                                    "OCSP responder returned REVOKED.",
-                                    url
-                                ));
-
+                                results.Add(CreateResult("ERROR","OCSP responder returned REVOKED. Embedded responder certificates: " +responderCertificates.Length,url));
                                 return results;
                             }
-
-                            // UNKNOWN, REVOKED anlamına gelmez.
                             if (certificateStatus is UnknownStatus)
                             {
-                                // Diğer responder adreslerini de dene.
+                                results.Add(CreateResult("WARNING","OCSP responder returned UNKNOWN. Embedded responder certificates: " +responderCertificates.Length,url));
                                 continue;
                             }
                         }
                         catch
                         {
-                            // Bir adres başarısız olursa sıradakini dene.
                             continue;
                         }
                     }
                 }
-
-                // Doğrudan OCSP'den kesin bir sonuç alınamadı.
-                // Eski metottaki gibi Windows online zincir kontrolüne geç.
                 bool windowsOk = false;
-
                 try
                 {
                     using (var windowsChain = new X509Chain())
                     {
-                        windowsChain.ChainPolicy.RevocationMode =
-                            X509RevocationMode.Online;
-
-                        windowsChain.ChainPolicy.RevocationFlag =
-                            X509RevocationFlag.EndCertificateOnly;
-
-                        windowsChain.ChainPolicy.UrlRetrievalTimeout =
-                            TimeSpan.FromSeconds(10);
-
+                        windowsChain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
+                        windowsChain.ChainPolicy.RevocationFlag = X509RevocationFlag.EndCertificateOnly;
+                        windowsChain.ChainPolicy.UrlRetrievalTimeout = TimeSpan.FromSeconds(10);
                         windowsOk = windowsChain.Build(certificate);
                     }
                 }
@@ -239,85 +193,50 @@ namespace CertificateChecker.Services
                 {
                     windowsOk = false;
                 }
-
-                string fallbackStatus = windowsOk
-                    ? "WARNING"
-                    : "ERROR";
-
+                string fallbackStatus = windowsOk? "WARNING": "ERROR";
                 string fallbackDescription;
-
                 if (urls.Count == 0)
                 {
-                    fallbackDescription = windowsOk
-                        ? "No OCSP URL found. Windows online chain check succeeded; direct OCSP status was not verified."
-                        : "No OCSP URL found and Windows online chain check failed.";
+                    fallbackDescription = windowsOk ? "No OCSP URL found. Windows online chain check succeeded; direct OCSP status was not verified.": "No OCSP URL found and Windows online chain check failed.";
                 }
                 else if (issuerCertificate == null)
                 {
-                    fallbackDescription = windowsOk
-                        ? "Issuer certificate could not be found. Windows online chain check succeeded; direct OCSP status was not verified."
-                        : "Issuer certificate could not be found and Windows online chain check failed.";
+                    fallbackDescription = windowsOk ? "Issuer certificate could not be found. Windows online chain check succeeded; direct OCSP status was not verified.": "Issuer certificate could not be found and Windows online chain check failed.";
                 }
                 else if (anyResponderReached)
                 {
-                    fallbackDescription = windowsOk
-                        ? "No definitive OCSP result. Windows online chain check succeeded; direct OCSP status was not verified."
-                        : "No definitive OCSP result and Windows online chain check failed.";
+                    fallbackDescription = windowsOk ? "No definitive OCSP result. Windows online chain check succeeded; direct OCSP status was not verified.": "No definitive OCSP result and Windows online chain check failed.";
                 }
                 else
                 {
-                    fallbackDescription = windowsOk
-                        ? "OCSP responder unreachable. Windows online chain check succeeded; direct OCSP status was not verified."
-                        : "OCSP responder unreachable and Windows online chain check failed.";
+                    fallbackDescription = windowsOk ? "OCSP responder unreachable. Windows online chain check succeeded; direct OCSP status was not verified.": "OCSP responder unreachable and Windows online chain check failed.";
                 }
-
                 if (urls.Count == 0)
                 {
-                    results.Add(CreateResult(
-                        fallbackStatus,
-                        fallbackDescription,
-                        "-"
-                    ));
+                    results.Add(CreateResult(fallbackStatus,fallbackDescription,"-"));
                 }
                 else
                 {
                     foreach (string url in urls)
                     {
-                        results.Add(CreateResult(
-                            fallbackStatus,
-                            fallbackDescription,
-                            url
-                        ));
+                        results.Add(CreateResult(fallbackStatus,fallbackDescription,url));
                     }
                 }
             }
             catch (Exception ex)
             {
-                results.Add(CreateResult(
-                    "ERROR",
-                    "OCSP validation error: " + ex.Message,
-                    "-"
-                ));
+                results.Add(CreateResult("ERROR","OCSP validation error: " + ex.Message,"-"));
             }
-
             return results;
         }
 
-        private static VerificationCheckResult CreateResult(
-            string status,
-            string description,
-            string source)
+        private static VerificationCheckResult CreateResult(string status,string description,string source)
         {
             return new VerificationCheckResult
             {
-                Component = "OCSP",
-                Status = status,
-                Description = description,
-                Source = source
+                Component = "OCSP",Status = status,Description = description,Source = source
             };
         }
-
-        // WebClient için indirme/yükleme zaman aşımı desteği.
         private sealed class TimeoutWebClient : WebClient
         {
             protected override WebRequest GetWebRequest(Uri address)
@@ -330,7 +249,6 @@ namespace CertificateChecker.Services
                 {
                     httpRequest.ReadWriteTimeout = 10000;
                 }
-
                 return request;
             }
         }

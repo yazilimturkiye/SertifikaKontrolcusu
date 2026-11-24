@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CA_Verification_UserControl));
             groupBox_CertInfo2 = new System.Windows.Forms.GroupBox();
             tabControl1 = new System.Windows.Forms.TabControl();
             tabPage1 = new System.Windows.Forms.TabPage();
-            button1 = new System.Windows.Forms.Button();
+            button_ExportCA = new System.Windows.Forms.Button();
+            ımageList_Button1 = new System.Windows.Forms.ImageList(components);
             button_DeleteCA = new System.Windows.Forms.Button();
             button_ImportCA = new System.Windows.Forms.Button();
             Label_SearchCA = new System.Windows.Forms.Label();
@@ -52,9 +55,6 @@
             PictureBox_Durum = new System.Windows.Forms.PictureBox();
             Label_Durum = new System.Windows.Forms.Label();
             Textbox_Durum = new System.Windows.Forms.TextBox();
-            button_ocsp_recheck = new System.Windows.Forms.Button();
-            button_aia_recheck = new System.Windows.Forms.Button();
-            button_crl_recheck = new System.Windows.Forms.Button();
             button_ocsp_downloader = new System.Windows.Forms.Button();
             button_aia_downloader = new System.Windows.Forms.Button();
             button_crl_downloader = new System.Windows.Forms.Button();
@@ -129,12 +129,12 @@
             tabControl1.Location = new System.Drawing.Point(6, 15);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new System.Drawing.Size(593, 410);
+            tabControl1.Size = new System.Drawing.Size(593, 628);
             tabControl1.TabIndex = 50;
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(button1);
+            tabPage1.Controls.Add(button_ExportCA);
             tabPage1.Controls.Add(button_DeleteCA);
             tabPage1.Controls.Add(button_ImportCA);
             tabPage1.Controls.Add(Label_SearchCA);
@@ -143,36 +143,57 @@
             tabPage1.Location = new System.Drawing.Point(4, 29);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            tabPage1.Size = new System.Drawing.Size(585, 377);
+            tabPage1.Size = new System.Drawing.Size(585, 595);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Certificate Authorities";
             tabPage1.ToolTipText = "Displays the certificate chain from the end-entity certificate to the trusted root CA.";
             tabPage1.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // button_ExportCA
             // 
-            button1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            button1.ImageIndex = 4;
-            button1.Location = new System.Drawing.Point(549, 8);
-            button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(30, 30);
-            button1.TabIndex = 53;
-            button1.UseVisualStyleBackColor = false;
+            button_ExportCA.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            button_ExportCA.ImageIndex = 7;
+            button_ExportCA.ImageList = ımageList_Button1;
+            button_ExportCA.Location = new System.Drawing.Point(549, 8);
+            button_ExportCA.Name = "button_ExportCA";
+            button_ExportCA.Size = new System.Drawing.Size(30, 30);
+            button_ExportCA.TabIndex = 53;
+            button_ExportCA.UseVisualStyleBackColor = false;
+            button_ExportCA.Click += button_ExportCA_Click;
+            // 
+            // ımageList_Button1
+            // 
+            ımageList_Button1.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            ımageList_Button1.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("ımageList_Button1.ImageStream");
+            ımageList_Button1.TransparentColor = System.Drawing.Color.Transparent;
+            ımageList_Button1.Images.SetKeyName(0, "error.png");
+            ımageList_Button1.Images.SetKeyName(1, "ok.png");
+            ımageList_Button1.Images.SetKeyName(2, "settings.png");
+            ımageList_Button1.Images.SetKeyName(3, "view.png");
+            ımageList_Button1.Images.SetKeyName(4, "warning.png");
+            ımageList_Button1.Images.SetKeyName(5, "yazilimturkiye.png");
+            ımageList_Button1.Images.SetKeyName(6, "info.png");
+            ımageList_Button1.Images.SetKeyName(7, "download.png");
+            ımageList_Button1.Images.SetKeyName(8, "open.png");
+            ımageList_Button1.Images.SetKeyName(9, "upload.png");
             // 
             // button_DeleteCA
             // 
             button_DeleteCA.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            button_DeleteCA.ImageIndex = 4;
+            button_DeleteCA.ImageIndex = 0;
+            button_DeleteCA.ImageList = ımageList_Button1;
             button_DeleteCA.Location = new System.Drawing.Point(513, 8);
             button_DeleteCA.Name = "button_DeleteCA";
             button_DeleteCA.Size = new System.Drawing.Size(30, 30);
             button_DeleteCA.TabIndex = 52;
             button_DeleteCA.UseVisualStyleBackColor = false;
+            button_DeleteCA.Click += button_DeleteCA_Click;
             // 
             // button_ImportCA
             // 
             button_ImportCA.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            button_ImportCA.ImageIndex = 4;
+            button_ImportCA.ImageIndex = 9;
+            button_ImportCA.ImageList = ımageList_Button1;
             button_ImportCA.Location = new System.Drawing.Point(477, 8);
             button_ImportCA.Name = "button_ImportCA";
             button_ImportCA.Size = new System.Drawing.Size(30, 30);
@@ -206,7 +227,7 @@
             TreeView_CA.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             TreeView_CA.Location = new System.Drawing.Point(3, 48);
             TreeView_CA.Name = "TreeView_CA";
-            TreeView_CA.Size = new System.Drawing.Size(579, 325);
+            TreeView_CA.Size = new System.Drawing.Size(579, 544);
             TreeView_CA.TabIndex = 28;
             TreeView_CA.AfterSelect += TreeView_CA_AfterSelect;
             // 
@@ -217,7 +238,7 @@
             tabPage2.Location = new System.Drawing.Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            tabPage2.Size = new System.Drawing.Size(585, 377);
+            tabPage2.Size = new System.Drawing.Size(585, 595);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Verification Detail";
             tabPage2.ToolTipText = "Displays detailed certificate verification results.";
@@ -263,7 +284,7 @@
             tabPage3.Location = new System.Drawing.Point(4, 29);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            tabPage3.Size = new System.Drawing.Size(585, 377);
+            tabPage3.Size = new System.Drawing.Size(585, 595);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Security Analysis";
             tabPage3.UseVisualStyleBackColor = true;
@@ -302,7 +323,7 @@
             Button_Result_Recheck.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             Button_Result_Recheck.Enabled = false;
             Button_Result_Recheck.ImageIndex = 4;
-            Button_Result_Recheck.Location = new System.Drawing.Point(83, 639);
+            Button_Result_Recheck.Location = new System.Drawing.Point(83, 649);
             Button_Result_Recheck.Name = "Button_Result_Recheck";
             Button_Result_Recheck.Size = new System.Drawing.Size(30, 30);
             Button_Result_Recheck.TabIndex = 48;
@@ -311,7 +332,7 @@
             // PictureBox_Durum
             // 
             PictureBox_Durum.BackColor = System.Drawing.Color.Transparent;
-            PictureBox_Durum.Location = new System.Drawing.Point(88, 673);
+            PictureBox_Durum.Location = new System.Drawing.Point(93, 684);
             PictureBox_Durum.Name = "PictureBox_Durum";
             PictureBox_Durum.Size = new System.Drawing.Size(20, 20);
             PictureBox_Durum.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -323,7 +344,7 @@
             Label_Durum.AutoSize = true;
             Label_Durum.Font = new System.Drawing.Font("Century Gothic", 12F);
             Label_Durum.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
-            Label_Durum.Location = new System.Drawing.Point(8, 642);
+            Label_Durum.Location = new System.Drawing.Point(10, 649);
             Label_Durum.Name = "Label_Durum";
             Label_Durum.Size = new System.Drawing.Size(56, 21);
             Label_Durum.TabIndex = 25;
@@ -333,53 +354,21 @@
             // 
             Textbox_Durum.BackColor = System.Drawing.SystemColors.Control;
             Textbox_Durum.Font = new System.Drawing.Font("Century Gothic", 11.25F);
-            Textbox_Durum.Location = new System.Drawing.Point(119, 639);
+            Textbox_Durum.Location = new System.Drawing.Point(119, 649);
             Textbox_Durum.Multiline = true;
             Textbox_Durum.Name = "Textbox_Durum";
             Textbox_Durum.ReadOnly = true;
             Textbox_Durum.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            Textbox_Durum.Size = new System.Drawing.Size(440, 70);
+            Textbox_Durum.Size = new System.Drawing.Size(476, 60);
             Textbox_Durum.TabIndex = 27;
-            // 
-            // button_ocsp_recheck
-            // 
-            button_ocsp_recheck.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            button_ocsp_recheck.Enabled = false;
-            button_ocsp_recheck.ImageIndex = 4;
-            button_ocsp_recheck.Location = new System.Drawing.Point(83, 649);
-            button_ocsp_recheck.Name = "button_ocsp_recheck";
-            button_ocsp_recheck.Size = new System.Drawing.Size(30, 30);
-            button_ocsp_recheck.TabIndex = 45;
-            button_ocsp_recheck.UseVisualStyleBackColor = false;
-            // 
-            // button_aia_recheck
-            // 
-            button_aia_recheck.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            button_aia_recheck.Enabled = false;
-            button_aia_recheck.ImageIndex = 4;
-            button_aia_recheck.Location = new System.Drawing.Point(83, 583);
-            button_aia_recheck.Name = "button_aia_recheck";
-            button_aia_recheck.Size = new System.Drawing.Size(30, 30);
-            button_aia_recheck.TabIndex = 44;
-            button_aia_recheck.UseVisualStyleBackColor = false;
-            // 
-            // button_crl_recheck
-            // 
-            button_crl_recheck.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            button_crl_recheck.Enabled = false;
-            button_crl_recheck.ImageIndex = 4;
-            button_crl_recheck.Location = new System.Drawing.Point(83, 517);
-            button_crl_recheck.Name = "button_crl_recheck";
-            button_crl_recheck.Size = new System.Drawing.Size(30, 30);
-            button_crl_recheck.TabIndex = 43;
-            button_crl_recheck.UseVisualStyleBackColor = false;
             // 
             // button_ocsp_downloader
             // 
             button_ocsp_downloader.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             button_ocsp_downloader.Enabled = false;
-            button_ocsp_downloader.ImageIndex = 3;
-            button_ocsp_downloader.Location = new System.Drawing.Point(53, 649);
+            button_ocsp_downloader.ImageIndex = 7;
+            button_ocsp_downloader.ImageList = ımageList_Button1;
+            button_ocsp_downloader.Location = new System.Drawing.Point(83, 649);
             button_ocsp_downloader.Name = "button_ocsp_downloader";
             button_ocsp_downloader.Size = new System.Drawing.Size(30, 30);
             button_ocsp_downloader.TabIndex = 42;
@@ -389,8 +378,9 @@
             // 
             button_aia_downloader.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             button_aia_downloader.Enabled = false;
-            button_aia_downloader.ImageIndex = 3;
-            button_aia_downloader.Location = new System.Drawing.Point(53, 582);
+            button_aia_downloader.ImageIndex = 7;
+            button_aia_downloader.ImageList = ımageList_Button1;
+            button_aia_downloader.Location = new System.Drawing.Point(83, 583);
             button_aia_downloader.Name = "button_aia_downloader";
             button_aia_downloader.Size = new System.Drawing.Size(30, 30);
             button_aia_downloader.TabIndex = 41;
@@ -400,8 +390,9 @@
             // 
             button_crl_downloader.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             button_crl_downloader.Enabled = false;
-            button_crl_downloader.ImageIndex = 3;
-            button_crl_downloader.Location = new System.Drawing.Point(53, 517);
+            button_crl_downloader.ImageIndex = 7;
+            button_crl_downloader.ImageList = ımageList_Button1;
+            button_crl_downloader.Location = new System.Drawing.Point(83, 516);
             button_crl_downloader.Name = "button_crl_downloader";
             button_crl_downloader.Size = new System.Drawing.Size(30, 30);
             button_crl_downloader.TabIndex = 40;
@@ -430,7 +421,7 @@
             // pictureBox_CDP
             // 
             pictureBox_CDP.BackColor = System.Drawing.Color.Transparent;
-            pictureBox_CDP.Location = new System.Drawing.Point(93, 553);
+            pictureBox_CDP.Location = new System.Drawing.Point(93, 552);
             pictureBox_CDP.Name = "pictureBox_CDP";
             pictureBox_CDP.Size = new System.Drawing.Size(20, 20);
             pictureBox_CDP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -510,11 +501,8 @@
             // 
             groupBox_CertInfo1.Controls.Add(TextBox_Thumbprint);
             groupBox_CertInfo1.Controls.Add(label_Thumbprint);
-            groupBox_CertInfo1.Controls.Add(button_ocsp_recheck);
             groupBox_CertInfo1.Controls.Add(TextBox_Policy);
-            groupBox_CertInfo1.Controls.Add(button_aia_recheck);
             groupBox_CertInfo1.Controls.Add(label_SHA);
-            groupBox_CertInfo1.Controls.Add(button_crl_recheck);
             groupBox_CertInfo1.Controls.Add(TextBox_ski);
             groupBox_CertInfo1.Controls.Add(button_ocsp_downloader);
             groupBox_CertInfo1.Controls.Add(Label_Ski);
@@ -862,9 +850,6 @@
         private System.Windows.Forms.GroupBox groupBox_CertInfo2;
         private System.Windows.Forms.Button Button_Result_Recheck;
         private System.Windows.Forms.TreeView TreeView_CA;
-        private System.Windows.Forms.Button button_ocsp_recheck;
-        private System.Windows.Forms.Button button_aia_recheck;
-        private System.Windows.Forms.Button button_crl_recheck;
         private System.Windows.Forms.Button button_ocsp_downloader;
         private System.Windows.Forms.Button button_aia_downloader;
         private System.Windows.Forms.Button button_crl_downloader;
@@ -924,6 +909,7 @@
         private System.Windows.Forms.TextBox TextBox_SearchCA;
         private System.Windows.Forms.Button button_DeleteCA;
         private System.Windows.Forms.Button button_ImportCA;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_ExportCA;
+        private System.Windows.Forms.ImageList ımageList_Button1;
     }
 }

@@ -3,28 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|c:\\users\\home-pc\\documents\\github\\sertifikakontrolcusu\\certificatechecker\\services\\importrootca.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\services\\importrootca.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|c:\\users\\home-pc\\documents\\github\\sertifikakontrolcusu\\certificatechecker\\file_verification_usercontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\file_verification_usercontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|c:\\users\\home-pc\\documents\\github\\sertifikakontrolcusu\\certificatechecker\\ca_verification_usercontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\ca_verification_usercontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|c:\\users\\home-pc\\documents\\github\\sertifikakontrolcusu\\certificatechecker\\file_verification_usercontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\file_verification_usercontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|c:\\users\\home-pc\\documents\\github\\sertifikakontrolcusu\\certificatechecker\\ca_verification_usercontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\ca_verification_usercontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|c:\\users\\home-pc\\documents\\github\\sertifikakontrolcusu\\certificatechecker\\services\\ocspvalidationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\services\\ocspvalidationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|c:\\users\\home-pc\\documents\\github\\sertifikakontrolcusu\\certificatechecker\\models\\caimportresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\models\\caimportresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|c:\\users\\home-pc\\documents\\github\\sertifikakontrolcusu\\certificatechecker\\services\\certificatefileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\services\\certificatefileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|c:\\users\\home-pc\\documents\\github\\sertifikakontrolcusu\\certificatechecker\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\certificatechecker\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|c:\\users\\home-pc\\documents\\github\\sertifikakontrolcusu\\certificatechecker\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\certificatechecker\\ca_verification_usercontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\ca_verification_usercontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|c:\\users\\home-pc\\documents\\github\\sertifikakontrolcusu\\certificatechecker\\ca_verification_usercontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9BFA5019-7D11-46A2-8B7B-6BCA78C1D8B4}|CertificateChecker\\CertificateChecker.csproj|solutionrelative:certificatechecker\\ca_verification_usercontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -43,57 +51,81 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "CAImportResult.cs",
-              "DocumentMoniker": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\Models\\CAImportResult.cs",
-              "RelativeDocumentMoniker": "CertificateChecker\\Models\\CAImportResult.cs",
-              "ToolTip": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\Models\\CAImportResult.cs",
-              "RelativeToolTip": "CertificateChecker\\Models\\CAImportResult.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
+              "Title": "CertificateFileService.cs",
+              "DocumentMoniker": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\Services\\CertificateFileService.cs",
+              "RelativeDocumentMoniker": "CertificateChecker\\Services\\CertificateFileService.cs",
+              "ToolTip": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\Services\\CertificateFileService.cs",
+              "RelativeToolTip": "CertificateChecker\\Services\\CertificateFileService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-15T18:32:37.795Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ImportRootCA.cs",
-              "DocumentMoniker": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\Services\\ImportRootCA.cs",
-              "RelativeDocumentMoniker": "CertificateChecker\\Services\\ImportRootCA.cs",
-              "ToolTip": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\Services\\ImportRootCA.cs",
-              "RelativeToolTip": "CertificateChecker\\Services\\ImportRootCA.cs",
-              "ViewState": "AgIAAJYAAAAAAAAAAAAawL0AAAByAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-15T17:16:58.556Z",
+              "WhenOpened": "2026-11-24T20:11:06.194Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "File_Verification_UserControl.cs",
+              "DocumentMoniker": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\File_Verification_UserControl.cs",
+              "RelativeDocumentMoniker": "CertificateChecker\\File_Verification_UserControl.cs",
+              "ToolTip": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\File_Verification_UserControl.cs",
+              "RelativeToolTip": "CertificateChecker\\File_Verification_UserControl.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAAAE4AAABeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-24T18:43:01.976Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "File_Verification_UserControl.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\File_Verification_UserControl.cs",
+              "RelativeDocumentMoniker": "CertificateChecker\\File_Verification_UserControl.cs",
+              "ToolTip": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\File_Verification_UserControl.cs [Design]",
+              "RelativeToolTip": "CertificateChecker\\File_Verification_UserControl.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-24T18:32:12.376Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OcspValidationService.cs",
+              "DocumentMoniker": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\Services\\OcspValidationService.cs",
+              "RelativeDocumentMoniker": "CertificateChecker\\Services\\OcspValidationService.cs",
+              "ToolTip": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\Services\\OcspValidationService.cs",
+              "RelativeToolTip": "CertificateChecker\\Services\\OcspValidationService.cs",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAawIsAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-21T20:10:35.391Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "CA_Verification_UserControl.cs",
               "DocumentMoniker": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CA_Verification_UserControl.cs",
               "RelativeDocumentMoniker": "CertificateChecker\\CA_Verification_UserControl.cs",
               "ToolTip": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CA_Verification_UserControl.cs",
               "RelativeToolTip": "CertificateChecker\\CA_Verification_UserControl.cs",
-              "ViewState": "AgIAAOAAAAAAAAAAAAAvwPYAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAACQBAAAAAAAAAAAgwDEBAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-11-10T20:38:29.765Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "CA_Verification_UserControl.cs [Design]",
               "DocumentMoniker": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CA_Verification_UserControl.cs",
               "RelativeDocumentMoniker": "CertificateChecker\\CA_Verification_UserControl.cs",
               "ToolTip": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\CA_Verification_UserControl.cs [Design]",
               "RelativeToolTip": "CertificateChecker\\CA_Verification_UserControl.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-10T20:36:17.683Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2026-11-10T20:36:17.683Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Form1.cs [Design]",
               "DocumentMoniker": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\Form1.cs",
               "RelativeDocumentMoniker": "CertificateChecker\\Form1.cs",
@@ -104,7 +136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\HOME-PC\\Documents\\GitHub\\SertifikaKontrolcusu\\CertificateChecker\\Form1.cs",
               "RelativeDocumentMoniker": "CertificateChecker\\Form1.cs",
